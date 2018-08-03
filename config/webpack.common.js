@@ -196,12 +196,12 @@ module.exports = {
             template: path.join(PATH_ROOT + '/public/index.html'),
             filename: path.join(PATH_ROOT + '/build/index.html'),
             hash: true,
-            // chunksSortMode: function (chunk1, chunk2) {
-            //     let order = ['polyfills', 'vendor', 'main'];
-            //     let order1 = order.indexOf(chunk1.names[0]);
-            //     let order2 = order.indexOf(chunk2.names[0]);
-            //     return order1 - order2;
-            // }
+            chunksSortMode: function (chunk1, chunk2) {
+                let order = ['polyfills', 'vendor', 'main'];
+                let order1 = order.indexOf(chunk1.names[0]);
+                let order2 = order.indexOf(chunk2.names[0]);
+                return order1 - order2;
+            }
         }),
 
         // 打开浏览器
