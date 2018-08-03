@@ -12,6 +12,7 @@ import Bundle from "./Loadable/Bundle";
 import makeInspectable from 'mobx-devtools-mst';
 import Const from "./utils/const";
 import "./assets/scss/main.scss";
+import 'babel-polyfill';
 
 const browserHistory = createBrowserHistory();
 const routingStore = new RouterStore();
