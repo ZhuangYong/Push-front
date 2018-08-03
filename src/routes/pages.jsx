@@ -1,4 +1,4 @@
-import Index from "../controller";
+import Index from "../controller/Index";
 import DeviceIndex from "../controller/Device/Index";
 import OrderIndex from "../controller/Order/Index";
 import UserIndex from "../controller/User/Index";
