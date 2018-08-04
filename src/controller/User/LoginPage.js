@@ -24,7 +24,7 @@ import Path from "../../utils/path";
 @inject(({store: {userState}}) => ({userState}))
 @observer
 @withRouter
-@withStyles(loginPageStyle, {name: "loginPage"})
+@withStyles(loginPageStyle, {name: "loginPage", flip: true, withTheme: true})
 export default class LoginPage extends BaseComponent {
     constructor(props) {
         super(props);
