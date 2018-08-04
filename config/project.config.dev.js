@@ -7,7 +7,7 @@ module.exports = {
     VERSION: '"0.0.1"',
     NODE_ENV: '"development"',
     ENV_CONFIG: '"dev"',
-    // apiDomain: '"http://120.27.250.104:9010"',
-    apiDomain: '"http://192.168.137.128:8080"', // yong fan
+    apiDomain: '"http://120.27.250.104:9010"',
+    // apiDomain: '"http://192.168.137.128:8080"', // yong fan
 };
 

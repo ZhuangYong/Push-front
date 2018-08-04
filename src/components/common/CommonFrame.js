@@ -1,5 +1,5 @@
 import React from "react";
-import withStyles from "material-ui/styles/withStyles";
+import withStyles from "@material-ui/core/styles/withStyles";
 import appStyle from "../../assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 import CommonMessage from "./CommonMessage";
 import Const from "../../utils/const";

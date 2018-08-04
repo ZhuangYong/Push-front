@@ -1,7 +1,7 @@
 import React from "react";
 
 // material-ui components
-import withStyles from "material-ui/styles/withStyles";
+import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "material-ui/Grid";
 
 const style = {
