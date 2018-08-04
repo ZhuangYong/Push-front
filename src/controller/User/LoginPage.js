@@ -1,6 +1,6 @@
 import React from "react";
 // material-ui components
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from "material-ui/styles/withStyles";
 import InputAdornment from "material-ui/Input/InputAdornment";
 // @material-ui/icons
 import Face from "@material-ui/icons/Face";

@@ -41,8 +41,8 @@ module.exports = {
     context: path.join(__dirname, "../"),
     entry: {
         'main': PATH_MAIN_JS,
-        'vendor': ["babel-polyfill", "material-ui"],
-        'polyfills': ["react", "react-dom", "react-router-dom", "react-router", "history",  "mobx", "mobx-react"]
+        'vendor': ["babel-polyfill"],
+        'polyfills': ["react", "react-dom", "react-router-dom", "react-router", "history",  "mobx", "mobx-react", "rfx-core"]
     },
 
     output: {

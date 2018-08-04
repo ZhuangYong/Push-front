@@ -1,5 +1,5 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from "material-ui/styles/withStyles";
 
 import Card from '@material-ui/core/Card';
 

@@ -1,6 +1,6 @@
 import React from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from "material-ui/styles/withStyles";
 import pageRoutes from "../routes/pages";
 
 import appStyle from "../assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";

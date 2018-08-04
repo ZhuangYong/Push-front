@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {Manager, Target, Popper} from "react-popper";
 
 // material-ui components
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from "material-ui/styles/withStyles";
 import MenuItem from "material-ui/Menu/MenuItem";
 import MenuList from "material-ui/Menu/MenuList";
 import ClickAwayListener from "material-ui/utils/ClickAwayListener";

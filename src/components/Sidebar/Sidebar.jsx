@@ -6,7 +6,7 @@ import PerfectScrollbar from "perfect-scrollbar";
 import NavLink from "../../components/Nav/NavLink";
 import cx from "classnames";
 // material-ui components
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from "material-ui/styles/withStyles";
 import Drawer from "material-ui/Drawer";
 import List from "material-ui/List";
 import ListItem from "material-ui/List/ListItem";
