@@ -75,13 +75,13 @@ module.exports = {
                         query: {
                             presets: ['react', 'es2015', 'stage-2'],
                             plugins: [
-                                // 'syntax-dynamic-import',
-                                // 'transform-runtime',
-                                // 'babel-plugin-add-module-exports',
-                                // 'transform-object-assign',
-                                // 'add-module-exports',
+                                'syntax-dynamic-import',
+                                'transform-runtime',
+                                'babel-plugin-add-module-exports',
+                                'transform-object-assign',
+                                'add-module-exports',
                                 // 'transform-class-properties',
-                                'react-hot-loader/babel',
+                                // 'react-hot-loader/babel',
                                 'transform-decorators-legacy'
                             ]
                         }
@@ -112,13 +112,13 @@ module.exports = {
                         query: {
                             presets: ['es2015', 'react', 'stage-2'],
                             plugins: [
-                                // 'syntax-dynamic-import',
-                                // 'transform-runtime',
-                                // 'babel-plugin-add-module-exports',
-                                // 'transform-object-assign',
-                                // 'add-module-exports',
+                                'syntax-dynamic-import',
+                                'transform-runtime',
+                                'babel-plugin-add-module-exports',
+                                'transform-object-assign',
+                                'add-module-exports',
                                 // 'transform-class-properties',
-                                'react-hot-loader/babel',
+                                // 'react-hot-loader/babel',
                                 'transform-decorators-legacy'
                             ]
                         }
