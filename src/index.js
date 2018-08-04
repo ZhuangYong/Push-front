@@ -24,22 +24,22 @@ if (!Const.isProduction) {
 }
 
 render(
-    <JssProvider classNamePrefix="App1-">
-    <Provider store={store}>
-        <Router history={history}>
-            <Switch>
-                {indexRoutes.map((prop, key) => {
-                    let component = prop.component;
-                    if (prop.path.length > 1) {
-                        component = () => <Bundle load={prop.component}>
-                            {Component => <Component/>}
-                        </Bundle>;
-                    }
-                    return <Route path={prop.path} component={component} key={key}/>;
-                })}
-            </Switch>
-        </Router>
-    </Provider>
+    <JssProvider classNamePrefix="J-">
+        <Provider store={store}>
+            <Router history={history}>
+                <Switch>
+                    {indexRoutes.map((prop, key) => {
+                        let component = prop.component;
+                        if (prop.path.length > 1) {
+                            component = () => <Bundle load={prop.component}>
+                                {Component => <Component/>}
+                            </Bundle>;
+                        }
+                        return <Route path={prop.path} component={component} key={key}/>;
+                    })}
+                </Switch>
+            </Router>
+        </Provider>
     </JssProvider>,
     document.getElementById("root")
 );
