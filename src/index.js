@@ -13,6 +13,7 @@ import makeInspectable from 'mobx-devtools-mst';
 import Const from "./utils/const";
 import "./assets/scss/main.scss";
 import 'babel-polyfill';
+import {JssProvider} from 'react-jss';
 
 const browserHistory = createBrowserHistory();
 const routingStore = new RouterStore();
@@ -23,6 +24,7 @@ if (!Const.isProduction) {
 }
 
 render(
+    <JssProvider classNamePrefix="App1-">
     <Provider store={store}>
         <Router history={history}>
             <Switch>
@@ -37,6 +39,7 @@ render(
                 })}
             </Switch>
         </Router>
-    </Provider>,
+    </Provider>
+    </JssProvider>,
     document.getElementById("root")
 );

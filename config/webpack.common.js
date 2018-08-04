@@ -81,7 +81,7 @@ module.exports = {
                                 'transform-object-assign',
                                 'add-module-exports',
                                 // 'transform-class-properties',
-                                // 'react-hot-loader/babel',
+                                'react-hot-loader/babel',
                                 'transform-decorators-legacy'
                             ]
                         }
@@ -118,7 +118,7 @@ module.exports = {
                                 'transform-object-assign',
                                 'add-module-exports',
                                 // 'transform-class-properties',
-                                // 'react-hot-loader/babel',
+                                'react-hot-loader/babel',
                                 'transform-decorators-legacy'
                             ]
                         }
