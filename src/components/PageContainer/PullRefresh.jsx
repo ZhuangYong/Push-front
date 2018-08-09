@@ -62,7 +62,8 @@ export default class PullRefresh extends BaseComponent {
             index: loadMoreLimitNum,
             currentPage: currentPage,
             pageSize: pageSize,
-            extParam: {}
+            extParam: {},
+            screenSize: getScreenSize()
         };
         this.handleAction = this.handleAction.bind(this);
         this.handRefreshing = this.handRefreshing.bind(this);
@@ -76,12 +77,13 @@ export default class PullRefresh extends BaseComponent {
         if (autoFirstPage) {
             this.handLoadMore();
         }
+        window.addEventListener('resize', this.resize);
+        window.addEventListener('orientationchange', this.resize);
     }
     render() {
         const classes = style;
-        const {hasMore, data} = this.state;
+        const {hasMore, data, screenSize} = this.state;
         const {autoHeight, show} = this.props;
-        const screenSize = getScreenSize();
         const containerHeight = this.props.fullHeight ? screenSize.height - this.props.fixBottom : "100%";
         return (
             <div style={{position: 'relative', height: autoHeight ? containerHeight : "", display: show ? "" : "none"}}>
@@ -215,6 +217,10 @@ export default class PullRefresh extends BaseComponent {
     handelFilter(param) {
         this.state.extParam = param;
         return this.handRefreshing();
+    }
+
+    resize = () => {
+        this.setState({screenSize: getScreenSize()});
     }
 
 }
