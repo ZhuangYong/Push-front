@@ -6,16 +6,30 @@ export default class statisticsState extends baseState {
 
     @observable
     indexStatisticsData = "";
+    @observable
+    IndexStatisticsChannelListData = "";
 
     @action
     setIndexStatisticsData(data) {
         this.indexStatisticsData = data;
     }
+    @action
+    setIndexStatisticsChannelList(data) {
+        this.IndexStatisticsChannelListData = data;
+    }
 
     getIndexStatisticsData(data) {
-        this.fetch({
+        return this.fetch({
             url: Api.API_STATIS_INDEX,
             setState: "setIndexStatisticsData",
+            data
+        });
+    }
+
+    getIndexStatisticsChannelListData(data) {
+        return this.fetch({
+            url: Api.API_STATIS_CHANNEL_LIST,
+            setState: "setIndexStatisticsChannelList",
             data
         });
     }

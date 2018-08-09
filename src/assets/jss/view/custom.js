@@ -1,18 +1,22 @@
 export default {
+    iconCard: {
+        overflow: 'visible',
+        padding: '1rem',
+        width: 'auto'
+    },
     card: {
         backgroundColor: '#eeeeee'
     },
     carHeader: {
-        marginBottom: '.6rem',
         backgroundColor: '#ffffff',
         borderBottom: '.01rem solid #dadada'
     },
     avatar: {
-        width: '4rem',
-        height: '4rem'
+        width: '4rem!important',
+        height: '4rem!important'
     },
     list: {
-        padding: 0,
+        padding: '0!important',
         backgroundColor: '#ffffff'
     },
     item: {

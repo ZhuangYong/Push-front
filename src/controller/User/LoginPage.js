@@ -26,6 +26,7 @@ import Path from "../../utils/path";
 @withRouter
 @withStyles(loginPageStyle, {name: "loginPage", flip: true, withTheme: true})
 export default class LoginPage extends BaseComponent {
+    formData = {};
     constructor(props) {
         super(props);
         this.state = {
@@ -47,7 +48,7 @@ export default class LoginPage extends BaseComponent {
 
     render() {
         const {classes = ""} = this.props;
-        const {subInfo} = this.state;
+        const {subInfo, loginname, password} = this.state;
         return (
             <div className={classes.content}>
                 <div className={classes.container}>
@@ -72,7 +73,10 @@ export default class LoginPage extends BaseComponent {
                                     }
                                     content={
                                         <div>
-                                            <Form v-data={this.formData} ref="form">
+                                            <Form
+                                                ref="form"
+                                                v-data={this.state}
+                                                setState={this.stateFun}>
                                                 <CustomInput
                                                     labelText="登录名"
                                                     formControlProps={{
@@ -83,7 +87,8 @@ export default class LoginPage extends BaseComponent {
                                                             <InputAdornment position="end">
                                                                 <Face className={classes.inputAdornmentIcon}/>
                                                             </InputAdornment>
-                                                        )
+                                                        ),
+                                                        value: loginname
                                                     }}
                                                     name="loginname"
                                                     required
@@ -101,7 +106,8 @@ export default class LoginPage extends BaseComponent {
                                                                     className={classes.inputAdornmentIcon}
                                                                 />
                                                             </InputAdornment>
-                                                        )
+                                                        ),
+                                                        value: password
                                                     }}
                                                     name="password"
                                                     required
@@ -119,17 +125,20 @@ export default class LoginPage extends BaseComponent {
     }
 
     login() {
-        if (this.refs.form.valid()) {
-            this.setState({submiting: true});
-            this.props.userState.login({
-                loginname: this.formData.loginname,
-                password: md5(this.formData.password)
-            })
-                .then(res => {
-                    this.setState({submiting: false});
-                    this.props.history.push(Path.PATH_INDEX);
+        const {loginname, password} = this.state;
+        setTimeout(() => {
+            if (this.refs.form.valid()) {
+                this.setState({submiting: true});
+                this.props.userState.login({
+                    loginname: loginname,
+                    password: md5(password)
                 })
-                .catch(err => this.setState({submiting: false, subInfo: err.msg}));
-        }
+                    .then(res => {
+                        this.setState({submiting: false});
+                        this.props.history.push(Path.PATH_INDEX);
+                    })
+                    .catch(err => this.setState({submiting: false, subInfo: err.msg}));
+            }
+        }, 500);
     }
 }

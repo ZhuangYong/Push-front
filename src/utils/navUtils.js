@@ -24,8 +24,16 @@ export default class NavUtils {
         }
     }
 
+    static back() {
+        NavUtils.history.goBack();
+    }
+
     static test() {
         console.log(NavUtils.history);
+    }
+
+    static replace(path, state) {
+        NavUtils.history.replace(path, state);
     }
 
     // // url改变时记录路由信息

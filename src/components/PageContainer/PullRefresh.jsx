@@ -14,19 +14,6 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ArrowForwardIcon from "@material-ui/icons/KeyboardArrowRight";
 import {getScreenSize} from "../../utils/comUtils";
 
-// const style = {
-//     position: "fixed",
-//     width: "100%",
-//     height: "50px",
-//     color: "#fff",
-//     lineHeight: "50px",
-//     backgroundColor: "#e24f37",
-//     left: 0,
-//     top: 0,
-//     textAlign: "center",
-//     zIndex: 1
-// };
-
 const style = {
     card: {
         backgroundColor: '#eeeeee'
@@ -63,8 +50,6 @@ const style = {
 const loadMoreLimitNum = 10;
 const cData = [];
 
-@observer
-@withStyles(style)
 export default class PullRefresh extends BaseComponent {
 
     constructor(props) {
@@ -76,11 +61,14 @@ export default class PullRefresh extends BaseComponent {
             action: STATS.init,
             index: loadMoreLimitNum,
             currentPage: currentPage,
-            pageSize: pageSize
+            pageSize: pageSize,
+            extParam: {}
         };
         this.handleAction = this.handleAction.bind(this);
         this.handRefreshing = this.handRefreshing.bind(this);
         this.handLoadMore = this.handLoadMore.bind(this);
+        this.domItem = this.domItem.bind(this);
+        this.handelFilter = this.handelFilter.bind(this);
     }
 
     componentDidMount() {
@@ -90,34 +78,26 @@ export default class PullRefresh extends BaseComponent {
         }
     }
     render() {
+        const classes = style;
         const {hasMore, data} = this.state;
-        const {classes, autoHeight} = this.props;
+        const {autoHeight, show} = this.props;
         const screenSize = getScreenSize();
         const containerHeight = this.props.fullHeight ? screenSize.height - this.props.fixBottom : "100%";
         return (
-            <div className={classes.root} style={autoHeight ? {height: containerHeight} : {}}>
-                <div className={classes.container} style={{height: containerHeight}}>
+            <div style={{position: 'relative', height: autoHeight ? containerHeight : "", display: show ? "" : "none"}}>
+                <div style={{...classes.container, height: containerHeight}}>
                     <ReactPullLoad
                         style={{height: '100%'}}
                         downEnough={150}
                         action={this.state.action}
                         handleAction={this.handleAction}
                         hasMore={hasMore}
-                        // noRefresh={true}
+                        noRefresh={true}
                         isBlockContainer={true}
                         distanceBottom={1000}>
-                        <ul className={classes.list}>
+                        <ul style={classes.list}>
                             {
-                                data.map(item => <ListItem key={item.id}>
-                                    <ListItemText
-                                        primary={item.name || ""}
-                                    />
-                                    <ListItemSecondaryAction>
-                                        <IconButton>
-                                            <ArrowForwardIcon/>
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>)
+                                data.map(item => this.domItem(item))
                             }
                         </ul>
                     </ReactPullLoad>
@@ -126,7 +106,27 @@ export default class PullRefresh extends BaseComponent {
         );
     }
 
+    domItem(item) {
+        const {renderItem} = this.props;
+        if (!renderItem) {
+            return <ListItem key={item.id}>
+                <ListItemText
+                    primary={item.name || ""}
+                />
+                <ListItemSecondaryAction>
+                    <IconButton>
+                        <ArrowForwardIcon/>
+                    </IconButton>
+                </ListItemSecondaryAction>
+            </ListItem>;
+        }
+        return renderItem(item);
+    }
+
     handleAction(action) {
+        if (!action) {
+            return;
+        }
         if (action === this.state.action) {
             return false;
         }
@@ -145,14 +145,16 @@ export default class PullRefresh extends BaseComponent {
         if (STATS.refreshing === this.state.action) {
             return false;
         }
-
-        const {pageSize} = this.state;
+        const {pageSize, extParam} = this.state;
         const {pageAction, pageParam} = this.props;
         const nextPageParam = Object.assign({
             currentPage: 1,
             pageSize: pageSize
-        }, pageParam);
-        pageAction(nextPageParam).then(res => {
+        }, pageParam, extParam);
+        this.setState({
+            action: STATS.refreshing
+        });
+        return pageAction(nextPageParam).then(res => {
             const {totalRow, totalPage, data} = res;
             this.setState({
                 data: [...data],
@@ -160,22 +162,21 @@ export default class PullRefresh extends BaseComponent {
                 hasMore: totalPage > 1,
                 currentPage: 1
             });
+            return Promise.resolve(res);
         }).catch(err => {
             this.setState({
                 action: STATS.reset
             });
+            return Promise.reject(err);
         });
 
-        this.setState({
-            action: STATS.refreshing
-        });
     }
 
     /**
      * 加载下一页
      */
     handLoadMore() {
-        const {currentPage, pageSize} = this.state;
+        const {currentPage, pageSize, extParam} = this.state;
         const {pageAction, pageParam} = this.props;
         const nextPage = currentPage + 1;
         if (STATS.loading === this.state.action) {
@@ -190,8 +191,11 @@ export default class PullRefresh extends BaseComponent {
             pageSize: pageSize
         }, pageParam, {
             currentPage: nextPage
+        }, extParam);
+        this.setState({
+            action: STATS.loading
         });
-        pageAction(nextPageParam).then(res => {
+        return pageAction(nextPageParam).then(res => {
             const {totalRow, totalPage, data} = res;
             this.setState({
                 data: [...this.state.data, ...data],
@@ -199,38 +203,28 @@ export default class PullRefresh extends BaseComponent {
                 hasMore: totalPage > nextPage,
                 currentPage: nextPage
             });
+            return Promise.resolve(res);
         }).catch(err => {
             this.setState({
                 action: STATS.reset
             });
-        });
-        // setTimeout(() => {
-        //     if (this.state.index === 0) {
-        //         this.setState({
-        //             action: STATS.reset,
-        //             hasMore: false
-        //         });
-        //     } else {
-        //         this.setState({
-        //             data: [...this.state.data, cData[0], cData[0]],
-        //             action: STATS.reset,
-        //             index: this.state.index - 1
-        //         });
-        //     }
-        // }, 30000000);
-
-        this.setState({
-            action: STATS.loading
+            return Promise.reject(err);
         });
     }
 
+    handelFilter(param) {
+        this.state.extParam = param;
+        return this.handRefreshing();
+    }
 
 }
 
 PullRefresh.propTypes = {
+    show: PropTypes.bool,
     autoFirstPage: PropTypes.bool,
     pageParam: PropTypes.object,
     pageAction: PropTypes.func,
+    renderItem: PropTypes.func,
     placeholder: PropTypes.string,
     pageSize: PropTypes.number,
     currentPage: PropTypes.number,
@@ -240,6 +234,7 @@ PullRefresh.propTypes = {
     height: PropTypes.number
 };
 PullRefresh.defaultProps = {
+    show: true,
     autoFirstPage: true,
     placeholder: "",
     pageAction: () => new Error("not set page action"),

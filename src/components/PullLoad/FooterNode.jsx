@@ -20,7 +20,7 @@ export default class FooterNode extends PureComponent {
             hasMore
         } = this.props;
 
-        let className = `pull-load-footer-default ${hasMore ? "" : "nomore"}`;
+        let className = `pull-load-footer-default ${hasMore || loaderState === STATS.loading ? "" : "nomore"}`;
 
         return (
             <div className={className}>

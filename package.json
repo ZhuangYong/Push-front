@@ -35,6 +35,7 @@
     "react-jss": "^8.6.1",
     "react-jvectormap": "0.0.2",
     "react-loadable": "^5.3.1",
+    "react-mobile-datepicker": "^3.0.12",
     "react-nouislider": "2.0.1",
     "react-popper": "latest",
     "react-pullload": "^1.1.0",

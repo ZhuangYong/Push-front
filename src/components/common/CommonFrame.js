@@ -15,7 +15,6 @@ export default class CommonFrame extends React.Component {
 
     componentDidMount() {
         document.addEventListener("EVENT_API_ERR", e => {
-            console.log("------------------------");
             this.notification(e.cause);
         });
     }
@@ -35,12 +34,12 @@ export default class CommonFrame extends React.Component {
         );
     }
 
-    notification(msg) {
-        this.execCmd(Const.CMD_MSG, Const.MSG_TYPE_NOTIFICATION, msg);
+    notification(msg, pos) {
+        this.execCmd(Const.CMD_MSG, Const.MSG_TYPE_NOTIFICATION, msg, pos);
     }
 
     alert(msg) {
-        this.props.execCmd(Const.CMD_MSG, Const.MSG_TYPE_ALERT, msg);
+        this.execCmd(Const.CMD_MSG, Const.MSG_TYPE_ALERT, msg);
     }
 
     execCmd() {
@@ -48,9 +47,10 @@ export default class CommonFrame extends React.Component {
             const cmd = arguments[0];
             const arg1 = arguments[1];
             const arg2 = arguments[2];
+            const arg3 = arguments[3];
             switch (cmd) {
                 case Const.CMD_MSG:
-                    this.showMsg(arg1, arg2);
+                    this.showMsg(arg1, arg2, arg3);
                     break;
                 default:
                     console.info("not match cmd");
@@ -58,15 +58,15 @@ export default class CommonFrame extends React.Component {
         }
     }
 
-    showMsg(type, msg) {
+    showMsg(type, msg, pos) {
         const commonMsg = this.refs.commonMsg;
         if (!commonMsg) return;
         switch (type) {
             case Const.MSG_TYPE_NOTIFICATION:
-                commonMsg.showSnackbar(msg);
+                commonMsg.showSnackbar(msg, pos);
                 break;
             case Const.MSG_TYPE_ALERT:
-                commonMsg.showSnackbar(msg);
+                commonMsg.showSnackbar(msg, pos);
                 break;
             default:
                 console.info("no match show msg type");

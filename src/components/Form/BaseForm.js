@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CustomInput from "../CustomInput/CustomInput";
+import _ from "lodash";
 
 export default class BaseForm extends React.Component {
 
@@ -9,12 +10,21 @@ export default class BaseForm extends React.Component {
         this.state = {
             data: this.props['v-data'],
             validSuccess: {},
-            validFail: {}
+            validFail: {},
+            formNodes: []
         };
         this.autoState = this.autoState.bind(this);
         this.validItem = this.validItem.bind(this);
+        this.initialState = this.initialState.bind(this);
     }
+    componentDidMount() {
 
+        console.log(this.props['v-data']);
+        this.initialState();
+    }
+    componentDidUpdate() {
+        this.initialState();
+    }
     render() {
         return this.autoState(this.props.children) || "";
     }
@@ -25,20 +35,26 @@ export default class BaseForm extends React.Component {
             node.forEach((n, index) => nodes.push(this.autoState(n, 'form-auto-index' + index)));
             return nodes;
         } else if (node) {
+            if (this.state.formNodes.indexOf(node) < 0) {
+                this.state.formNodes.push(node);
+            }
             const {name, inputProps} = node.props;
             if (name) {
-                if (inputProps) {
-                    inputProps.onChange = e => {
-                        const {value} = e.target;
-                        this.state.data[name] = value;
-                        this.validItem(node, value);
-                    };
-                } else {
-                    node.onChange = e => {
-                        const {value} = e.target;
-                        this.state.data[name] = value;
-                        this.validItem(node, value);
-                    };
+                const onChange = e => {
+                    const {value} = e.target;
+                    console.log("onchange", e);
+                    if (this.props['v-data']) {
+                        this.props['v-data'][name] = value;
+                    }
+
+                    const setState = {};
+                    setState[name] = value;
+                    this.props.setState(setState);
+
+                    this.validItem(node, value);
+                };
+                if (typeof inputProps !== "undefined") {
+                    inputProps.onChange = onChange;
                 }
                 const cloneProps = {};
                 if (typeof this.state.validSuccess[name] === 'undefined') {
@@ -53,11 +69,16 @@ export default class BaseForm extends React.Component {
                         return <CustomInput
                             success={this.state.validSuccess[name]}
                             error={this.state.validFail[name]}
+                            inputProps={{
+                                ...inputProps,
+                                onChange
+                            }}
                             {...node.props}
                             {...cloneProps}
                         />;
                     } else {
-                        return <CustomInput
+                        return <node.type
+                            onChange
                             {...node.props}
                             {...cloneProps}
                         />;
@@ -71,21 +92,50 @@ export default class BaseForm extends React.Component {
         }
     }
 
-    valid() {
+    /**
+     * 验证以及验证结果样式修改
+     * @param name
+     * @returns {boolean}
+     */
+    valid(name) {
         let validSuccess = true;
-        Object.keys(this.state.validSuccess).forEach(key => {
-           if (!this.state.validSuccess[key]) {
-               this.state.validFail[key] = true;
-               validSuccess = false;
-           } else {
-               this.state.validFail[key] = false;
-           }
-        });
+        const {formNodes = []} = this.state;
+        if (typeof name !== "undefined") {
+            Object.keys(this.state.validSuccess).forEach(key => {
+                if (name === key) {
+                    if (!this.state.validSuccess[key]) {
+                        this.state.validFail[key] = true;
+                        validSuccess = false;
+                    } else {
+                        this.state.validFail[key] = false;
+                    }
+                }
+            });
+        } else {
+            formNodes.forEach(node => {
+                const value = node.value || (node.props.inputProps || {}).value;
+                this.validItem(node, value, true);
+            });
+            Object.keys(this.state.validSuccess).forEach(key => {
+                if (!this.state.validSuccess[key]) {
+                    this.state.validFail[key] = true;
+                    validSuccess = false;
+                } else {
+                    this.state.validFail[key] = false;
+                }
+            });
+        }
         this.setState({validFail: this.state.validFail});
         return validSuccess;
     }
 
-    validItem(node, v) {
+    /**
+     * 验证子项
+     * @param node
+     * @param v
+     * @param notShow 是否刷新显示
+     */
+    validItem(node, v, notShow) {
         const {name, required, reg} = node.props;
         if (required && !v) {
             this.state.validSuccess[name] = false;
@@ -94,12 +144,33 @@ export default class BaseForm extends React.Component {
         } else {
             this.state.validSuccess[name] = true;
         }
-        this.valid();
+        if (!notShow) {
+            this.valid(name);
+        }
+    }
+
+    initialState() {
+        const {initialData, initialDataKey} = this.props;
+        const {formNodes = []} = this.state;
+        if (initialData && _.isEmpty(this[initialDataKey])) {
+            Object.keys(initialData).forEach(key => this.state[key] = initialData[key]);
+            this.props.setState(this.state);
+            this[initialDataKey] = initialData;
+            formNodes.forEach(node => {
+                const value = node.value || (node.props.inputProps || {}).value;
+                this.validItem(node, value, true);
+            });
+        }
     }
 }
 BaseForm.propTypes = {
-    'v-data': PropTypes.any
+    'v-data': PropTypes.any,
+    setState: PropTypes.func,
+    initialData: PropTypes.any,
+    initialDataKey: PropTypes.string
 };
 BaseForm.defaultProps = {
-    'v-data': "not set execCmd function"
+    'v-data': "not set v-data",
+    setState: f => f,
+    initialDataKey: "key_" + Math.random()
 };

@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import defaultImage from "../../assets/img/default-avatar.png";
+import CircularProgress from "material-ui/Progress/CircularProgress";
 
 class PictureUpload extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             file: null,
-            imagePreviewUrl: defaultImage
+            uploadIng: false,
+            imagePreviewUrl: ""
         };
         this.handleImageChange = this.handleImageChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,9 +23,17 @@ class PictureUpload extends React.Component {
             return;
         }
         reader.onloadend = () => {
-            this.setState({
-                file: file,
-                imagePreviewUrl: reader.result
+            const data = new FormData();
+            data.append("file", file);
+            this.setState({uploadIng: true});
+            this.props.uploadAction(data).then(res => {
+                this.setState({
+                    file: file,
+                    imagePreviewUrl: reader.result
+                });
+                this.setState({uploadIng: false});
+            }).catch(err => {
+                this.setState({uploadIng: false});
             });
         };
         reader.readAsDataURL(file);
@@ -39,12 +49,10 @@ class PictureUpload extends React.Component {
     render() {
         return (
             <div className="picture-container">
-                <div className="picture" style={{width: 76, height: 76, backgroundImage: `url(${this.state.imagePreviewUrl})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center'}}>
-                    {/*<img
-                        src={this.state.imagePreviewUrl}
-                        className="picture-src"
-                        alt="..."
-                    />*/}
+                <div className="picture" style={{width: 76, height: 76, backgroundImage: `url(${this.state.imagePreviewUrl || this.props.defaultImage || defaultImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center'}}>
+                        {
+                            this.state.uploadIng ? <CircularProgress color="secondary" size={14} /> : ""
+                        }
                     <input type="file" onChange={e => this.handleImageChange(e)} style={{width: 76, height: 76, left: '50%', marginLeft: -38}}/>
                 </div>
                 <p className="description" style={{fontSize: 14, margin: 0}}>{this.props.label}</p>
@@ -54,9 +62,13 @@ class PictureUpload extends React.Component {
 }
 
 PictureUpload.propTypes = {
+    uploadAction: PropTypes.func,
+    defaultImage: PropTypes.string,
     label: PropTypes.string
 };
 PictureUpload.defaultProps = {
+    uploadAction: console.log("not set uploadAction"),
+    defaultImage: "",
     label: "点击编辑图片"
 };
 

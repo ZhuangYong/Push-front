@@ -62,12 +62,12 @@ function Snackbar({...props}) {
                 </div>
             }
             action={action}
-            SnackbarContentProps={{
-                classes: {
-                    root: classes.root + " " + classes[color],
-                    message: classes.message,
-                }
-            }}
+            // SnackbarContentProps={{
+            //     classes: {
+            //         root: classes.root + " " + classes[color],
+            //         message: classes.message,
+            //     }
+            // }}
         />
     );
 }

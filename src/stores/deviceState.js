@@ -25,7 +25,7 @@ export default class deviceState extends BaseState {
         });
     }
 
-    getGroupPage(data) {
+    getDevicePage(data) {
         return this.fetch({
             url: Api.API_STATIS_DEVICE_PAGE,
             setState: "setDeviceData",

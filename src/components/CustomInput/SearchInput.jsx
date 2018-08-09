@@ -11,17 +11,17 @@ import Button from "../../components/CustomButtons/Button.jsx";
 
 const style = {
     searchContainer: {
-        padding: 6,
+        padding: '.4rem',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: 'linear-gradient(0deg, #40e5f9, #26c6da)'
+        background: 'linear-gradient(0deg, #e91e63, #e91e63)'
     },
     inputBorder: {
-        height: 32,
-        padding: 16,
+        height: '2.4rem',
+        padding: '.8rem .3rem .8rem 1rem',
         width: "88%",
-        borderRadius: "32px",
+        borderRadius: '2.4rem',
         // border: '.6px solid gray',
         display: 'flex',
         backgroundColor: 'white',
@@ -29,22 +29,23 @@ const style = {
         alignItems: 'center'
     },
     input: {
-        height: 30,
+        height: '2.3rem',
+        width: "88%",
+        fontSize: '1rem',
         border: 'none'
     },
     clearButton: {
-        height: 24,
-        width: 24,
+        height: '1.8rem',
+        width: '1.8rem',
         padding: 0,
-        marginRight: -9
     },
     clearIcon: {
-        width: 16,
-        height: 16
+        width: '1rem',
+        height: '1rem',
     },
 
     SearchButton: {
-        height: 32,
+        height: '2.3rem',
         width: '16%',
         display: 'flex',
         justifyContent: 'center',
@@ -63,12 +64,14 @@ export default class SearchInput extends BaseComponent {
         super(props);
         this.state = {
             value: "",
-            searchIng: false
+            searchKeyWords: ""
         };
+        this.handelClear = this.handelClear.bind(this);
+        this.handelSearch = this.handelSearch.bind(this);
     }
     render() {
-        const {value, searchIng} = this.state;
-        const {classes, placeholder} = this.props;
+        const {value, searchKeyWords} = this.state;
+        const {classes, placeholder, searchIng} = this.props;
         return (
             <div>
                 <div className={classes.searchContainer}>
@@ -85,7 +88,7 @@ export default class SearchInput extends BaseComponent {
                             <Button round size="sm" style={style.clearButton} onClick={() => {
                                 this.setState({value: ""});
                             }}>
-                                <ClearIcon style={style.clearIcon}/>
+                                <ClearIcon style={style.clearIcon} onClick={this.handelClear}/>
                             </Button>
                         </Zoom>
                     </div>
@@ -95,19 +98,48 @@ export default class SearchInput extends BaseComponent {
                         }
                     </div>
                 </div>
+               {/* <div>
+                    {
+                        searchKeyWords ? <p>
+                            "{searchKeyWords}"的搜索结果
+                        </p> : ""
+                    }
+                </div>*/}
             </div>
         );
     }
 
     handelSearch() {
+        const {handelSearch, searchIng} = this.props;
+        const {value} = this.state;
+        if (searchIng) {
+            return;
+        }
+        if (handelSearch && typeof handelSearch === "function") {
+            handelSearch(value);
+            this.setState({searchKeyWords: value});
+        }
+    }
 
+    handelClear() {
+        const {handelClear} = this.props;
+        const {value, searchKeyWords} = this.state;
+        // if (searchKeyWords && handelClear && typeof handelClear === "function") {
+        //     handelClear(value);
+        // }
     }
 
 }
 
 SearchInput.propTypes = {
+    handelSearch: PropTypes.func,
+    handelClear: PropTypes.func,
     placeholder: PropTypes.string,
+    searchIng: PropTypes.bool
 };
 SearchInput.defaultProps = {
+    handelSearch: f => f,
+    handelClear: f => f,
     placeholder: "",
+    searchIng: false
 };

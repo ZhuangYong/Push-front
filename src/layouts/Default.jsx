@@ -11,13 +11,20 @@ import {inject} from "mobx-react";
 import {observer} from "mobx-react/index";
 import BottomNavs from "../components/Menus/BottomNavs";
 import NavUtils from "../utils/navUtils";
+import Path from "../utils/path";
+import {getToken} from "../utils/auth";
 
 const genRoute = (prop, key) => {
-    return <Route exact path={prop.path} render={() => <CommonFrame>{props => (
-        <Bundle load={prop.component}>
-            {Component => <Component {...props}/>}
-        </Bundle>
-    )}</CommonFrame>} key={key}/>;
+    return <Route exact path={prop.path} render={() => {
+        if (prop.needLogin && prop.path !== Path.PATH_LOGIN && !getToken()) {
+            return <Redirect from={prop.path} to={Path.PATH_LOGIN} key={key}/>;
+        }
+        return <CommonFrame>{props => (
+            <Bundle load={prop.component}>
+                {Component => <Component {...props}/>}
+            </Bundle>
+        )}</CommonFrame>;
+    }} key={key}/>;
 };
 
 const switchRoutes = (

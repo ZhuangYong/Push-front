@@ -4,21 +4,14 @@ import IconButton from '@material-ui/core/IconButton';
 import AddAlert from "@material-ui/icons/AddAlert";
 import CloseIcon from '@material-ui/icons/Close';
 
-const styles = theme => ({
-    close: {
-        width: theme.spacing.unit * 4,
-        height: theme.spacing.unit * 4,
-    },
-});
-
-
 export default class CommonFrame extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             queue: [],
             openSnackbar: false,
-            snackbarMsg: {}
+            snackbarMsg: {},
+            position: ""
         };
         this.showSnackbar = this.showSnackbar.bind(this);
         this.closeSnackbar = this.closeSnackbar.bind(this);
@@ -26,11 +19,11 @@ export default class CommonFrame extends React.Component {
 
     render() {
         // const { classes } = this.props;
-        const { snackbarMsg, openSnackbar } = this.state;
+        const {snackbarMsg, openSnackbar, position} = this.state;
         return (
             <div>
                 <Snackbar
-                    place="tc"
+                    place={position || "tc"}
                     color="warning"
                     // icon={AddAlert}
                     message={<span id="message-id">{snackbarMsg}</span>}
@@ -43,10 +36,11 @@ export default class CommonFrame extends React.Component {
         );
     }
 
-    showSnackbar(message) {
+    showSnackbar(message, pos) {
         this.setState({
             snackbarMsg: message,
             openSnackbar: true,
+            position: pos
         });
     }
 

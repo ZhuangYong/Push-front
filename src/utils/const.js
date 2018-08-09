@@ -20,6 +20,11 @@ export default {
 
     BASE_API: process.env.apiDomain,
 
+    ROLE: {
+        J_MAKE: 1,
+        SALES: 2,
+        MANUFACTURE: 3
+    },
     // 命令类型
     //-----------------------------
     //消息提示

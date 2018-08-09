@@ -26,7 +26,7 @@ export default class BottomNavs extends BaseComponent {
         super(props);
         this.state = {
             value: 0,
-            v2p: [Path.PATH_INDEX, Path.PATH_DEVICE_INDEX, Path.PATH_ORDER_INDEX, Path.PATH_USER_INDEX]
+            v2p: [Path.PATH_INDEX, Path.PATH_DEVICE_GROUP_LIST, Path.PATH_ORDER_INDEX, Path.PATH_USER_INDEX]
         };
         this.initialState = this.initialState.bind(this);
         this.handleChange = this.handleChange.bind(this);

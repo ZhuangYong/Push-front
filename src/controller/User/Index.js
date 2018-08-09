@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowForwardIcon from "@material-ui/icons/KeyboardArrowRight";
 
 import CircularProgress from "material-ui/Progress/CircularProgress";
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import {observer} from "mobx-react";
 import {inject} from "mobx-react/index";
 import BaseComponent from "../../components/common/BaseComponent";
@@ -18,7 +19,25 @@ import PictureUpload from "../../components/CustomUpload/PictureUpload";
 import Path from "../../utils/path";
 import customStyle from "../../assets/jss/view/custom";
 
-@withStyles(customStyle)
+import areaIcon from "../../assets/img/icon/position.png";
+import phoneIcon from "../../assets/img/icon/phone.png";
+import homeIcon from "../../assets/img/icon/home.png";
+import Const from "../../utils/const";
+
+const style = {...customStyle, ...{
+        editButton: {
+            height: '1.6rem',
+            float: 'right',
+            fontSize: '.8rem',
+            color: '#484848'
+        },
+        carHeader: {
+            padding: '.2rem',
+            margin: 0,
+            borderBottom: '.01rem solid #dadada'
+        }
+    }};
+@withStyles(style)
 @inject(({store: {statisticsState, userState}}) => ({statisticsState, userState}))
 @observer
 export default class Index extends BaseComponent {
@@ -39,76 +58,124 @@ export default class Index extends BaseComponent {
         const {indexStatisticsData} = this.props.statisticsState;
         const {classes = ""} = this.props;
         return <div>
-            <Card className={classes.card}>
-                <CardHeader className={classes.carHeader} style={{padding: '.2rem'}}
-                    title={<PictureUpload label={loginUserData.nickName || ""}/>}
-                />
+            {
+                loginUserData.type === Const.ROLE.SALES && <Card className={classes.card} style={{borderRadius: 0}}>
+                    <CardHeader className={[classes.carHeader, classes.carHeader].join(" ")}
+                                title={<PictureUpload
+                                    label={loginUserData.nickName || ""}
+                                    defaultImage={loginUserData.headImg}
+                                    uploadAction={this.uploadUserAvatarAction}
+                                />}
+                    />
+                    <div style={{padding: 6, backgroundColor: "#eeeeee"}}>
+                    <span>
+                        基本信息
+                    </span>
+                        <IconButton style={style.editButton} onClick={() => this.linkTo(Path.PATH_USER_EDIT_INFO)}>
+                            编辑 ➜
+                        </IconButton>
+                    </div>
+                    <List className={classes.list} style={{paddingTop: 0}}>
+                        <ListItem className={classes.item}>
+                            <ListItemIcon>
+                                <img src={areaIcon} style={{width: '1.6rem', margin: 0}}/>
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="所在区域"
+                            />
+                            <ListItemSecondaryAction className={classes.secondary}>
+                                {loginUserData.area || "未填写"}
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                        <ListItem className={classes.item}>
+                            <ListItemIcon>
+                                <img src={phoneIcon} style={{width: '1.6rem', margin: 0}}/>
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="昵称"
+                            />
+                            <ListItemSecondaryAction className={classes.secondary}>
+                                {loginUserData.nickName || "未设置"}
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                        <ListItem className={classes.item}>
+                            <ListItemIcon>
+                                <img src={phoneIcon} style={{width: '1.6rem', margin: 0}}/>
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="手机号"
+                            />
+                            <ListItemSecondaryAction className={classes.secondary}>
+                                {loginUserData.phone || "未设置"}
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                        <ListItem className={classes.item}>
+                            <ListItemIcon>
+                                <img src={phoneIcon} style={{width: '1.6rem', margin: 0}}/>
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="收款账号"
+                            />
+                            <ListItemSecondaryAction className={classes.secondary}>
+                                {loginUserData.alipayAccount || "未设置"}
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                        <ListItem className={classes.item}>
+                            <ListItemIcon>
+                                <img src={homeIcon} style={{width: '1.6rem', margin: 0}}/>
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="详细地址"
+                            />
+                            <ListItemSecondaryAction className={classes.secondary}>
+                                {loginUserData.address || "未填写"}
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    </List>
+                </Card>
+            }
+
+            {
+                loginUserData.type === Const.ROLE.MANUFACTURE && <Card className={classes.card} style={{borderRadius: 0}}>
+                    <CardHeader className={[classes.carHeader, classes.carHeader].join(" ")}
+                                title={<PictureUpload
+                                    label={<h4>{loginUserData.viewName || ""}</h4> }
+                                    defaultImage={loginUserData.headImg}
+                                    uploadAction={this.uploadUserAvatarAction}
+                                />}
+                    />
+                </Card>
+            }
+
+            <Card style={{marginTop: 16, borderRadius: 0}}>
                 <List className={classes.list}>
-                    <ListItem className={classes.item}>
+                    {
+                        loginUserData.type === Const.ROLE.SALES && <ListItem onClick={() => this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT)}>
+                            <ListItemText
+                                primary="电子协议"
+                            />
+                            <ListItemSecondaryAction>
+                                <IconButton onClick={() => this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT)}>
+                                    <ArrowForwardIcon/>
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    }
+                    <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_USER_FEEDBACK)}>
                         <ListItemText
-                            primary="所在区域"
+                            primary="意见反馈"
                         />
-                        <ListItemSecondaryAction className={classes.secondary}>
-                            {loginUserData.area || "未填写"}
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                    <ListItem className={classes.item}>
-                        <ListItemText
-                            primary="昵称"
-                        />
-                        <ListItemSecondaryAction className={classes.secondary}>
-                            {loginUserData.nickName || "未设置"}
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                    <ListItem className={classes.item}>
-                        <ListItemText
-                            primary="手机号"
-                        />
-                        <ListItemSecondaryAction className={classes.secondary}>
-                            {loginUserData.phone || "未设置"}
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                    <ListItem className={classes.item}>
-                        <ListItemText
-                            primary="收款账号"
-                        />
-                        <ListItemSecondaryAction className={classes.secondary}>
-                            {loginUserData.alipayAccount || "未设置"}
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                    <ListItem className={classes.item}>
-                        <ListItemText
-                            primary="详细地址"
-                        />
-                        <ListItemSecondaryAction className={classes.secondary}>
-                            {loginUserData.address || "未填写"}
+                        <ListItemSecondaryAction>
+                            <IconButton onClick={() => this.linkTo(Path.PATH_USER_FEEDBACK)}>
+                                <ArrowForwardIcon/>
+                            </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>
                 </List>
             </Card>
 
-            <Card style={{marginTop: 10}}>
+            <Card style={{marginTop: 16, borderRadius: 0}}>
                 <List className={classes.list}>
-                    <ListItem>
-                        <ListItemText
-                            primary="电子协议"
-                        />
-                        <ListItemSecondaryAction>
-                            <IconButton>
-                                <ArrowForwardIcon/>
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                    <ListItem className={classes.item}>
-                        <ListItemText
-                            primary="意见反馈"
-                        />
-                        <ListItemSecondaryAction>
-                            <IconButton>
-                                <ArrowForwardIcon/>
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
                     <ListItem className={classes.item} onClick={!this.state.submiting ? this.logout : f => f}>
                         <ListItemText
                             primary={<div style={{margin: 0, padding: 0, textAlign: 'center'}}>
@@ -123,6 +190,11 @@ export default class Index extends BaseComponent {
             </Card>
         </div>;
     }
+
+    uploadUserAvatarAction = (data) => {
+        return this.props.userState.uploadUserAvatar(data)
+            .then(setTimeout(() => this.props.userState.getUserInfo(), 500));
+    };
 
     refreshStatistics() {
         this.props.statisticsState.getIndexStatisticsData();

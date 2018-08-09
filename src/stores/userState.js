@@ -7,6 +7,7 @@ export default class userState extends BaseState {
 
     @observable loginData = "";
     @observable loginUserData = "";
+    @observable userIncomeData = "";
 
     @action
     setLoginData(data) {
@@ -18,6 +19,12 @@ export default class userState extends BaseState {
     @action
     setLoginUserData(data) {
         this.loginUserData = data;
+        cacheUserInfo(data);
+    }
+
+    @action
+    setUserIncomeData(data) {
+        this.userIncomeData = data;
         cacheUserInfo(data);
     }
 
@@ -50,4 +57,31 @@ export default class userState extends BaseState {
         });
     }
 
+    uploadUserAvatar(data) {
+        return this.fetch({
+            url: Api.API_IMAGE_UPLOAD_AVATAR,
+            data: data
+        });
+    }
+
+    saveUserInfo(data) {
+        return this.fetch({
+            url: Api.API_USER_SAVE,
+            data: data
+        });
+    }
+    getUserIncomeInfo(data) {
+        return this.fetch({
+            url: Api.API_STATIS_INDEX_DETAIL,
+            setState: "setUserIncomeData",
+            data: data
+        });
+    }
+
+    saveFeedback(data) {
+        return this.fetch({
+            url: Api.API_USER_SAVE_FEEDBACK,
+            data: data
+        });
+    }
 }
