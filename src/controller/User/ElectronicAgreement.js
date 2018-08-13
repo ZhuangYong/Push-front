@@ -9,6 +9,7 @@ import customStyle from "../../assets/jss/view/custom";
 import {withRouter} from "react-router-dom";
 import Path from "../../utils/path";
 import svgBottom from "../../assets/svg/bottom-tear.svg";
+import WxImageViewer from 'react-wx-images-viewer';
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -23,7 +24,10 @@ import svgBottom from "../../assets/svg/bottom-tear.svg";
             padding: '.2rem',
             margin: '.2rem',
             backgroundColor: 'white',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            backgroundSize: '120%',
+            backgroundImage: `url(${svgBottom})`,
+            backgroundPosition: 'center'
         },
         img: {
             maxHeight: "100%",
@@ -47,14 +51,15 @@ export default class ElectronicAgreement extends BaseComponent {
 
     render() {
         const {classes = ""} = this.props;
+        const {viewImgIndex, showImgView} = this.state;
         const {loginUserData = {}} = this.props.userState;
         return <div>
             <div className={classes.card + " " + classes.formContainer}>
                 {
                     loginUserData.list && loginUserData.list.map((i, index) => {
                         return <Grow key={i.id} in={true} timeout={index * 400} style={{transformOrigin: '0 0 0'}}>
-                            <div className={classes.item} style={{backgroundImage: `url(${svgBottom})`}}>
-                                <img src={i.image} className={classes.img}/>
+                            <div className={classes.item}>
+                                <img src={i.image} className={classes.img} onClick={() => this.setState({showImgView: true, viewImgIndex: index})}/>
                             </div>
                         </Grow>;
                     })
@@ -62,6 +67,14 @@ export default class ElectronicAgreement extends BaseComponent {
                 {
                     typeof loginUserData.list !== "undefined" && _.isEmpty(loginUserData.list) && "无相关数据"
                 }
+
+                {
+                    showImgView && loginUserData.list && loginUserData.list.length && <WxImageViewer
+                        onClose={() => this.setState({showImgView: false})}
+                        urls={loginUserData.list.map(i => i.image)}
+                        index={viewImgIndex}/>
+                }
+
             </div>
         </div>;
     }

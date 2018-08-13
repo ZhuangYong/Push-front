@@ -59,7 +59,6 @@ export default class DeviceIndex extends BaseComponent {
     }
     render() {
         const {searchIng, searchKeyWords, isSearch} = this.state;
-        console.log("================", isSearch);
         const {classes = ""} = this.props;
         return <div>
             <div>
@@ -113,7 +112,7 @@ export default class DeviceIndex extends BaseComponent {
                                     <font className={classes.infoLabel}>机型：</font>{item.channelName}
                                 </p>
                                 <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>收入总额：</font>{item.total} <font color="red">￥</font>
+                                    <font className={classes.infoLabel}>收入总额：</font><font color="red">￥</font>{item.total}
                                 </p>
                                 <p className={classes.infoLine}>
                                     <font className={classes.infoLabel}>投放时间：</font>{item.putTime}

@@ -11,15 +11,19 @@
 <div id="root"></div>
 </body>
 <script>
+    var remSize;
     function setSize() {
         var ww = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         var wh = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        var remSize;
         remSize = ww / 24;
         document.documentElement.style.fontSize = remSize + "px";
     }
     setSize();
     window.addEventListener('resize', setSize);
     window.addEventListener('orientationchange', setSize);
+
+    function rem2px(rem) {
+        return (rem || 1) * remSize;
+    }
 </script>
 </html>

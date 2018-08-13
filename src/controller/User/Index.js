@@ -2,6 +2,7 @@ import React from "react";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import withStyles from "material-ui/styles/withStyles";
 
@@ -11,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowForwardIcon from "@material-ui/icons/KeyboardArrowRight";
 
 import CircularProgress from "material-ui/Progress/CircularProgress";
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import {observer} from "mobx-react";
 import {inject} from "mobx-react/index";
 import BaseComponent from "../../components/common/BaseComponent";
@@ -19,9 +19,14 @@ import PictureUpload from "../../components/CustomUpload/PictureUpload";
 import Path from "../../utils/path";
 import customStyle from "../../assets/jss/view/custom";
 
-import areaIcon from "../../assets/img/icon/position.png";
+import areaIcon from "../../assets/img/icon/area.png";
+import nicknameIcon from "../../assets/img/icon/nickname.png";
+import accountIcon from "../../assets/img/icon/account.png";
 import phoneIcon from "../../assets/img/icon/phone.png";
 import homeIcon from "../../assets/img/icon/home.png";
+import agreementIcon from "../../assets/img/icon/agreement.png";
+import feedbackIcon from "../../assets/img/icon/feedback.png";
+import editIcon from "../../assets/img/icon/edit.png";
 import Const from "../../utils/const";
 
 const style = {...customStyle, ...{
@@ -29,12 +34,18 @@ const style = {...customStyle, ...{
             height: '1.6rem',
             float: 'right',
             fontSize: '.8rem',
-            color: '#484848'
+            color: '#484848',
+            display: 'flex',
+            alignItems: 'center'
         },
-        carHeader: {
-            padding: '.2rem',
-            margin: 0,
-            borderBottom: '.01rem solid #dadada'
+        editIcon: {
+            height: '.8rem',
+            marginLeft: '.2rem'
+        },
+        carHeaderLabel: {
+            fontSize: '1.4rem',
+            color: 'white',
+            textShadow: '1px 1px 4px black'
         }
     }};
 @withStyles(style)
@@ -51,6 +62,7 @@ export default class Index extends BaseComponent {
         this.logout = this.logout.bind(this);
     }
     componentDidMount() {
+        // this.props.userState.auth();
         this.refreshStatistics();
     }
     render() {
@@ -59,10 +71,11 @@ export default class Index extends BaseComponent {
         const {classes = ""} = this.props;
         return <div>
             {
-                loginUserData.type === Const.ROLE.SALES && <Card className={classes.card} style={{borderRadius: 0}}>
-                    <CardHeader className={[classes.carHeader, classes.carHeader].join(" ")}
+                loginUserData.type === Const.ROLE.SALES && <Card className={classes.card}>
+                    <CardHeader className={[classes.carHeader, classes.card].join(" ")}
                                 title={<PictureUpload
                                     label={loginUserData.nickName || ""}
+                                    labelStyle={style.carHeaderLabel}
                                     defaultImage={loginUserData.headImg}
                                     uploadAction={this.uploadUserAvatarAction}
                                 />}
@@ -71,25 +84,14 @@ export default class Index extends BaseComponent {
                     <span>
                         基本信息
                     </span>
-                        <IconButton style={style.editButton} onClick={() => this.linkTo(Path.PATH_USER_EDIT_INFO)}>
-                            编辑 ➜
-                        </IconButton>
+                        <span style={style.editButton} onClick={() => this.linkTo(Path.PATH_USER_EDIT_INFO)}>
+                            编辑 <img src={editIcon} className={classes.editIcon}/>
+                        </span>
                     </div>
                     <List className={classes.list} style={{paddingTop: 0}}>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={areaIcon} style={{width: '1.6rem', margin: 0}}/>
-                            </ListItemIcon>
-                            <ListItemText
-                                primary="所在区域"
-                            />
-                            <ListItemSecondaryAction className={classes.secondary}>
-                                {loginUserData.area || "未填写"}
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                        <ListItem className={classes.item}>
-                            <ListItemIcon>
-                                <img src={phoneIcon} style={{width: '1.6rem', margin: 0}}/>
+                                <img src={nicknameIcon} className={classes.itemIcon}/>
                             </ListItemIcon>
                             <ListItemText
                                 primary="昵称"
@@ -100,7 +102,7 @@ export default class Index extends BaseComponent {
                         </ListItem>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={phoneIcon} style={{width: '1.6rem', margin: 0}}/>
+                                <img src={phoneIcon} className={classes.itemIcon}/>
                             </ListItemIcon>
                             <ListItemText
                                 primary="手机号"
@@ -111,7 +113,7 @@ export default class Index extends BaseComponent {
                         </ListItem>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={phoneIcon} style={{width: '1.6rem', margin: 0}}/>
+                                <img src={accountIcon} className={classes.itemIcon}/>
                             </ListItemIcon>
                             <ListItemText
                                 primary="收款账号"
@@ -122,7 +124,18 @@ export default class Index extends BaseComponent {
                         </ListItem>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={homeIcon} style={{width: '1.6rem', margin: 0}}/>
+                                <img src={areaIcon} className={classes.itemIcon}/>
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="所在区域"
+                            />
+                            <ListItemSecondaryAction className={classes.secondary}>
+                                {loginUserData.area || "未填写"}
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                        <ListItem className={classes.item}>
+                            <ListItemIcon>
+                                <img src={homeIcon} className={classes.itemIcon}/>
                             </ListItemIcon>
                             <ListItemText
                                 primary="详细地址"
@@ -136,10 +149,11 @@ export default class Index extends BaseComponent {
             }
 
             {
-                loginUserData.type === Const.ROLE.MANUFACTURE && <Card className={classes.card} style={{borderRadius: 0}}>
+                loginUserData.type === Const.ROLE.MANUFACTURE && <Card className={classes.card} style={{border: 'none'}}>
                     <CardHeader className={[classes.carHeader, classes.carHeader].join(" ")}
                                 title={<PictureUpload
-                                    label={<h4>{loginUserData.viewName || ""}</h4> }
+                                    label={loginUserData.viewName || ""}
+                                    labelStyle={style.carHeaderLabel}
                                     defaultImage={loginUserData.headImg}
                                     uploadAction={this.uploadUserAvatarAction}
                                 />}
@@ -147,10 +161,13 @@ export default class Index extends BaseComponent {
                 </Card>
             }
 
-            <Card style={{marginTop: 16, borderRadius: 0}}>
+            <Card className={classes.card} style={{marginTop: 16}}>
                 <List className={classes.list}>
                     {
                         loginUserData.type === Const.ROLE.SALES && <ListItem onClick={() => this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT)}>
+                            <ListItemIcon>
+                                <img src={agreementIcon} className={classes.itemIcon}/>
+                            </ListItemIcon>
                             <ListItemText
                                 primary="电子协议"
                             />
@@ -162,6 +179,9 @@ export default class Index extends BaseComponent {
                         </ListItem>
                     }
                     <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_USER_FEEDBACK)}>
+                        <ListItemIcon>
+                            <img src={feedbackIcon} className={classes.itemIcon}/>
+                        </ListItemIcon>
                         <ListItemText
                             primary="意见反馈"
                         />
@@ -174,7 +194,7 @@ export default class Index extends BaseComponent {
                 </List>
             </Card>
 
-            <Card style={{marginTop: 16, borderRadius: 0}}>
+            <Card className={classes.card} style={{marginTop: 16}}>
                 <List className={classes.list}>
                     <ListItem className={classes.item} onClick={!this.state.submiting ? this.logout : f => f}>
                         <ListItemText

@@ -15,21 +15,21 @@ const style = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: 'linear-gradient(0deg, #e91e63, #e91e63)'
+        borderBottom: '.06rem solid gray'
     },
     inputBorder: {
         height: '2.4rem',
         padding: '.8rem .3rem .8rem 1rem',
         width: "88%",
         borderRadius: '2.4rem',
-        // border: '.6px solid gray',
+        border: '.6px solid gray',
         display: 'flex',
         backgroundColor: 'white',
         justifyContent: 'space-between',
         alignItems: 'center'
     },
     input: {
-        height: '2.3rem',
+        height: '2.2rem',
         width: "88%",
         fontSize: '1rem',
         border: 'none'
@@ -47,6 +47,7 @@ const style = {
     SearchButton: {
         height: '2.3rem',
         width: '16%',
+        fontSize: '1rem',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
@@ -93,18 +94,12 @@ export default class SearchInput extends BaseComponent {
                         </Zoom>
                     </div>
                     <div className={classes.SearchButton} onClick={this.handelSearch}>
+                        {/*<SearchIcon style={style.SearchIcon}/>*/}
                         {
-                            searchIng ? <CircularProgress style={style.SearchIcon} size={20} /> : <SearchIcon style={style.SearchIcon}/>
+                            searchIng ? <CircularProgress style={style.SearchIcon} size={20} /> : "搜索"
                         }
                     </div>
                 </div>
-               {/* <div>
-                    {
-                        searchKeyWords ? <p>
-                            "{searchKeyWords}"的搜索结果
-                        </p> : ""
-                    }
-                </div>*/}
             </div>
         );
     }

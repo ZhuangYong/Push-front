@@ -63,6 +63,10 @@ export default class DeviceIndex extends BaseComponent {
         } else if (channelCode) {
             pageParam = {channelCode: channelCode};
         }
+        let fixBottom = 56 + window.rem2px(3.2);
+        if (searchKeyWords) {
+            fixBottom += 28;
+        }
         return <div>
             <div>
                 <SearchInput
@@ -83,7 +87,7 @@ export default class DeviceIndex extends BaseComponent {
                 <PullRefresh
                     ref="pager"
                     pageParam={pageParam}
-                    fixBottom={searchKeyWords ? 128 : 100}
+                    fixBottom={fixBottom}
                     pageAction={this.devicePageAction}
                     renderItem={item => {
                         return <ListItem key={item.deviceId} className={classes.item}>
@@ -92,7 +96,7 @@ export default class DeviceIndex extends BaseComponent {
                                     <font className={classes.infoLabel}>机型：</font>{item.channelName}
                                 </p>
                                 <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>收入总额：</font>{item.total} <font color="red">￥</font>
+                                    <font className={classes.infoLabel}>收入总额：</font><font color="red">￥</font>{item.total}
                                 </p>
                                 <p className={classes.infoLine}>
                                     <font className={classes.infoLabel}>投放时间：</font>{item.putTime}

@@ -42,7 +42,6 @@ export default class BaseForm extends React.Component {
             if (name) {
                 const onChange = e => {
                     const {value} = e.target;
-                    console.log("onchange", e);
                     if (this.props['v-data']) {
                         this.props['v-data'][name] = value;
                     }
@@ -64,7 +63,8 @@ export default class BaseForm extends React.Component {
                 if (key) {
                     cloneProps.key = key;
                 }
-                if (node.type.displayName === "WithStyles(CustomInput)") {
+
+                if (node.type === CustomInput) {
                     if (typeof node.props.required !== "undefined" || typeof node.props.reg !== "undefined") {
                         return <CustomInput
                             success={this.state.validSuccess[name]}

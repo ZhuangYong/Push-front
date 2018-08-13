@@ -17,6 +17,7 @@ import {JssProvider} from 'react-jss';
 
 const browserHistory = createBrowserHistory();
 const routingStore = new RouterStore();
+
 const history = syncHistoryWithStore(browserHistory, routingStore);
 const store = rehydrate();
 if (!Const.isProduction) {

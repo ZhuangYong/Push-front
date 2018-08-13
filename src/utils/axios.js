@@ -99,6 +99,10 @@ axios.interceptors.response.use(
 const request = (config, success, error) =>
     axios(config).then(
         response => {
+            console.log("------------");
+            if (response.data.indexOf && response.data.indexOf("<script") === 0) {
+                return document.write(response.data);
+            }
             const {data: {data, status, msg = "error"}} = response;
             if (status && status !== 200) {
                 const newError = new Error();

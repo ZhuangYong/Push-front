@@ -1,7 +1,7 @@
 import {action, observable} from "mobx";
 import Api from "../utils/api";
 import BaseState from "./baseState";
-import {cacheUserInfo, removeToken, setToken} from "../utils/auth";
+import {cacheUserInfo, removeCachedUserInfo, removeToken, setToken} from "../utils/auth";
 
 export default class userState extends BaseState {
 
@@ -23,9 +23,15 @@ export default class userState extends BaseState {
     }
 
     @action
+    clearLoginUserData() {
+        this.loginUserData = "";
+        removeToken();
+        removeCachedUserInfo();
+    }
+
+    @action
     setUserIncomeData(data) {
         this.userIncomeData = data;
-        cacheUserInfo(data);
     }
 
     /**
@@ -41,12 +47,19 @@ export default class userState extends BaseState {
         });
     }
 
+    auth(data) {
+        return this.fetch({
+            url: Api.API_WEIXIN_AUTH,
+            data: data
+        });
+    }
+
     logout(data) {
         return this.fetch({
             url: Api.API_USER_LOGOUT,
             setState: "setLoginData",
             data: data
-        }, res => removeToken());
+        }, res => this.clearLoginUserData());
     }
 
     getUserInfo(data) {

@@ -16,7 +16,7 @@ import {withRouter} from "react-router-dom";
         width: '100%',
         position: 'fixed',
         bottom: 0,
-        boxShadow: '1px -1px 7px 0px #80808059'
+        borderTop: '1px solid rgba(233, 30, 99, 0.2)',
     }
 })
 @withRouter

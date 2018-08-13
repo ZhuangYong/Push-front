@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import defaultImage from "../../assets/img/default-avatar.png";
+import defaultNoneImage from "../../assets/img/default-avatar.png";
 import CircularProgress from "material-ui/Progress/CircularProgress";
 
 class PictureUpload extends React.Component {
@@ -47,15 +47,16 @@ class PictureUpload extends React.Component {
     }
 
     render() {
+        const {defaultImage, imagePreviewUrl, label, labelStyle} = this.props;
         return (
             <div className="picture-container">
-                <div className="picture" style={{width: 76, height: 76, backgroundImage: `url(${this.state.imagePreviewUrl || this.props.defaultImage || defaultImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center'}}>
+                <div className="picture" style={{width: '6rem', height: '6rem', backgroundImage: `url(${imagePreviewUrl || defaultImage || defaultNoneImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', borderColor: 'white'}}>
                         {
                             this.state.uploadIng ? <CircularProgress color="secondary" size={14} /> : ""
                         }
-                    <input type="file" onChange={e => this.handleImageChange(e)} style={{width: 76, height: 76, left: '50%', marginLeft: -38}}/>
+                    <input type="file" onChange={e => this.handleImageChange(e)} style={{width: '6rem', height: '6rem', left: '50%', marginLeft: -38}}/>
                 </div>
-                <p className="description" style={{fontSize: 14, margin: 0}}>{this.props.label}</p>
+                <p className="description" style={{fontSize: 14, margin: 0, ...labelStyle}}>{label}</p>
             </div>
         );
     }
@@ -64,12 +65,14 @@ class PictureUpload extends React.Component {
 PictureUpload.propTypes = {
     uploadAction: PropTypes.func,
     defaultImage: PropTypes.string,
-    label: PropTypes.string
+    label: PropTypes.string,
+    labelStyle: PropTypes.any
 };
 PictureUpload.defaultProps = {
     uploadAction: console.log("not set uploadAction"),
     defaultImage: "",
-    label: "点击编辑图片"
+    label: "点击编辑图片",
+    labelStyle: {}
 };
 
 export default PictureUpload;

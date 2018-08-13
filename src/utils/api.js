@@ -26,6 +26,9 @@ export default {
     // 修改用户信息接口
     API_USER_SAVE: "/wxback/user/save",
 
+    // 微信授权
+    API_WEIXIN_AUTH: "/wxback/auth",
+
     // 设备组列表
     API_STATIS_DEVICE_GROUP_PAGE: "/wxback/device/index",
 

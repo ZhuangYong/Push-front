@@ -1,11 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import withStyles from "material-ui/styles/withStyles";
 import BaseComponent from "../common/BaseComponent";
 import ReactPullLoad from '../PullLoad/ReactPullLoad';
 import {STATS} from '../PullLoad/constants';
-// import 'react-pullload/dist/ReactPullLoad.css';
-import {observer} from "mobx-react/index";
 
 import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';

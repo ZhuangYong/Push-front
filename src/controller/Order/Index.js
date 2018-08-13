@@ -40,6 +40,7 @@ const style = {
         backgroundSize: '120%',
         border: '1px solid #e4e3e3',
         margin: '0 .4rem .4rem .4rem',
+        padding: '.6rem .8rem 1.2rem .8rem!important',
         borderBottom: 'none'
     },
     searchClear: {
@@ -84,19 +85,19 @@ export default class OrderIndex extends BaseComponent {
                         return <ListItem key={item.orderNo} className={classes.item + " " + classes.orderItem}>
                             <div>
                                 <p className={classes.infoLine}>
+                                    <font className={classes.infoLabel}>套餐名称：</font>{item.productName}
+                                </p>
+                                <p className={classes.infoLine}>
+                                    <font className={classes.infoLabel}>套餐金额：</font><font color="red">￥</font>{item.amount}
+                                </p>
+                                <p className={classes.infoLine}>
+                                    <font className={classes.infoLabel}>订单时间：</font>{item.time}
+                                </p>
+                                <p className={classes.infoLine}>
                                     <font className={classes.infoLabel}>订单号：</font>{item.orderNo}
                                 </p>
                                 <p className={classes.infoLine}>
                                     <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
-                                </p>
-                                <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>套餐名称：</font>{item.productName}
-                                </p>
-                                <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>套餐金额：</font>{item.amount}
-                                </p>
-                                <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>订单时间：</font>{item.time}
                                 </p>
                             </div>
                         </ListItem>;

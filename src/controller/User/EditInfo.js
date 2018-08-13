@@ -38,7 +38,12 @@ export default class EditInfo extends BaseComponent {
     render() {
         const {classes = ""} = this.props;
         const {loginUserData} = this.props.userState;
-        const {area, nickName, phone, address} = this.state;
+        let {area, nickName, phone, address} = this.state;
+        if (typeof area !== "undefined") {
+            area = area || "未设置";
+            phone = phone || "未设置";
+        }
+
         return <div>
             <div className={classes.card + " " + classes.formContainer}>
                 <Form
@@ -46,17 +51,18 @@ export default class EditInfo extends BaseComponent {
                     v-data={this.state}
                     initialData={loginUserData}
                     setState={this.stateFun}>
-                    <CustomInput
+                   {/* <CustomInput
                         labelText="所在区域"
                         formControlProps={{
                             fullWidth: true
                         }}
                         inputProps={{
-                            value: area
+                            value: area,
+                            disabled: true
                         }}
                         name="area"
                         required
-                    />
+                    />*/}
                     <CustomInput
                         labelText="昵称"
                         formControlProps={{
@@ -68,17 +74,18 @@ export default class EditInfo extends BaseComponent {
                         name="nickName"
                         required
                     />
-                    <CustomInput
+                   {/* <CustomInput
                         labelText="手机号"
                         formControlProps={{
                             fullWidth: true
                         }}
                         inputProps={{
-                            value: phone
+                            value: phone,
+                            disabled: true
                         }}
                         name="phone"
                         required
-                    />
+                    />*/}
                     <CustomInput
                         labelText="详细地址"
                         formControlProps={{

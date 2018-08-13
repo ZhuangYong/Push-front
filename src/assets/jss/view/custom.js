@@ -1,3 +1,5 @@
+
+import headBg from "../../../assets/img/bg/headbg.jpg";
 export default {
     iconCard: {
         overflow: 'visible',
@@ -5,13 +7,17 @@ export default {
         width: 'auto'
     },
     card: {
-        backgroundColor: '#eeeeee'
+        borderRadius: '0!important',
+        boxShadow: 'none!important',
+        borderBottom: '.1rem solid #dadada'
     },
     carHeader: {
+        backgroundImage: `url(${headBg})`,
+        backgroundSize: 'cover',
         backgroundColor: '#ffffff',
-        borderBottom: '.01rem solid #dadada'
     },
     avatar: {
+        border: "3px solid white",
         width: '4rem!important',
         height: '4rem!important'
     },
@@ -21,7 +27,11 @@ export default {
     },
     item: {
         padding: '1rem',
-        borderTop: '.01rem solid #dadada'
+        borderTop: '1px solid #cecece'
+    },
+    itemIcon: {
+        width: '1.6rem',
+        margin: '0!important'
     },
     secondary: {
         paddingRight: 12

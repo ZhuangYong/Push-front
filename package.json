@@ -45,6 +45,7 @@
     "react-swipeable-views": "0.12.13",
     "react-table": "6.8.0",
     "react-tagsinput": "3.19.0",
+    "react-wx-images-viewer": "^1.0.6",
     "rfx-core": "^1.5.3",
     "rxjs": "^6.1.0",
     "rxjs-compat": "^6.2.0"

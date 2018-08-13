@@ -4,6 +4,8 @@ import IconButton from '@material-ui/core/IconButton';
 import AddAlert from "@material-ui/icons/AddAlert";
 import CloseIcon from '@material-ui/icons/Close';
 
+const CLOSE_TIME_COUNT = 3;
+let timeout;
 export default class CommonFrame extends React.Component {
     constructor(props) {
         super(props);
@@ -42,9 +44,18 @@ export default class CommonFrame extends React.Component {
             openSnackbar: true,
             position: pos
         });
+        if (timeout) {
+            clearTimeout(timeout);
+            timeout = null;
+        }
+        timeout = setTimeout(() => this.closeSnackbar(), CLOSE_TIME_COUNT * 1000);
     }
 
     closeSnackbar() {
+        if (timeout) {
+            clearTimeout(timeout);
+            timeout = null;
+        }
         this.setState({ openSnackbar: false });
     }
 }
