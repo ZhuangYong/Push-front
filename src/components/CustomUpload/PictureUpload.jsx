@@ -47,7 +47,8 @@ class PictureUpload extends React.Component {
     }
 
     render() {
-        const {defaultImage, imagePreviewUrl, label, labelStyle} = this.props;
+        const {imagePreviewUrl} = this.state;
+        const {defaultImage, label, labelStyle} = this.props;
         return (
             <div className="picture-container">
                 <div className="picture" style={{width: '6rem', height: '6rem', backgroundImage: `url(${imagePreviewUrl || defaultImage || defaultNoneImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', borderColor: 'white'}}>
