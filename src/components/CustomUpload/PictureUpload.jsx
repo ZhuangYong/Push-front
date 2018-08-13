@@ -29,7 +29,7 @@ class PictureUpload extends React.Component {
             this.props.uploadAction(data).then(res => {
                 this.setState({
                     file: file,
-                    imagePreviewUrl: reader.result
+                    imagePreviewUrl: res
                 });
                 this.setState({uploadIng: false});
             }).catch(err => {
