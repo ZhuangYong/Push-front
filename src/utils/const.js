@@ -36,6 +36,9 @@ export default {
     MSG_TYPE_ALERT: 'alert',
 
     //
-    MSG_TYPE_NOTIFICATION: 'notification'
+    MSG_TYPE_NOTIFICATION: 'notification',
+
+    // 打开一个全屏页面
+    MSG_TYPE_OPEN_FULL_PAGE: 'fullPage'
 
 };

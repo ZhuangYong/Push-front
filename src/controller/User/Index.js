@@ -46,6 +46,14 @@ const style = {...customStyle, ...{
             fontSize: '1.4rem',
             color: 'white',
             textShadow: '1px 1px 4px black'
+        },
+        infoBar: {
+            position: 'absolute',
+            top: '-2rem',
+            width: '100%',
+            backgroundColor: 'white',
+            borderRadius: '1rem 1rem 0 0',
+            padding: '.4rem 1rem'
         }
     }};
 @withStyles(style)
@@ -72,21 +80,25 @@ export default class Index extends BaseComponent {
         return <div>
             {
                 loginUserData.type === Const.ROLE.SALES && <Card className={classes.card}>
-                    <CardHeader className={[classes.carHeader, classes.card].join(" ")}
-                                title={<PictureUpload
-                                    label={loginUserData.nickName || ""}
-                                    labelStyle={style.carHeaderLabel}
-                                    defaultImage={loginUserData.headImg}
-                                    uploadAction={this.uploadUserAvatarAction}
-                                />}
+                    <CardHeader
+                        style={{paddingBottom: '2rem'}}
+                        className={[classes.carHeader, classes.card].join(" ")}
+                        title={<PictureUpload
+                            label={loginUserData.nickName || ""}
+                            labelStyle={style.carHeaderLabel}
+                            defaultImage={loginUserData.headImg}
+                            uploadAction={this.uploadUserAvatarAction}
+                        />}
                     />
-                    <div style={{padding: 6, backgroundColor: "#eeeeee"}}>
-                    <span>
-                        基本信息
-                    </span>
-                        <span style={style.editButton} onClick={() => this.linkTo(Path.PATH_USER_EDIT_INFO)}>
-                            编辑 <img src={editIcon} className={classes.editIcon}/>
-                        </span>
+                    <div style={{position: 'relative'}}>
+                        <div className={classes.infoBar} style={{}}>
+                            <span style={{lineHeight: '1.6rem', fontSize: '.8rem'}}>
+                             基本信息
+                            </span>
+                                <span style={style.editButton} onClick={() => this.linkTo(Path.PATH_USER_EDIT_INFO)}>
+                                编辑 <img src={editIcon} className={classes.editIcon}/>
+                            </span>
+                        </div>
                     </div>
                     <List className={classes.list} style={{paddingTop: 0}}>
                         <ListItem className={classes.item}>
@@ -164,7 +176,23 @@ export default class Index extends BaseComponent {
             <Card className={classes.card} style={{marginTop: 16}}>
                 <List className={classes.list}>
                     {
-                        loginUserData.type === Const.ROLE.SALES && <ListItem onClick={() => this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT)}>
+                        loginUserData.type === Const.ROLE.SALES && <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_ORDER_CASH_APPLY_INDEX)}>
+                            <ListItemIcon>
+                                <img src={agreementIcon} className={classes.itemIcon}/>
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="提现"
+                            />
+                            <ListItemSecondaryAction>
+                                <IconButton onClick={() => this.linkTo(Path.PATH_ORDER_CASH_APPLY_INDEX)}>
+                                    <ArrowForwardIcon/>
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    }
+
+                    {
+                        loginUserData.type === Const.ROLE.SALES && <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT)}>
                             <ListItemIcon>
                                 <img src={agreementIcon} className={classes.itemIcon}/>
                             </ListItemIcon>

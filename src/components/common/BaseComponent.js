@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import Const from "../../utils/const";
 import NavUtils from "../../utils/navUtils";
 import Path from "../../utils/path";
+import Slide from '@material-ui/core/Slide';
 import _ from "lodash";
+import {dispatchCustomEvent} from "../../utils/comUtils";
 
 export default class BaseComponent extends React.Component {
 
@@ -47,12 +49,34 @@ export default class BaseComponent extends React.Component {
         NavUtils.replace(path, state);
     }
 
-    alert(msg) {
-        this.props.alert(msg);
+    alert(msg, title, onSure, onClose) {
+        // this.props.alert(msg, title, onSure, onClose);
+        const type = "alert";
+        dispatchCustomEvent('EVENT_MSG', {type, msg, title, onSure, onClose});
     }
 
     notification(msg, pos) {
-        this.props.notification(msg, pos);
+        // this.props.notification(msg, pos);
+        const type = "notification";
+        dispatchCustomEvent('EVENT_MSG', {type, msg, pos});
+    }
+
+    /**
+     * 显示全屏弹出页面
+     * @param msg 标题
+     * @param fullPageToolButtons 顶端buttons
+     * @param fullPageContent 页面内容
+     */
+    showFullPage(msg, fullPageToolButtons, fullPageContent) {
+        // this.props.showFullPage(fullPageTitle, fullPageToolButtons, fullPageContent);
+        const type = "showFullPage";
+        dispatchCustomEvent('EVENT_MSG', {type, msg, fullPageToolButtons, fullPageContent});
+    }
+
+    closeFullPage() {
+        // this.props.closeFullPage();
+        const type = "closeFullPage";
+        dispatchCustomEvent('EVENT_MSG', {type});
     }
 
     initialState(data, key) {
@@ -63,14 +87,20 @@ export default class BaseComponent extends React.Component {
         }
     }
 
+    TransitionUp = (props) => {
+        return <Slide direction="up" {...props} />;
+    };
+
 }
 BaseComponent.propTypes = {
     execCmd: PropTypes.func,
     alert: PropTypes.func,
     notification: PropTypes.func,
+    showFullPage: PropTypes.func,
 };
 BaseComponent.defaultProps = {
     execCmd: () => console.log("not set execCmd function"),
     alert: () => console.log("not set alert function"),
     notification: () => console.log("not set notification function"),
+    showFullPage: () => console.log("not set showFullPage function"),
 };

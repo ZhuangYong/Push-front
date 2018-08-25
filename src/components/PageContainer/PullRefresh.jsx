@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ArrowForwardIcon from "@material-ui/icons/KeyboardArrowRight";
 import {getScreenSize} from "../../utils/comUtils";
+import _ from "lodash";
 
 const style = {
     card: {
@@ -60,7 +61,9 @@ export default class PullRefresh extends BaseComponent {
             currentPage: currentPage,
             pageSize: pageSize,
             extParam: {},
-            screenSize: getScreenSize()
+            screenSize: getScreenSize(),
+            noData: false,
+            networkErr: false
         };
         this.handleAction = this.handleAction.bind(this);
         this.handRefreshing = this.handRefreshing.bind(this);
@@ -77,14 +80,20 @@ export default class PullRefresh extends BaseComponent {
         window.addEventListener('resize', this.resize);
         window.addEventListener('orientationchange', this.resize);
     }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.resize);
+        window.removeEventListener('orientationchange', this.resize);
+    }
+
     render() {
         const classes = style;
-        const {hasMore, data, screenSize} = this.state;
+        const {hasMore, data, screenSize, noData, networkErr} = this.state;
         const {autoHeight, show} = this.props;
         const containerHeight = this.props.fullHeight ? screenSize.height - this.props.fixBottom : "100%";
         return (
             <div style={{position: 'relative', height: autoHeight ? containerHeight : "", display: show ? "" : "none"}}>
-                <div style={{...classes.container, height: containerHeight}}>
+                <div className={`${noData ? "empty-pull-list" : ""} ${networkErr ? "network-err" : ""}`} style={{...classes.container, height: containerHeight}}>
                     <ReactPullLoad
                         style={{height: '100%'}}
                         downEnough={150}
@@ -144,7 +153,7 @@ export default class PullRefresh extends BaseComponent {
         if (STATS.refreshing === this.state.action) {
             return false;
         }
-        const {pageSize, extParam} = this.state;
+        const {pageSize, extParam, data} = this.state;
         const {pageAction, pageParam} = this.props;
         const nextPageParam = Object.assign({
             currentPage: 1,
@@ -159,12 +168,15 @@ export default class PullRefresh extends BaseComponent {
                 data: [...data],
                 action: STATS.reset,
                 hasMore: totalPage > 1,
-                currentPage: 1
+                currentPage: 1,
+                noData: !(totalRow > 0),
+                networkErr: false
             });
             return Promise.resolve(res);
         }).catch(err => {
             this.setState({
-                action: STATS.reset
+                action: STATS.reset,
+                networkErr: err === "Network Error" && _.isEmpty(data)
             });
             return Promise.reject(err);
         });
@@ -175,7 +187,7 @@ export default class PullRefresh extends BaseComponent {
      * 加载下一页
      */
     handLoadMore() {
-        const {currentPage, pageSize, extParam} = this.state;
+        const {currentPage, pageSize, extParam, data} = this.state;
         const {pageAction, pageParam} = this.props;
         const nextPage = currentPage + 1;
         if (STATS.loading === this.state.action) {
@@ -200,12 +212,15 @@ export default class PullRefresh extends BaseComponent {
                 data: [...this.state.data, ...data],
                 action: STATS.reset,
                 hasMore: totalPage > nextPage,
-                currentPage: nextPage
+                currentPage: nextPage,
+                noData: !(totalRow > 0),
+                networkErr: false
             });
             return Promise.resolve(res);
         }).catch(err => {
             this.setState({
-                action: STATS.reset
+                action: STATS.reset,
+                networkErr: err === "Network Error" && _.isEmpty(data)
             });
             return Promise.reject(err);
         });

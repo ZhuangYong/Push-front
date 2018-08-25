@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import HomeIcon from '@material-ui/icons/LocalAtm';
+// import HomeIcon from '@material-ui/icons/LocalAtm';
+import {HomeIcon, PriceIcon} from "../../components/common/SvgIcons";
 import DevicesIcon from '@material-ui/icons/Devices';
 import PersonIcon from '@material-ui/icons/Person';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -26,7 +27,15 @@ export default class BottomNavs extends BaseComponent {
         super(props);
         this.state = {
             value: 0,
-            v2p: [Path.PATH_INDEX, Path.PATH_DEVICE_GROUP_LIST, Path.PATH_ORDER_INDEX, Path.PATH_USER_INDEX]
+            visible: true,
+            v2p: [Path.PATH_INDEX, Path.PATH_DEVICE_GROUP_LIST, Path.PATH_ORDER_INDEX, Path.PATH_PRICE_INDEX, Path.PATH_USER_INDEX],
+            v2ps: [
+                [Path.PATH_INDEX, Path.PATH_USER_INCOME_INFO],
+                [Path.PATH_DEVICE_GROUP_LIST, Path.PATH_DEVICE_INDEX, Path.PATH_DEVICE_PARTNER_INDEX],
+                [Path.PATH_ORDER_INDEX],
+                [Path.PATH_PRICE_INDEX],
+                [Path.PATH_USER_INDEX, Path.PATH_USER_EDIT_INFO, Path.PATH_USER_ELECTRONIC_AGREEMENT, Path.PATH_USER_FEEDBACK]
+            ]
         };
         this.initialState = this.initialState.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -37,9 +46,21 @@ export default class BottomNavs extends BaseComponent {
         this.initialState();
     }
 
+    componentDidUpdate() {
+        this.initialState();
+    }
+
     render() {
         const {classes} = this.props;
-        const {value} = this.state;
+        const {value, v2ps} = this.state;
+        if (!v2ps.find(ps => ps.indexOf(this.props.history.location.pathname) >= 0)) {
+            return "";
+        }
+        const nav0 = this.getActiveStyle(0);
+        const nav1 = this.getActiveStyle(1);
+        const nav2 = this.getActiveStyle(2);
+        const nav3 = this.getActiveStyle(3);
+        const nav4 = this.getActiveStyle(4);
         return (
             <BottomNavigation
                 value={value}
@@ -47,10 +68,11 @@ export default class BottomNavs extends BaseComponent {
                 showLabels
                 className={classes.root}
             >
-                <BottomNavigationAction label="首页" icon={<HomeIcon/>} style={this.getActiveStyle(0)}/>
-                <BottomNavigationAction label="设备" icon={<DevicesIcon/>} style={this.getActiveStyle(1)}/>
-                <BottomNavigationAction label="订单" icon={<ShoppingCartIcon/>} style={this.getActiveStyle(2)}/>
-                <BottomNavigationAction label="我" icon={<PersonIcon/>} style={this.getActiveStyle(3)}/>
+                <BottomNavigationAction label="首页" icon={<HomeIcon size='1.6rem' color={nav0.color}/>} style={nav0}/>
+                <BottomNavigationAction label="设备" icon={<DevicesIcon/>} style={nav1}/>
+                <BottomNavigationAction label="订单" icon={<ShoppingCartIcon/>} style={nav2}/>
+                <BottomNavigationAction label="价格" icon={<PriceIcon size='1.6rem' color={nav3.color}/>} style={nav3}/>
+                <BottomNavigationAction label="我" icon={<PersonIcon/>} style={nav4}/>
             </BottomNavigation>
         );
     }
@@ -61,9 +83,12 @@ export default class BottomNavs extends BaseComponent {
     }
 
     initialState() {
-        this.state.v2p.forEach((v, index) => {
-            if (v === this.props.history.location.pathname) {
-                this.setState({value: index});
+        const {v2ps, value} = this.state;
+        v2ps.forEach((v, index) => {
+            if (v.indexOf(this.props.history.location.pathname) >= 0) {
+                if (value !== index) {
+                    this.setState({value: index});
+                }
             }
         });
     }
@@ -71,8 +96,8 @@ export default class BottomNavs extends BaseComponent {
     getActiveStyle(index) {
         const {value} = this.state;
         const activeColor = "#e91e63";
-        if (value === index) return {color: activeColor};
-        return {};
+        if (value === index) return {color: activeColor, minWidth: 0};
+        return {color: 'rgba(0, 0, 0, 0.54)', minWidth: 0};
     }
 }
 

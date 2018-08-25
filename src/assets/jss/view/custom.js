@@ -9,7 +9,7 @@ export default {
     card: {
         borderRadius: '0!important',
         boxShadow: 'none!important',
-        borderBottom: '.1rem solid #dadada'
+        borderBottom: '1px solid #dadada'
     },
     carHeader: {
         backgroundImage: `url(${headBg})`,
@@ -27,13 +27,24 @@ export default {
     },
     item: {
         padding: '1rem',
-        borderTop: '1px solid #cecece'
+        borderTop: '1px solid #dedede'
     },
     itemIcon: {
-        width: '1.6rem',
+        width: '1.4rem',
         margin: '0!important'
+    },
+    listItemLabel: {
+        fontSize: '.86rem'
     },
     secondary: {
         paddingRight: 12
-    }
+    },
+    searchResult: {
+        margin: 0,
+        position: 'relative',
+        padding: '4px 12px',
+        fontSize: '.86rem',
+        backgroundColor: '#fbfbfb',
+        borderBottom: '1px solid #ececec'
+    },
 };

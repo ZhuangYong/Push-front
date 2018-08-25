@@ -33,4 +33,17 @@ export default class deviceState extends BaseState {
         });
     }
 
+    saveDeviceInfo(data) {
+        return this.fetch({
+            url: Api.API_DEVICE_SAVE_INFO,
+            data: data
+        });
+    }
+
+    saveDeviceGroup(data) {
+        return this.fetch({
+            url: Api.API_DEVICE_GROUP_SAVE,
+            data: data
+        });
+    }
 }

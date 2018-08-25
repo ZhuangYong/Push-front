@@ -32,7 +32,9 @@ export default class LoginPage extends BaseComponent {
         this.state = {
             cardAnimaton: "cardHidden",
             submiting: false,
-            subInfo: ""
+            subInfo: "",
+            loginname: "",
+            password: ""
         };
         this.login = this.login.bind(this);
     }
@@ -48,7 +50,7 @@ export default class LoginPage extends BaseComponent {
 
     render() {
         const {classes = ""} = this.props;
-        const {subInfo, loginname, password} = this.state;
+        const {subInfo} = this.state;
         return (
             <div className={classes.content}>
                 <div className={classes.container}>
@@ -79,25 +81,19 @@ export default class LoginPage extends BaseComponent {
                                                 setState={this.stateFun}>
                                                 <CustomInput
                                                     labelText="登录名"
-                                                    formControlProps={{
-                                                        fullWidth: true
-                                                    }}
                                                     inputProps={{
                                                         endAdornment: (
                                                             <InputAdornment position="end">
                                                                 <Face className={classes.inputAdornmentIcon}/>
                                                             </InputAdornment>
                                                         ),
-                                                        value: loginname
+                                                        value: this.state.loginname
                                                     }}
                                                     name="loginname"
                                                     required
                                                 />
                                                 <CustomInput
                                                     labelText="密码"
-                                                    formControlProps={{
-                                                        fullWidth: true
-                                                    }}
                                                     inputProps={{
                                                         type: "password",
                                                         endAdornment: (
@@ -107,7 +103,7 @@ export default class LoginPage extends BaseComponent {
                                                                 />
                                                             </InputAdornment>
                                                         ),
-                                                        value: password
+                                                        value: this.state.password
                                                     }}
                                                     name="password"
                                                     required

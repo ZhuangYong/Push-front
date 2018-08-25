@@ -1,3 +1,6 @@
+body{
+    background-color: #f9f9f9;
+}
 input:-webkit-autofill
 {
     -webkit-box-shadow: 0 0 0 1000px white inset;
@@ -6,4 +9,51 @@ input:-webkit-autofill
 .datepicker.ios .datepicker-navbar-btn {
     color: #e92165!important;
     font-weight: 400;
+}
+.empty-pull-list{
+    background: white url("../../assets/img/null/no-content.jpg") no-repeat center 30%;
+}
+.network-err{
+    background: white url("../../assets/img/null/no-network.jpg") no-repeat center 30%!important;
+    //&:after{
+    //    content: "网络错误";
+    //    position: absolute;
+    //    top: 60%;
+    //    text-align: center;
+    //    width: 100%;
+    //}
+}
+.pull-data-list{
+    ul{
+        padding-left: .6rem!important;
+        >li:nth-child(1){
+            &>div{
+                border: none!important;
+            }
+            border: none!important;
+        }
+    }
+}
+.pull-data-list-order{
+    ul{
+        padding: 0!important;
+        background-color: white;
+        padding-top: .4rem!important;
+        >li:nth-child(1){
+            border-top: 1px solid #e4e3e3!important;
+            border-left: 1px solid #e4e3e3!important;
+            border-right: 1px solid #e4e3e3!important;
+        }
+    }
+}
+
+.form-control-label{
+    margin-left: 0!important;
+    margin-right: 0!important;
+    &>div{
+        margin-left: 1.4rem;
+    }
+    &>span{
+        color: gray;
+    }
 }

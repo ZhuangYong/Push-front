@@ -104,8 +104,8 @@ export default class Index extends BaseComponent {
         const {loginUserData} = this.props.userState;
 
         return <div>
-            <div style={{padding: 0}}>
-                <div className={classes.item + " " + classes.itemSearch}>
+            <div className="pull-data-list">
+                <div className={classes.item + " " + classes.itemSearch} style={{borderBottom: '1px solid #cecece'}}>
                     开始: <font className={classes.timeBound} onClick={() => this.setState({startTimeOpen: true})}>{startTime}</font>
                     结束: <font className={classes.timeBound} onClick={() => this.setState({endTimeOpen: true})}>{endTime}</font>
                     <ListItemSecondaryAction className={classes.secondary}>
@@ -119,7 +119,7 @@ export default class Index extends BaseComponent {
                     </ListItemSecondaryAction>
                 </div>
                 {
-                    loading && <div style={{backgroundColor: '#eeeeee', textAlign: 'center', paddingTop: '.3rem', borderTop: '1px solid #dedede'}}>
+                    loginUserData.type === Const.ROLE.MANUFACTURE && loading && <div style={{backgroundColor: '#eeeeee', textAlign: 'center', paddingTop: '.3rem', borderTop: '1px solid #dedede'}}>
                         <CircularProgress color="secondary" size={22} />
                     </div>
                 }
@@ -226,6 +226,10 @@ export default class Index extends BaseComponent {
                     loginUserData.type === Const.ROLE.SALES && <PullRefresh
                         ref="pager"
                         fixBottom={100}
+                        pageParam={{
+                            startTime: startTime,
+                            endTime: endTime
+                        }}
                         pageAction={this.incomePageAction}
                         renderItem={item => {
                             return <ListItem key={item.deviceId} className={classes.item}>
@@ -314,10 +318,10 @@ export default class Index extends BaseComponent {
 
     initial = () => {
         const {loginUserData} = this.props.userState;
-        this.props.statisticsState.getIndexStatisticsChannelListData()
-            .then(res => this.setState({channelListData: res}))
-            .catch();
         if (loginUserData.type === Const.ROLE.MANUFACTURE) {
+            this.props.statisticsState.getIndexStatisticsChannelListData()
+                .then(res => this.setState({channelListData: res}))
+                .catch();
             this.refreshIncomeStatic();
         }
     };
@@ -327,16 +331,24 @@ export default class Index extends BaseComponent {
     };
 
     refreshIncomeStatic = () => {
+        const {loginUserData} = this.props.userState;
         const {startTime, endTime, chooseChannel} = this.state;
         const param = {
             startTime: startTime,
-            endTime: endTime,
-            channelCode: chooseChannel
+            endTime: endTime
         };
         this.setState({loading: true});
-        this.incomePageAction(param)
-            .then(res => this.setState({deviceIncomeData: res, loading: false}))
-            .catch(err => this.setState({loading: false}));
+        if (loginUserData.type === Const.ROLE.MANUFACTURE) {
+            param.channelCode = chooseChannel;
+            this.incomePageAction(param)
+                .then(res => this.setState({deviceIncomeData: res, loading: false}))
+                .catch(err => this.setState({loading: false}));
+        } else if (loginUserData.type === Const.ROLE.SALES) {
+            this.refs.pager.handelFilter(param)
+                .then(res => this.setState({loading: false}))
+                .catch(err => this.setState({loading: false}));
+        }
+
     };
 
     formatTime = (date) => {
@@ -356,5 +368,7 @@ export default class Index extends BaseComponent {
 
     clearChannelChoose = () => {
         this.setState({chooseChannel: "", chooseChannelName: "", channelOpen: false});
+        this.state.chooseChannel = "";
+        this.refreshIncomeStatic();
     };
 }

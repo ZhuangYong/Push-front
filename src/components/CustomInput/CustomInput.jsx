@@ -17,6 +17,8 @@ import customInputStyle from "../../assets/jss/material-dashboard-pro-react/comp
 
 function CustomInput({...props}) {
     const {
+        value,
+        placeholder,
         classes,
         formControlProps,
         labelText,
@@ -26,7 +28,9 @@ function CustomInput({...props}) {
         error,
         success,
         helpText,
-        rtlActive
+        rtlActive,
+        onClick,
+        disabled
     } = props;
 
     let labelClasses = cx({
@@ -94,6 +98,7 @@ function CustomInput({...props}) {
             {...formControlProps}
             className={formControlClasses}
             aria-describedby={id + "-text"}
+            onClick={onClick}
         >
             {labelText !== undefined ? (
                 <InputLabel
@@ -111,7 +116,9 @@ function CustomInput({...props}) {
                     underline: underlineClasses
                 }}
                 id={id}
-                {...inputProps}
+                placeholder={placeholder}
+                // inputProps={Object.assign({value: value}, inputProps)}
+                {...Object.assign(inputProps, {value: value, disabled: disabled})}
             />
             {error ? (
                 <Clear className={errorClasses}/>
@@ -126,6 +133,9 @@ function CustomInput({...props}) {
 }
 
 CustomInput.propTypes = {
+    placeholder: PropTypes.string,
+    disabled: PropTypes.bool,
+    value: PropTypes.string,
     classes: PropTypes.object.isRequired,
     labelText: PropTypes.node,
     labelProps: PropTypes.object,
@@ -135,7 +145,15 @@ CustomInput.propTypes = {
     error: PropTypes.bool,
     success: PropTypes.bool,
     helpText: PropTypes.string,
-    rtlActive: PropTypes.bool
+    rtlActive: PropTypes.bool,
+    onClick: PropTypes.func
+};
+
+CustomInput.defaultProps = {
+    formControlProps: {fullWidth: true},
+    disabled: false,
+    placeholder: "",
+    onClick: f => f
 };
 
 export default withStyles(customInputStyle)(CustomInput);

@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {STATS} from './constants';
+import CircularProgress from "material-ui/Progress/CircularProgress";
 
 export default class HeadNode extends PureComponent {
 
@@ -19,7 +20,10 @@ export default class HeadNode extends PureComponent {
 
         return (
             <div className="pull-load-head-default">
-                <i/>
+                {/*<i/>*/}
+                {
+                    loaderState !== STATS.loading && <CircularProgress color="secondary" size={19}/>
+                }
             </div>
         );
     }

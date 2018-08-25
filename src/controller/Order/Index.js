@@ -10,6 +10,8 @@ import PullRefresh from "../../components/PageContainer/PullRefresh";
 import ListItem from '@material-ui/core/ListItem';
 import svgBottom from "../../assets/svg/bottom-tear.svg";
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import PullRefreshPage from "../../components/CommonPage/PullrefreshPage";
+import {BlankImage} from "../../components/common/SvgIcons";
 
 const style = {
     ...customStyle,
@@ -23,14 +25,6 @@ const style = {
         width: '4rem',
         fontSize: '.9rem',
         fontWeight: 500
-    },
-    searchResult: {
-        margin: 0,
-        position: 'relative',
-        padding: '4px 12px',
-        fontSize: '.86rem',
-        backgroundColor: '#ececec',
-        borderBottom: '1px solid #e6e6e6'
     },
     orderItem: {
         width: 'auto!important',
@@ -52,88 +46,40 @@ const style = {
 @withStyles(style)
 @inject(({store: {orderState}}) => ({orderState}))
 @observer
-export default class OrderIndex extends BaseComponent {
+export default class OrderIndex extends PullRefreshPage {
 
     constructor(props) {
         super(props);
-        this.state = {};
-    }
-    render() {
-        const {searchIng, searchKeyWords} = this.state;
-        const {classes = ""} = this.props;
-        return <div>
-            <div>
-                <SearchInput
-                    placeholder="请输入订单号、设备号查询订单"
-                    handelSearch={this.handlerSearch}
-                    handelClear={this.handlerClear}
-                    searchIng={searchIng}
-                />
-            </div>
-            {
-                searchKeyWords ? <div className={classes.searchResult}>
-                    "{searchKeyWords}"的搜索结果
-                    <DeleteOutlinedIcon className={classes.icon} style={style.searchClear} onClick={this.handlerClear}/>
-                </div> : ""
-            }
-            <div style={{padding: 0}}>
-                <PullRefresh
-                    ref="pager"
-                    pageAction={this.devicePageAction}
-                    fixBottom={searchKeyWords ? 128 : 100}
-                    renderItem={item => {
-                        return <ListItem key={item.orderNo} className={classes.item + " " + classes.orderItem}>
-                            <div>
-                                <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>套餐名称：</font>{item.productName}
-                                </p>
-                                <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>套餐金额：</font><font color="red">￥</font>{item.amount}
-                                </p>
-                                <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>订单时间：</font>{item.time}
-                                </p>
-                                <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>订单号：</font>{item.orderNo}
-                                </p>
-                                <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
-                                </p>
-                            </div>
-                        </ListItem>;
-                    }}
-                />
-            </div>
-
-        </div>;
+        this.state = {
+            listClassName: "pull-data-list-order"
+        };
     }
 
-    devicePageAction = (data) => {
+    pageAction = (data) => {
         return this.props.orderState.getOrderPage(data);
     };
 
-    handlerSearch = (v) => {
-        if (this.validSearchKeyWord(v)) {
-            this.setState({searchIng: true});
-            this.refs.pager.handelFilter({searchKey: v})
-                .then(res => this.setState({searchKeyWords: v, searchIng: false}))
-                .catch(err => this.setState({searchIng: false}));
-        }
-    };
-
-    handlerClear = () => {
-        this.setState({searchIng: true});
-        this.refs.pager.handelFilter({searchKey: ""})
-            .then(res => this.setState({searchKeyWords: "", searchIng: false}))
-            .catch(err => this.setState({searchIng: false}));
-    };
-
-    validSearchKeyWord = (v) => {
-        const valid = !!v.replace(/ /g, "");
-        if (!valid) {
-            this.notification("请输入你想搜索的关键字", "bc");
-        }
-        return valid;
+    listItem = (item) => {
+        const {classes = ""} = this.props;
+        return <ListItem key={item.orderNo} className={classes.item + " " + classes.orderItem}>
+            <div>
+                <p className={classes.infoLine}>
+                    <font className={classes.infoLabel}>套餐名称：</font>{item.productName}
+                </p>
+                <p className={classes.infoLine}>
+                    <font className={classes.infoLabel}>套餐金额：</font><font color="red">￥{item.amount}</font>
+                </p>
+                <p className={classes.infoLine}>
+                    <font className={classes.infoLabel}>订单时间：</font>{item.time}
+                </p>
+                <p className={classes.infoLine}>
+                    <font className={classes.infoLabel}>订单号：</font>{item.orderNo}
+                </p>
+                <p className={classes.infoLine}>
+                    <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
+                </p>
+            </div>
+        </ListItem>;
     };
 
 }

@@ -14,20 +14,13 @@ import WxImageViewer from 'react-wx-images-viewer';
 @withRouter
 @withStyles({...customStyle, ...{
         formContainer: {
+            '-webkit-column-gap': 0,
+            '-webkit-column-count': 3,
+            columnGap: 0,
+            columnCount: 3
         },
         item: {
-            width: '7.6rem',
-            float: 'left',
-            display: 'flex',
-            alignItems: 'center',
-            height: '7.6rem',
             padding: '.2rem',
-            margin: '.2rem',
-            backgroundColor: 'white',
-            justifyContent: 'center',
-            backgroundSize: '120%',
-            backgroundImage: `url(${svgBottom})`,
-            backgroundPosition: 'center'
         },
         img: {
             maxHeight: "100%",
@@ -54,10 +47,17 @@ export default class ElectronicAgreement extends BaseComponent {
         const {viewImgIndex, showImgView} = this.state;
         const {loginUserData = {}} = this.props.userState;
         return <div>
-            <div className={classes.card + " " + classes.formContainer}>
+            <div className={classes.formContainer}>
                 {
                     loginUserData.list && loginUserData.list.map((i, index) => {
-                        return <Grow key={i.id} in={true} timeout={index * 400} style={{transformOrigin: '0 0 0'}}>
+                        return <Grow
+                            key={i.id}
+                            in={true}
+                            timeout={index * 400}
+                            style={{
+                                transformOrigin: '0 0 0',
+                                // transitionDelay: `${index * 400}ms`,
+                            }}>
                             <div className={classes.item}>
                                 <img src={i.image} className={classes.img} onClick={() => this.setState({showImgView: true, viewImgIndex: index})}/>
                             </div>

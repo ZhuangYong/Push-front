@@ -3,6 +3,7 @@ import withStyles from "material-ui/styles/withStyles";
 import appStyle from "../../assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 import CommonMessage from "./CommonMessage";
 import Const from "../../utils/const";
+import {dispatchCustomEvent} from "../../utils/comUtils";
 
 @withStyles(appStyle)
 export default class CommonFrame extends React.Component {
@@ -15,7 +16,11 @@ export default class CommonFrame extends React.Component {
 
     componentDidMount() {
         document.addEventListener("EVENT_API_ERR", e => {
-            this.notification(e.cause);
+            this.notification(e.cause === "Network Error" ? "网络错误，请稍后重试！" : e.cause);
+        });
+        document.addEventListener("EVENT_MSG", e => {
+            const {type, msg, ...arg} = e.cause;
+            this.showMsg(type, msg, arg);
         });
     }
 
@@ -25,7 +30,13 @@ export default class CommonFrame extends React.Component {
             <div>
                 {
                     // Object.prototype.toString.apply(this.props.children) === '[object Array]' ? this.props.children.map((Ele, index) => React.cloneElement(<Ele/>, {key: index, alert: this.showSnackbar.bind(this)})) : React.cloneElement(<Child alert={this.showSnackbar.bind(this)}/>, {alert: this.showSnackbar.bind(this)})
-                    <Child execCmd={this.execCmd.bind(this)} alert={this.alert.bind(this)} notification={this.notification.bind(this)}/>
+                    <Child
+                        execCmd={this.execCmd.bind(this)}
+                        alert={this.alert.bind(this)}
+                        notification={this.notification.bind(this)}
+                        showFullPage={this.showFullPage.bind(this)}
+                        closeFullPage={this.closeFullPage}
+                    />
                 }
                 {
                     <CommonMessage ref="commonMsg"/>
@@ -35,11 +46,15 @@ export default class CommonFrame extends React.Component {
     }
 
     notification(msg, pos) {
-        this.execCmd(Const.CMD_MSG, Const.MSG_TYPE_NOTIFICATION, msg, pos);
+        this.execCmd(Const.CMD_MSG, Const.MSG_TYPE_NOTIFICATION, msg, {pos});
     }
 
-    alert(msg) {
-        this.execCmd(Const.CMD_MSG, Const.MSG_TYPE_ALERT, msg);
+    alert(msg, title, onSure, onClose, onCancel) {
+        this.execCmd(Const.CMD_MSG, Const.MSG_TYPE_ALERT, msg, {title, onSure, onClose, onCancel});
+    }
+
+    showFullPage(fullPageTitle, fullPageToolButtons, fullPageContent) {
+        this.execCmd(Const.CMD_MSG, Const.MSG_TYPE_OPEN_FULL_PAGE, fullPageTitle, {fullPageToolButtons, fullPageContent});
     }
 
     execCmd() {
@@ -58,18 +73,34 @@ export default class CommonFrame extends React.Component {
         }
     }
 
-    showMsg(type, msg, pos) {
+    showMsg(type, msg, arg) {
         const commonMsg = this.refs.commonMsg;
         if (!commonMsg) return;
         switch (type) {
             case Const.MSG_TYPE_NOTIFICATION:
-                commonMsg.showSnackbar(msg, pos);
+                {
+                    const {pos} = arg || {};
+                    commonMsg.showSnackbar(msg, pos);
+                }
                 break;
             case Const.MSG_TYPE_ALERT:
-                commonMsg.showSnackbar(msg, pos);
+                {
+                    const {title, onSure, onClose, onCancel} = arg || {};
+                    commonMsg.showDialog(msg, title, onSure, onClose, onCancel);
+                }
+                break;
+            case Const.MSG_TYPE_OPEN_FULL_PAGE:
+                {
+                    const {fullPageToolButtons, fullPageContent} = arg || {};
+                    commonMsg.showFullPage(msg, fullPageToolButtons, fullPageContent);
+                }
                 break;
             default:
                 console.info("no match show msg type");
         }
     }
+
+    closeFullPage = () => {
+        this.refs.commonMsg.closeFullPage();
+    };
 }

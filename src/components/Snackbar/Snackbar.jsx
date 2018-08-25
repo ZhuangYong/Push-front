@@ -43,7 +43,7 @@ function Snackbar({...props}) {
     return (
         <Snack
             classes={{
-                anchorOriginTopCenter: classes.top20,
+                // anchorOriginTopCenter: classes.top20,
                 anchorOriginTopRight: classes.top40,
                 anchorOriginTopLeft: classes.top40
             }}

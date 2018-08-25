@@ -14,6 +14,9 @@ export default {
     // 退出
     API_USER_LOGOUT: "/wxback/logout",
 
+    // 微信授权
+    API_WEIXIN_AUTH: "/wxback/auth",
+
     // 首页统计数据
     API_STATIS_INDEX: "/wxback/statis/index",
 
@@ -26,10 +29,7 @@ export default {
     // 修改用户信息接口
     API_USER_SAVE: "/wxback/user/save",
 
-    // 微信授权
-    API_WEIXIN_AUTH: "/wxback/auth",
-
-    // 设备组列表
+    // 设备组列表（销售方|自营分组）
     API_STATIS_DEVICE_GROUP_PAGE: "/wxback/device/index",
 
     // 查询设备列表
@@ -37,6 +37,15 @@ export default {
 
     // 订单列表
     API_STATIS_ORDER_PAGE: "/wxback/order/index",
+
+    // 提现申请
+    API_ORDER_CASH_APPLY: "/wxback/order/cashApply",
+
+    // 提现记录
+    API_ORDER_CASH_LIST: "/wxback/order/cashList",
+
+    // 提现相关信息
+    API_ORDER_CASH_DETAIL: "/wxback/order/cashDetail",
 
     // 首页收入概况
     API_STATIS_INDEX_DETAIL: "/wxback/statis/detail",
@@ -46,4 +55,26 @@ export default {
 
     // 保存意见反馈
     API_USER_SAVE_FEEDBACK: "/wxback/user/saveRemark",
+
+    // 保存设备信息
+    API_DEVICE_SAVE_INFO: "/wxback/device/save",
+
+    // 查看产品列表分页
+    API_PRICE_PRODUCT_PAGE: "/wxback/product/index",
+
+    // 修改价格
+    API_PRICE_PRODUCT_SAVE: "/wxback/product/save",
+
+    // 查询销售方
+    API_SALES_PAGE: "/wxback/device/salesList",
+
+    // 保存销售方
+    API_SALES_EDIT: "/wxback/device/saveSales",
+
+    // 保存销售方设备(选择设备保存)
+    API_SALES_SAVE_DEVICE: "/wxback/device/saveDevice",
+
+    // 自营
+    // 保存设备组
+    API_DEVICE_GROUP_SAVE: "/wxback/device/saveGroup",
 };

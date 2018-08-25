@@ -50,7 +50,6 @@ export default class Feedback extends BaseComponent {
                             value: feedback,
                             multiline: true,
                             rows: 12,
-                            rowsMax: 12,
                             onChange: this.onChange
                         }}
                     />

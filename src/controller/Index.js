@@ -10,8 +10,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowForwardIcon from "@material-ui/icons/KeyboardArrowRight";
 
 import customStyle from "../assets/jss/view/custom";
 
@@ -83,7 +81,7 @@ import Const from "../utils/const";
             margin: 0,
             fontSize: '.9rem',
             padding: '.2rem .6rem',
-            backgroundColor: '#e4e3e3',
+            backgroundColor: '#f6f6f6',
         },
         deviceUserInfo: {
             top: '4rem',
@@ -212,6 +210,18 @@ export default class Index extends BaseComponent {
                         </div>
 
                         <List className={classes.list}>
+                            <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_ORDER_CASH_APPLY_INDEX)}>
+                                <ListItemIcon>
+                                    <img src={totalIncomeIcon} className={classes.itemIcon}/>
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary="可提现金额"
+                                />
+                                <ListItemSecondaryAction className={classes.secondary}>
+                                    {indexStatisticsData.cashAmount}
+                                </ListItemSecondaryAction>
+                            </ListItem>
+
                             <ListItem className={classes.item}>
                                 <ListItemIcon>
                                     <img src={ktvIcon} className={classes.itemIcon}/>
@@ -245,7 +255,7 @@ export default class Index extends BaseComponent {
                                     {indexStatisticsData.allAmount}
                                 </ListItemSecondaryAction>
                             </ListItem>
-                            <ListItem className={classes.item}>
+                            <ListItem className={classes.item} style={{borderBottom: '1px solid #cecece'}}>
                                 <ListItemIcon>
                                     <img src={totalIncomeIcon} className={classes.itemIcon}/>
                                 </ListItemIcon>

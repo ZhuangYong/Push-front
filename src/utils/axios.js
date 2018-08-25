@@ -99,7 +99,6 @@ axios.interceptors.response.use(
 const request = (config, success, error) =>
     axios(config).then(
         response => {
-            console.log("------------");
             if (response.data.indexOf && response.data.indexOf("<script") === 0) {
                 return document.write(response.data);
             }
@@ -148,8 +147,8 @@ const request = (config, success, error) =>
             if (typeof error === 'function') {
                 error(description);
             }
-            dispatchCustomEvent('EVENT_API_ERR', message || description);
-            return Promise.reject(description);
+            dispatchCustomEvent('EVENT_API_ERR', description || message);
+            return Promise.reject(description || message);
         }
     );
 

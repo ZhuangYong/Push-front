@@ -18,8 +18,6 @@ export default class BaseForm extends React.Component {
         this.initialState = this.initialState.bind(this);
     }
     componentDidMount() {
-
-        console.log(this.props['v-data']);
         this.initialState();
     }
     componentDidUpdate() {
@@ -42,14 +40,9 @@ export default class BaseForm extends React.Component {
             if (name) {
                 const onChange = e => {
                     const {value} = e.target;
-                    if (this.props['v-data']) {
-                        this.props['v-data'][name] = value;
-                    }
-
                     const setState = {};
                     setState[name] = value;
                     this.props.setState(setState);
-
                     this.validItem(node, value);
                 };
                 if (typeof inputProps !== "undefined") {
@@ -65,24 +58,17 @@ export default class BaseForm extends React.Component {
                 }
 
                 if (node.type === CustomInput) {
-                    if (typeof node.props.required !== "undefined" || typeof node.props.reg !== "undefined") {
-                        return <CustomInput
-                            success={this.state.validSuccess[name]}
-                            error={this.state.validFail[name]}
-                            inputProps={{
-                                ...inputProps,
-                                onChange
-                            }}
-                            {...node.props}
-                            {...cloneProps}
-                        />;
-                    } else {
-                        return <node.type
+                    const enableValid = typeof node.props.required !== "undefined" || typeof node.props.reg !== "undefined";
+                    return <CustomInput
+                        success={enableValid && this.state.validSuccess[name]}
+                        error={enableValid && this.state.validFail[name]}
+                        inputProps={{
+                            ...inputProps,
                             onChange
-                            {...node.props}
-                            {...cloneProps}
-                        />;
-                    }
+                        }}
+                        {...node.props}
+                        {...cloneProps}
+                    />;
                 } else {
                     return React.cloneElement(node, cloneProps);
                 }
@@ -113,7 +99,9 @@ export default class BaseForm extends React.Component {
             });
         } else {
             formNodes.forEach(node => {
-                const value = node.value || (node.props.inputProps || {}).value;
+                const {name} = node.props;
+                const value = this.props['v-data'][name];
+                // const value = node.value || (node.props.inputProps || {}).value;
                 this.validItem(node, value, true);
             });
             Object.keys(this.state.validSuccess).forEach(key => {

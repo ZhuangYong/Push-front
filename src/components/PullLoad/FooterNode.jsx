@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {STATS} from './constants';
+import CircularProgress from "material-ui/Progress/CircularProgress";
 
 export default class FooterNode extends PureComponent {
 
@@ -24,8 +25,11 @@ export default class FooterNode extends PureComponent {
 
         return (
             <div className={className}>
-                {
+                {/*{
                     loaderState === STATS.loading ? <i/> : ""
+                }*/}
+                {
+                    loaderState === STATS.loading ? <CircularProgress color="secondary" size={19} /> : ""
                 }
             </div>
         );

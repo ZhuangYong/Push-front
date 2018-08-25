@@ -6,27 +6,29 @@ import BaseComponent from "../common/BaseComponent";
 import Zoom from '@material-ui/core/Zoom';
 import CircularProgress from "material-ui/Progress/CircularProgress";
 import ClearIcon from '@material-ui/icons/Clear';
-import SearchIcon from '@material-ui/icons/Search';
+// import SearchIcon from '@material-ui/icons/Search';
 import Button from "../../components/CustomButtons/Button.jsx";
+import {MenuIcon} from "../common/SvgIcons";
 
 const style = {
     searchContainer: {
         padding: '.4rem',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        borderBottom: '.06rem solid gray'
-    },
-    inputBorder: {
-        height: '2.4rem',
-        padding: '.8rem .3rem .8rem 1rem',
-        width: "88%",
-        borderRadius: '2.4rem',
-        border: '.6px solid gray',
-        display: 'flex',
         backgroundColor: 'white',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        borderBottom: '.06rem solid #cbcbcb'
+    },
+    inputBorder: {
+        width: "88%",
+        display: 'flex',
+        height: '2.4rem',
+        borderRadius: '2.4rem',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        border: '1px solid #dcdcdc',
+        justifyContent: 'space-between',
+        padding: '.8rem .3rem .8rem 1rem'
     },
     input: {
         height: '2.2rem',
@@ -53,8 +55,8 @@ const style = {
         alignItems: 'center'
     },
     SearchIcon: {
-        filter: 'drop-shadow( .1px .1px 2px #18b1c3)',
-        color: 'white'
+        // filter: 'drop-shadow( .1px .1px 2px #18b1c3)',
+        color: 'rgb(233, 30, 99)'
     }
 
 };
@@ -64,7 +66,7 @@ export default class SearchInput extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            value: "",
+            value: this.props.defaultValue,
             searchKeyWords: ""
         };
         this.handelClear = this.handelClear.bind(this);
@@ -72,10 +74,13 @@ export default class SearchInput extends BaseComponent {
     }
     render() {
         const {value, searchKeyWords} = this.state;
-        const {classes, placeholder, searchIng} = this.props;
+        const {classes, placeholder, searchIng, searchContainerStyle} = this.props;
         return (
             <div>
-                <div className={classes.searchContainer}>
+                <div className={classes.searchContainer} style={searchContainerStyle}>
+                    {
+                        <MenuIcon size="2rem" color="gray" style={{margin: '0 .6rem'}}/>
+                    }
                     <div className={classes.inputBorder}>
                         <input type="text"
                                className={classes.input}
@@ -127,14 +132,18 @@ export default class SearchInput extends BaseComponent {
 }
 
 SearchInput.propTypes = {
+    defaultValue: PropTypes.string,
     handelSearch: PropTypes.func,
     handelClear: PropTypes.func,
     placeholder: PropTypes.string,
-    searchIng: PropTypes.bool
+    searchIng: PropTypes.bool,
+    searchContainerStyle: PropTypes.object
 };
 SearchInput.defaultProps = {
+    defaultValue: "",
     handelSearch: f => f,
     handelClear: f => f,
     placeholder: "",
-    searchIng: false
+    searchIng: false,
+    searchContainerStyle: {}
 };
