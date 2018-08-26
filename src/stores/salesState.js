@@ -5,10 +5,16 @@ import BaseState from "./baseState";
 export default class priceState extends BaseState {
 
     @observable salesPageData = "";
+    @observable partnerDetailData = "";
 
     @action
     setSalesPageData(data) {
         this.orderData = data;
+    }
+
+    @action
+    setPartnerDetailData(data) {
+        this.partnerDetailData = data;
     }
 
     getSalesPageData(data) {

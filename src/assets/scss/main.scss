@@ -12,6 +12,9 @@ input:-webkit-autofill
 }
 .empty-pull-list{
     background: white url("../../assets/img/null/no-content.jpg") no-repeat center 30%;
+    .pull-load-footer-default.nomore:after{
+        content: "暂无数据"
+    }
 }
 .network-err{
     background: white url("../../assets/img/null/no-network.jpg") no-repeat center 30%!important;

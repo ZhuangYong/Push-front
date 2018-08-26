@@ -6,6 +6,9 @@ export default class deviceState extends BaseState {
 
     @observable deviceGroupData = "";
     @observable deviceData = "";
+    @observable deviceGroupDetailData = "";
+    @observable deviceMarqueeData = "";
+    @observable deviceMarqueeDetailData = "";
 
     @action
     setDeviceGroupData(data) {
@@ -15,6 +18,21 @@ export default class deviceState extends BaseState {
     @action
     setDeviceData(data) {
         this.deviceData = data;
+    }
+
+    @action
+    setDeviceGroupDetailData(data) {
+        this.deviceGroupDetailData = data;
+    }
+
+    @action
+    setDeviceMarqueeData(data) {
+        this.deviceMarqueeData = data;
+    }
+
+    @action
+    setDeviceMarqueeDetailData(data) {
+        this.deviceMarqueeDetailData = data;
     }
 
     getDeviceGroupPage(data) {
@@ -43,6 +61,21 @@ export default class deviceState extends BaseState {
     saveDeviceGroup(data) {
         return this.fetch({
             url: Api.API_DEVICE_GROUP_SAVE,
+            data: data
+        });
+    }
+
+    getDeviceMarquee(data) {
+        return this.fetch({
+            url: Api.API_DEVICE_MARQUEE_LIST,
+            setState: "setDeviceMarqueeData",
+            data: data
+        });
+    }
+
+    saveDeviceMarquee(data) {
+        return this.fetch({
+            url: Api.API_DEVICE_MARQUEE_SAVE,
             data: data
         });
     }

@@ -14,8 +14,20 @@ export default {
     // 添加自营设备组
     PATH_DEVICE_GROUP_EDIT: "/device/group/save",
 
+    // 自己设备组详情
+    PATH_DEVICE_GROUP_SELF_DETAIL: "/device/group/self/detail",
+
+    // 合作伙伴详情
+    PATH_PARTNER_DETAIL: "/partner/detail",
+
     // 设备列表
     PATH_DEVICE_INDEX: "/device/list",
+
+    // 共享设备扫码底部滚动文字/跑马灯 列表
+    PATH_DEVICE_MARQUEE_LIST: "/device/marquee/list",
+
+    // 修改共享设备扫码底部滚动文字/跑马灯
+    PATH_DEVICE_MARQUEE_EDIT: "/device/marquee/edit",
 
     // 合作方设备列表
     PATH_DEVICE_PARTNER_INDEX: "/device/partner/list",

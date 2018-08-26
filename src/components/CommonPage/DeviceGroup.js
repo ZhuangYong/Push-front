@@ -75,13 +75,13 @@ export default class DeviceGroup extends BaseComponent {
                         return <ListItem
                             key={item.id || item.channelCode}
                             style={classes.item}
-                            onClick={() => this.linkTo(Path.PATH_DEVICE_INDEX, {groupUuid: item.uuid || "", channelCode: item.channelCode || ""})}>
+                            onClick={() => this.deviceGroupDetail(item)}>
                             <ListItemText
                                 primary={<span>{item.name || item.channelName || "未命名"}<font style={{fontSize: '.8rem', color: '#808080'}}> （{item.deviceCount || 0}台）</font></span>}
                             />
                             <ListItemSecondaryAction>
                                 <font color="#808080">{item.parentProportions || 0}元</font>
-                                <IconButton onClick={() => this.linkTo(Path.PATH_DEVICE_INDEX, {groupUuid: item.uuid || "", channelCode: item.channelCode || ""})}>
+                                <IconButton onClick={() => this.deviceGroupDetail(item)}>
                                     <ArrowForwardIcon color="disabled"/>
                                 </IconButton>
                             </ListItemSecondaryAction>
@@ -124,11 +124,17 @@ export default class DeviceGroup extends BaseComponent {
 
     getFixBottom = () => {
         const {searchKeyWords} = this.state;
-        let fixBottom = 56 + window.rem2px(3.2) + 48;
+        let fixBottom = 56 + window.rem2px(2.8) + 12 + 48 + 41;
         if (searchKeyWords) {
             fixBottom += 28;
         }
         return fixBottom;
+    };
+
+    deviceGroupDetail = (item) => {
+        // this.linkTo(Path.PATH_DEVICE_INDEX, {groupUuid: item.uuid || "", channelCode: item.channelCode || ""});
+        this.props.deviceState.setDeviceGroupDetailData(item);
+        this.linkTo(Path.PATH_DEVICE_GROUP_SELF_DETAIL, {groupUuid: item.uuid || "", channelCode: item.channelCode || ""});
     };
 
     deviceGroupPageAction = (data) => {

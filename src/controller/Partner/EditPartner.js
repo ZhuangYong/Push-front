@@ -62,7 +62,7 @@ import {district} from "../../utils/district";
 @inject(({store: {salesState, userState}}) => ({salesState, userState}))
 @inject("store")
 @observer
-export default class EditInfo extends BaseComponent {
+export default class EditPartner extends BaseComponent {
 
     constructor(props, context) {
         super(props, context);

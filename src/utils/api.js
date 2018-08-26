@@ -77,4 +77,10 @@ export default {
     // 自营
     // 保存设备组
     API_DEVICE_GROUP_SAVE: "/wxback/device/saveGroup",
+
+    // 销售组的跑马灯列表
+    API_DEVICE_MARQUEE_LIST: "/wxback/marquee/index",
+
+    // 销售组的跑马灯修改
+    API_DEVICE_MARQUEE_SAVE: "/wxback/marquee/save",
 };

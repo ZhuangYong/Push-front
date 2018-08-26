@@ -13,21 +13,13 @@ import SalesPage from "../../components/CommonPage/SalesPage";
 
 const style = {
     ...customStyle,
-    infoLine: {
-        fontSize: '.86rem',
-        color: '#555555',
-        margin: '.2rem 0'
-    },
-    infoLabel: {
-        color: 'black',
-        width: '4rem',
-        fontSize: '.9rem',
-        fontWeight: 500
-    },
-    searchClear: {
-        position: 'absolute',
-        right: 12,
-        top: 2
+    menuBottomButton: {
+        bottom: 56,
+        width: '100%',
+        position: 'fixed',
+        backgroundColor: 'white',
+        borderTop: '1px solid #dedede',
+        borderRadius: 0
     }
 };
 @inject(({store: {appState, deviceState}}) => ({appState, deviceState}))
@@ -83,8 +75,10 @@ export default class DeviceIndex extends BaseComponent {
                     tabLabel: "自营店",
                     tabContainer: <DeviceGroup ref="deviceGroup"/>,
                     menu: {
+                        label: "添加自营店",
                         color: 'secondary',
                         icon: <AddIcon/>,
+                        style: style.menuBottomButton,
                         click: () => this.linkTo(Path.PATH_DEVICE_GROUP_EDIT)
                     }
                 },
@@ -92,8 +86,10 @@ export default class DeviceIndex extends BaseComponent {
                     tabLabel: "合作伙伴",
                     tabContainer: <SalesPage showSearch={false} ref="salesPage"/>,
                     menu: {
+                        label: "添加合作伙伴",
                         color: 'secondary',
                         icon: <AddIcon/>,
+                        style: style.menuBottomButton,
                         click: () => this.linkTo(Path.PATH_SALES_EDIT)
                     }
                 }

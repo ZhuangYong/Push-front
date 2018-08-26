@@ -65,12 +65,7 @@ export default class EditInfo extends BaseComponent {
                     />*/}
                     <CustomInput
                         labelText="昵称"
-                        formControlProps={{
-                            fullWidth: true
-                        }}
-                        inputProps={{
-                            value: nickName
-                        }}
+                        value={nickName}
                         name="nickName"
                         required
                     />
@@ -88,12 +83,7 @@ export default class EditInfo extends BaseComponent {
                     />*/}
                     <CustomInput
                         labelText="详细地址"
-                        formControlProps={{
-                            fullWidth: true
-                        }}
-                        inputProps={{
-                            value: address
-                        }}
+                        value={address}
                         name="address"
                         required
                     />

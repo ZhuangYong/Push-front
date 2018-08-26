@@ -34,7 +34,7 @@ export default class BottomNavs extends BaseComponent {
                 [Path.PATH_DEVICE_GROUP_LIST, Path.PATH_DEVICE_INDEX, Path.PATH_DEVICE_PARTNER_INDEX],
                 [Path.PATH_ORDER_INDEX],
                 [Path.PATH_PRICE_INDEX],
-                [Path.PATH_USER_INDEX, Path.PATH_USER_EDIT_INFO, Path.PATH_USER_ELECTRONIC_AGREEMENT, Path.PATH_USER_FEEDBACK]
+                [Path.PATH_USER_INDEX, Path.PATH_USER_EDIT_INFO, Path.PATH_USER_FEEDBACK]
             ]
         };
         this.initialState = this.initialState.bind(this);

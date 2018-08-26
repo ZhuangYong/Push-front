@@ -142,7 +142,7 @@ export default class Index extends BaseComponent {
                                 primary="所在区域"
                             />
                             <ListItemSecondaryAction className={classes.secondary}>
-                                {loginUserData.area || "未填写"}
+                                {loginUserData.area ? `${loginUserData.region} ${loginUserData.city} ${loginUserData.area}` : "未填写"}
                             </ListItemSecondaryAction>
                         </ListItem>
                         <ListItem className={classes.item}>

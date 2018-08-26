@@ -43,9 +43,6 @@ export default class Feedback extends BaseComponent {
                     setState={this.stateFun}>
                     <CustomInput
                         labelText="您的意见与建议"
-                        formControlProps={{
-                            fullWidth: true
-                        }}
                         inputProps={{
                             value: feedback,
                             multiline: true,
@@ -84,7 +81,7 @@ export default class Feedback extends BaseComponent {
             content: feedback,
         })
             .then(res => {
-                this.setState({submiting: false, submitSuccess: true, feedback: ""});
+                // this.setState({submiting: false, submitSuccess: true, feedback: ""});
                 this.notification("感谢您宝贵的意见与建议，(￣▽￣)");
                 setTimeout(() => this.back(), 1000);
             })

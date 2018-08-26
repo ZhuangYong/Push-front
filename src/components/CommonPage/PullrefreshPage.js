@@ -1,21 +1,11 @@
 import React from "react";
-import withStyles from "material-ui/styles/withStyles";
 
 import PropTypes from 'prop-types';
-import {observer} from "mobx-react";
-import {inject} from "mobx-react/index";
 import BaseComponent from "../../components/common/BaseComponent";
 import customStyle from "../../assets/jss/view/custom";
 import SearchInput from "../../components/CustomInput/SearchInput";
 import PullRefresh from "../../components/PageContainer/PullRefresh";
-import ListItem from '@material-ui/core/ListItem';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
-import {getQueryString} from "../../utils/comUtils";
-import {EditIcon} from "../../components/common/SvgIcons";
-import Const from "../../utils/const";
-import CustomDialog from "../../components/CustomDialog/CustomDialog";
-import CustomInput from "../../components/CustomInput/CustomInput";
-import Form from "../../components/Form/BaseForm";
 
 const style = {
     ...customStyle,
@@ -116,12 +106,13 @@ export default class PullRefreshPage extends BaseComponent {
     };
 
     getFixBottom = () => {
-        const {searchKeyWords} = this.state;
-        let fixBottom = 56 + window.rem2px(3.2);
-        if (searchKeyWords) {
-            fixBottom += 28;
-        }
-        return fixBottom;
+        // const {searchKeyWords} = this.state;
+        // let fixBottom = 56 + window.rem2px(3.2);
+        // if (searchKeyWords) {
+        //     fixBottom += 28;
+        // }
+        // return fixBottom;
+        return 0;
     };
 
     getPageParam = () => {

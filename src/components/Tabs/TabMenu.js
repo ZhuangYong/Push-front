@@ -21,24 +21,6 @@ export default class TabMenu extends BaseComponent {
 
     render() {
         const {items} = this.props;
-        // const fabs = [
-        //     {
-        //         color: 'primary',
-        //         className: classes.fab,
-        //         icon: <AddIcon />,
-        //     },
-        //     {
-        //         color: 'secondary',
-        //         className: classes.fab,
-        //         icon: <EditIcon />,
-        //     },
-        //     {
-        //         color: 'inherit',
-        //         className: classNames(classes.fab, classes.fabGreen),
-        //         icon: <UpIcon />,
-        //     },
-        // ];
-
         return (
             <div>
                 <AppBar position="static" color="default" style={{backgroundColor: 'white', boxShadow: 'none'}}>
@@ -68,16 +50,12 @@ export default class TabMenu extends BaseComponent {
                         in={this.state.value === index}
                         timeout={transitionDuration}
                         style={{
-                            position: 'fixed',
-                            right: 12,
-                            bottom: 80,
-                            zIndex: 2,
                             transitionDelay: `${this.state.value === index ? transitionDuration.exit : 0}ms`,
                         }}
                         unmountOnExit
                     >
-                        <Button mini variant="fab" className={item.menu.className} color={item.menu.color} onClick={item.menu.click} style={{opacity: '.6'}}>
-                            {item.menu.icon}
+                        <Button style={item.menu.style || {}} color={item.menu.color} onClick={item.menu.click}>
+                            {item.menu.icon}{item.menu.label || ""}
                         </Button>
                     </Zoom>
                 ))}

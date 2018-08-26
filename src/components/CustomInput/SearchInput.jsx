@@ -73,13 +73,13 @@ export default class SearchInput extends BaseComponent {
         this.handelSearch = this.handelSearch.bind(this);
     }
     render() {
-        const {value, searchKeyWords} = this.state;
+        const {value, searchKeyWords, leftMenu} = this.state;
         const {classes, placeholder, searchIng, searchContainerStyle} = this.props;
         return (
             <div>
                 <div className={classes.searchContainer} style={searchContainerStyle}>
                     {
-                        <MenuIcon size="2rem" color="gray" style={{margin: '0 .6rem'}}/>
+                        leftMenu && <MenuIcon size="2rem" color="gray" style={{margin: '0 .6rem'}}/>
                     }
                     <div className={classes.inputBorder}>
                         <input type="text"
@@ -132,6 +132,7 @@ export default class SearchInput extends BaseComponent {
 }
 
 SearchInput.propTypes = {
+    leftMenu: PropTypes.bool,
     defaultValue: PropTypes.string,
     handelSearch: PropTypes.func,
     handelClear: PropTypes.func,
@@ -140,6 +141,7 @@ SearchInput.propTypes = {
     searchContainerStyle: PropTypes.object
 };
 SearchInput.defaultProps = {
+    leftMenu: false,
     defaultValue: "",
     handelSearch: f => f,
     handelClear: f => f,

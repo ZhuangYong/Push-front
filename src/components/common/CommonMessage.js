@@ -16,8 +16,8 @@ export default class CommonFrame extends React.Component {
         super(props);
         this.state = {
             queue: [],
-            openSnackbar: false,
-            snackbarMsg: {},
+            openSnackBar: false,
+            showSnackBar: {},
             position: "",
             openDialog: false,
             dialogTitle: "",
@@ -32,19 +32,26 @@ export default class CommonFrame extends React.Component {
         };
     }
 
+    componentWillUnmount() {
+        if (timeout) {
+            clearTimeout(timeout);
+            timeout = null;
+        }
+    }
+
     render() {
         // const { classes } = this.props;
-        const {snackbarMsg, openSnackbar, position, openDialog, dialogTitle, dialogMsg, dialogOnSure, dialogOnClose, dialogOnCancel, openFullPage, fullPageTitle, fullPageToolButtons, fullPageContent} = this.state;
+        const {showSnackBar, openSnackBar, position, openDialog, dialogTitle, dialogMsg, dialogOnSure, dialogOnClose, dialogOnCancel, openFullPage, fullPageTitle, fullPageToolButtons, fullPageContent} = this.state;
         return (
             <div>
                 <Snackbar
                     place={position || "tc"}
                     color="warning"
                     // icon={AddAlert}
-                    message={<span id="message-id">{snackbarMsg}</span>}
-                    open={openSnackbar}
-                    closeNotification={this.closeSnackbar}
-                    style={{display: openSnackbar ? "" : "none"}}
+                    message={<span id="message-id">{showSnackBar}</span>}
+                    open={openSnackBar}
+                    closeNotification={this.closeSnackBar}
+                    style={{display: openSnackBar ? "" : "none"}}
                     close
                 />
 
@@ -112,25 +119,25 @@ export default class CommonFrame extends React.Component {
         this.setState({openDialog: false});
     };
 
-    showSnackbar = (message, pos) => {
+    showSnackBar = (message, pos) => {
         this.setState({
-            snackbarMsg: message,
-            openSnackbar: true,
+            showSnackBar: message,
+            openSnackBar: true,
             position: pos
         });
         if (timeout) {
             clearTimeout(timeout);
             timeout = null;
         }
-        timeout = setTimeout(() => this.closeSnackbar(), CLOSE_TIME_COUNT * 1000);
+        timeout = setTimeout(() => this.closeSnackBar(), CLOSE_TIME_COUNT * 1000);
     };
 
-    closeSnackbar = () => {
+    closeSnackBar = () => {
         if (timeout) {
             clearTimeout(timeout);
             timeout = null;
         }
-        this.setState({ openSnackbar: false });
+        this.setState({ openSnackBar: false });
     };
 
     showDialog = (message, title, onSure, onClose, onCancel) => {

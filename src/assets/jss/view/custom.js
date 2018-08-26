@@ -1,5 +1,5 @@
 
-import headBg from "../../../assets/img/bg/headbg.jpg";
+import headBg from "../../../assets/img/bg/headbg-main.jpg";
 export default {
     iconCard: {
         overflow: 'visible',
@@ -12,6 +12,7 @@ export default {
         borderBottom: '1px solid #dadada'
     },
     carHeader: {
+        borderRadius: '0!important',
         backgroundImage: `url(${headBg})`,
         backgroundSize: 'cover',
         backgroundColor: '#ffffff',
@@ -36,8 +37,27 @@ export default {
     listItemLabel: {
         fontSize: '.86rem'
     },
+    ListItemText: {
+        paddingLeft: '.6rem!important'
+    },
+    infoLine: {
+        fontSize: '.86rem',
+        color: '#555555',
+        margin: '.2rem 0',
+        display: 'flex',
+        justifyContent: 'left',
+        alignItems: 'end',
+    },
+    infoLabel: {
+        color: 'black',
+        whiteSpace: 'nowrap',
+        // width: '5rem',
+        fontSize: '.9rem',
+        fontWeight: 500,
+    },
     secondary: {
-        paddingRight: 12
+        paddingRight: 12,
+        fontSize: '.8rem'
     },
     searchResult: {
         margin: 0,
@@ -47,4 +67,12 @@ export default {
         backgroundColor: '#fbfbfb',
         borderBottom: '1px solid #ececec'
     },
+    menuBottomButton: {
+        bottom: 56,
+        width: '100%',
+        position: 'fixed!important',
+        backgroundColor: 'white!important',
+        borderTop: '1px solid #dedede!important',
+        borderRadius: '0!important'
+    }
 };

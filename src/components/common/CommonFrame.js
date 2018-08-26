@@ -80,7 +80,7 @@ export default class CommonFrame extends React.Component {
             case Const.MSG_TYPE_NOTIFICATION:
                 {
                     const {pos} = arg || {};
-                    commonMsg.showSnackbar(msg, pos);
+                    commonMsg.showSnackBar(msg, pos);
                 }
                 break;
             case Const.MSG_TYPE_ALERT:

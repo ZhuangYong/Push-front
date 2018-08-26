@@ -22,20 +22,6 @@ import _ from "lodash";
 
 const style = {
     ...customStyle,
-    infoLine: {
-        fontSize: '.86rem',
-        color: '#555555',
-        margin: '.2rem 0',
-        display: 'flex',
-        justifyContent: 'left',
-        alignItems: 'center'
-    },
-    infoLabel: {
-        color: 'black',
-        // width: '5rem',
-        fontSize: '.9rem',
-        fontWeight: 500,
-    },
     searchClear: {
         position: 'absolute',
         right: 12,

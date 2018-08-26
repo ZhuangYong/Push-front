@@ -53,13 +53,13 @@ export default class SalesPage extends PullRefreshPage {
         return <ListItem
             key={item.id || item.channelCode}
             style={style.item}
-            onClick={() => this.linkTo(Path.PATH_DEVICE_PARTNER_INDEX, {salesUuid: item.uuid || "", defaultGroupUuid: item.defaultGroupUuid || ""})}>
+            onClick={() => this.deviceGroupDetail(item)}>
             <ListItemText
                 primary={<span>{item.name || item.channelName || "未命名"}<font style={{fontSize: '.8rem', color: '#808080'}}> （{item.deviceCount || 0}台）</font></span>}
             />
             <ListItemSecondaryAction>
                 <font color="#808080">{item.parentProportions || 0}元</font>
-                <IconButton onClick={() => this.linkTo(Path.PATH_DEVICE_PARTNER_INDEX, {salesUuid: item.uuid || "", defaultGroupUuid: item.defaultGroupUuid || ""})}>
+                <IconButton onClick={() => this.deviceGroupDetail(item)}>
                     <ArrowForwardIcon color="disabled"/>
                 </IconButton>
             </ListItemSecondaryAction>
@@ -68,11 +68,17 @@ export default class SalesPage extends PullRefreshPage {
 
     getFixBottom = () => {
         const {searchKeyWords} = this.state;
-        let fixBottom = 56 + window.rem2px(3.2) + 48;
+        let fixBottom = 56 + window.rem2px(2.8) + 12 + 48 + 41;
         if (searchKeyWords) {
             fixBottom += 28;
         }
         return fixBottom;
+    };
+
+    deviceGroupDetail = (item) => {
+        // this.linkTo(Path.PATH_DEVICE_PARTNER_INDEX, {salesUuid: item.uuid || "", defaultGroupUuid: item.defaultGroupUuid || ""});
+        this.props.salesState.setPartnerDetailData(item);
+        this.linkTo(Path.PATH_PARTNER_DETAIL, {salesUuid: item.uuid || ""});
     };
 
 }
