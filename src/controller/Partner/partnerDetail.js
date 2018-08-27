@@ -17,14 +17,17 @@ import PictureUpload from "../../components/CustomUpload/PictureUpload";
 import Path from "../../utils/path";
 import customStyle from "../../assets/jss/view/custom";
 
-import areaIcon from "../../assets/img/icon/area.png";
-import nicknameIcon from "../../assets/img/icon/nickname.png";
-import accountIcon from "../../assets/img/icon/account.png";
-import phoneIcon from "../../assets/img/icon/phone.png";
-import homeIcon from "../../assets/img/icon/home.png";
-import agreementIcon from "../../assets/img/icon/agreement.png";
+import {
+    AddressIcon,
+    AgreementIcon,
+    AliPayIcon, DeviceIcon,
+    LocationIcon,
+    PhoneIcon,
+    UserIcon
+} from "../../components/common/SvgIcons";
 import ktvIcon from "../../assets/img/icon/ktv.png";
 import headBg from "../../assets/img/bg/headbg.jpg";
+import {getQueryString} from "../../utils/comUtils";
 
 const style = {...customStyle, ...{
         partnerCarHead: {
@@ -64,9 +67,15 @@ export default class Index extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            submiting: false
+            submiting: false,
+            salesUuid: getQueryString("salesUuid")
         };
     }
+
+    componentDidMount() {
+        this.getPartnerDetail();
+    }
+
     render() {
         const {partnerDetailData} = this.props.salesState;
         const {classes = ""} = this.props;
@@ -85,9 +94,9 @@ export default class Index extends BaseComponent {
                     <List className={classes.list} style={{paddingTop: 0}}>
                         <ListItem>
                             <ListItemIcon>
-                                <img src={nicknameIcon} className={classes.itemIcon}/>
+                                <UserIcon size="1.6rem"/>
                             </ListItemIcon>
-                            <ListItemText
+                            <ListItemText className={classes.ListItemText}
                                 primary="昵称"
                             />
                             <ListItemSecondaryAction className={classes.secondary}>
@@ -96,9 +105,9 @@ export default class Index extends BaseComponent {
                         </ListItem>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={phoneIcon} className={classes.itemIcon}/>
+                                <PhoneIcon size="1.6rem"/>
                             </ListItemIcon>
-                            <ListItemText
+                            <ListItemText className={classes.ListItemText}
                                 primary="手机号"
                             />
                             <ListItemSecondaryAction className={classes.secondary}>
@@ -107,9 +116,9 @@ export default class Index extends BaseComponent {
                         </ListItem>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={accountIcon} className={classes.itemIcon}/>
+                                <AliPayIcon size="1.6rem"/>
                             </ListItemIcon>
-                            <ListItemText
+                            <ListItemText className={classes.ListItemText}
                                 primary="收款账号"
                             />
                             <ListItemSecondaryAction className={classes.secondary}>
@@ -118,9 +127,9 @@ export default class Index extends BaseComponent {
                         </ListItem>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={areaIcon} className={classes.itemIcon}/>
+                                <LocationIcon size="1.6rem"/>
                             </ListItemIcon>
-                            <ListItemText
+                            <ListItemText className={classes.ListItemText}
                                 primary="所在区域"
                             />
                             <ListItemSecondaryAction className={classes.secondary}>
@@ -129,9 +138,9 @@ export default class Index extends BaseComponent {
                         </ListItem>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={homeIcon} className={classes.itemIcon}/>
+                                <AddressIcon size="1.6rem"/>
                             </ListItemIcon>
-                            <ListItemText
+                            <ListItemText className={classes.ListItemText}
                                 primary="详细地址"
                             />
                             <ListItemSecondaryAction className={classes.secondary}>
@@ -145,30 +154,30 @@ export default class Index extends BaseComponent {
 
             <Card className={classes.card} style={{marginTop: 16}}>
                 <List className={classes.list}>
-                    <ListItem className={classes.item} onClick={() => this.deviceList(partnerDetailData)}>
+                    <ListItem className={classes.item} onClick={this.deviceList}>
                         <ListItemIcon>
-                            <img src={ktvIcon} className={classes.itemIcon}/>
+                            <DeviceIcon size="1.6rem"/>
                         </ListItemIcon>
-                        <ListItemText
+                        <ListItemText className={classes.ListItemText}
                             primary="设备数"
                         />
                         <ListItemSecondaryAction>
-                            {partnerDetailData.deviceCount}
-                            <IconButton onClick={() => this.deviceList(partnerDetailData)}>
+                            {partnerDetailData.count}
+                            <IconButton onClick={this.deviceList}>
                                 <ArrowForwardIcon/>
                             </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>
 
-                    <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT)}>
+                    <ListItem className={classes.item} onClick={this.partnerAgreement}>
                         <ListItemIcon>
-                            <img src={agreementIcon} className={classes.itemIcon}/>
+                            <AgreementIcon size="1.6rem"/>
                         </ListItemIcon>
-                        <ListItemText
+                        <ListItemText className={classes.ListItemText}
                             primary="电子协议"
                         />
                         <ListItemSecondaryAction>
-                            <IconButton onClick={() => this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT)}>
+                            <IconButton onClick={this.partnerAgreement}>
                                 <ArrowForwardIcon/>
                             </IconButton>
                         </ListItemSecondaryAction>
@@ -179,8 +188,19 @@ export default class Index extends BaseComponent {
         </div>;
     }
 
-    deviceList = (item) => {
-        this.linkTo(Path.PATH_DEVICE_PARTNER_INDEX, {salesUuid: item.uuid || ""});
+    deviceList = () => {
+        const {salesUuid} = this.state;
+        this.linkTo(Path.PATH_DEVICE_PARTNER_INDEX, {salesUuid: salesUuid || ""});
+    };
+
+    getPartnerDetail = () => {
+        const {salesUuid} = this.state;
+        this.props.salesState.getPartnerDetail(salesUuid);
+    };
+
+    partnerAgreement = () => {
+        const {salesUuid} = this.state;
+        this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT, {salesUuid: salesUuid});
     };
 
 }

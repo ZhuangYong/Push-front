@@ -18,16 +18,18 @@ import BaseComponent from "../../components/common/BaseComponent";
 import PictureUpload from "../../components/CustomUpload/PictureUpload";
 import Path from "../../utils/path";
 import customStyle from "../../assets/jss/view/custom";
-
-import areaIcon from "../../assets/img/icon/area.png";
-import nicknameIcon from "../../assets/img/icon/nickname.png";
-import accountIcon from "../../assets/img/icon/account.png";
-import phoneIcon from "../../assets/img/icon/phone.png";
-import homeIcon from "../../assets/img/icon/home.png";
-import agreementIcon from "../../assets/img/icon/agreement.png";
-import feedbackIcon from "../../assets/img/icon/feedback.png";
 import editIcon from "../../assets/img/icon/edit.png";
 import Const from "../../utils/const";
+import {
+    AddressIcon,
+    AgreementIcon,
+    AliPayIcon,
+    CashIcon,
+    FeedbackIcon,
+    LocationIcon,
+    PhoneIcon,
+    UserIcon
+} from "../../components/common/SvgIcons";
 
 const style = {...customStyle, ...{
         editButton: {
@@ -103,9 +105,9 @@ export default class Index extends BaseComponent {
                     <List className={classes.list} style={{paddingTop: 0}}>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={nicknameIcon} className={classes.itemIcon}/>
+                                <UserIcon size="1.6rem"/>
                             </ListItemIcon>
-                            <ListItemText
+                            <ListItemText className={classes.ListItemText}
                                 primary="昵称"
                             />
                             <ListItemSecondaryAction className={classes.secondary}>
@@ -114,9 +116,9 @@ export default class Index extends BaseComponent {
                         </ListItem>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={phoneIcon} className={classes.itemIcon}/>
+                                <PhoneIcon size="1.6rem"/>
                             </ListItemIcon>
-                            <ListItemText
+                            <ListItemText className={classes.ListItemText}
                                 primary="手机号"
                             />
                             <ListItemSecondaryAction className={classes.secondary}>
@@ -125,9 +127,9 @@ export default class Index extends BaseComponent {
                         </ListItem>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={accountIcon} className={classes.itemIcon}/>
+                                <AliPayIcon size="1.6rem"/>
                             </ListItemIcon>
-                            <ListItemText
+                            <ListItemText className={classes.ListItemText}
                                 primary="收款账号"
                             />
                             <ListItemSecondaryAction className={classes.secondary}>
@@ -136,9 +138,9 @@ export default class Index extends BaseComponent {
                         </ListItem>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={areaIcon} className={classes.itemIcon}/>
+                                <LocationIcon size="1.6rem"/>
                             </ListItemIcon>
-                            <ListItemText
+                            <ListItemText className={classes.ListItemText}
                                 primary="所在区域"
                             />
                             <ListItemSecondaryAction className={classes.secondary}>
@@ -147,9 +149,9 @@ export default class Index extends BaseComponent {
                         </ListItem>
                         <ListItem className={classes.item}>
                             <ListItemIcon>
-                                <img src={homeIcon} className={classes.itemIcon}/>
+                                <AddressIcon size="1.6rem"/>
                             </ListItemIcon>
-                            <ListItemText
+                            <ListItemText className={classes.ListItemText}
                                 primary="详细地址"
                             />
                             <ListItemSecondaryAction className={classes.secondary}>
@@ -178,9 +180,9 @@ export default class Index extends BaseComponent {
                     {
                         loginUserData.type === Const.ROLE.SALES && <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_ORDER_CASH_APPLY_INDEX)}>
                             <ListItemIcon>
-                                <img src={agreementIcon} className={classes.itemIcon}/>
+                                <CashIcon size="1.6rem"/>
                             </ListItemIcon>
-                            <ListItemText
+                            <ListItemText className={classes.ListItemText}
                                 primary="提现"
                             />
                             <ListItemSecondaryAction>
@@ -194,9 +196,9 @@ export default class Index extends BaseComponent {
                     {
                         loginUserData.type === Const.ROLE.SALES && <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT)}>
                             <ListItemIcon>
-                                <img src={agreementIcon} className={classes.itemIcon}/>
+                                <AgreementIcon size="1.6rem"/>
                             </ListItemIcon>
-                            <ListItemText
+                            <ListItemText className={classes.ListItemText}
                                 primary="电子协议"
                             />
                             <ListItemSecondaryAction>
@@ -208,9 +210,9 @@ export default class Index extends BaseComponent {
                     }
                     <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_USER_FEEDBACK)}>
                         <ListItemIcon>
-                            <img src={feedbackIcon} className={classes.itemIcon}/>
+                            <FeedbackIcon size="1.6rem"/>
                         </ListItemIcon>
-                        <ListItemText
+                        <ListItemText className={classes.ListItemText}
                             primary="意见反馈"
                         />
                         <ListItemSecondaryAction>

@@ -38,4 +38,13 @@ export default class priceState extends BaseState {
             data: data
         });
     }
+
+
+    getPartnerDetail(salesUUID) {
+        return this.fetch({
+            method: "get",
+            url: Api.API_PARTNER_DETAIL + salesUUID,
+            setState: "setPartnerDetailData",
+        });
+    }
 }

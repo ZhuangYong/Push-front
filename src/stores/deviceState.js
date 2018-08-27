@@ -65,6 +65,14 @@ export default class deviceState extends BaseState {
         });
     }
 
+    getDeviceGroupDetail(groupUUID) {
+        return this.fetch({
+            method: "get",
+            url: Api.API_DEVICE_GROUP_STATIS + groupUUID,
+            setState: "setDeviceGroupDetailData",
+        });
+    }
+
     getDeviceMarquee(data) {
         return this.fetch({
             url: Api.API_DEVICE_MARQUEE_LIST,

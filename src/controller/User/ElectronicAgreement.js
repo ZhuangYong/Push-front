@@ -7,9 +7,8 @@ import _ from "lodash";
 import Grow from '@material-ui/core/Grow';
 import customStyle from "../../assets/jss/view/custom";
 import {withRouter} from "react-router-dom";
-import Path from "../../utils/path";
-import svgBottom from "../../assets/svg/bottom-tear.svg";
 import WxImageViewer from 'react-wx-images-viewer';
+import {getQueryString} from "../../utils/comUtils";
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -27,7 +26,7 @@ import WxImageViewer from 'react-wx-images-viewer';
             maxWidth: "100%",
         }
 }})
-@inject(({store: {userState}}) => ({userState}))
+@inject(({store: {userState, salesState}}) => ({userState, salesState}))
 @inject("store")
 @observer
 export default class ElectronicAgreement extends BaseComponent {
@@ -35,6 +34,7 @@ export default class ElectronicAgreement extends BaseComponent {
     constructor(props, context) {
         super(props, context);
         this.state = {
+            salesUuid: getQueryString("salesUuid"),
             area: "",
             nickName: "",
             phone: "",
@@ -44,12 +44,32 @@ export default class ElectronicAgreement extends BaseComponent {
 
     render() {
         const {classes = ""} = this.props;
-        const {viewImgIndex, showImgView} = this.state;
+        const {viewImgIndex, showImgView, salesUuid} = this.state;
         const {loginUserData = {}} = this.props.userState;
+        const {partnerDetailData = {}} = this.props.salesState;
+        let imgList = [];
+        let empty = false;
+        if (salesUuid) {
+            if (!partnerDetailData) {
+                this.back();
+            }
+            if (typeof partnerDetailData.list !== "undefined" && _.isEmpty(partnerDetailData.list)) {
+                empty = true;
+            } else {
+                imgList = partnerDetailData.list || [];
+            }
+        } else {
+            if (typeof loginUserData.list !== "undefined" && _.isEmpty(loginUserData.list)) {
+                empty = true;
+            } else {
+                imgList = loginUserData.list || [];
+            }
+        }
+
         return <div>
             <div className={classes.formContainer}>
                 {
-                    loginUserData.list && loginUserData.list.map((i, index) => {
+                    imgList.map((i, index) => {
                         return <Grow
                             key={i.id}
                             in={true}
@@ -64,40 +84,20 @@ export default class ElectronicAgreement extends BaseComponent {
                         </Grow>;
                     })
                 }
-                {
-                    typeof loginUserData.list !== "undefined" && _.isEmpty(loginUserData.list) && "无相关数据"
-                }
 
                 {
-                    showImgView && loginUserData.list && loginUserData.list.length && <WxImageViewer
+                    showImgView && !_.isEmpty(imgList) && <WxImageViewer
                         onClose={() => this.setState({showImgView: false})}
-                        urls={loginUserData.list.map(i => i.image)}
+                        urls={imgList.map(i => i.image)}
                         index={viewImgIndex}/>
                 }
 
             </div>
+            {
+                empty && <p>暂未上传电子协议</p>
+            }
         </div>;
     }
-
-    submit = () => {
-        if (this.refs.form.valid()) {
-            this.setState({submiting: true});
-            const {area, nickName, phone, address} = this.state;
-            this.props.userState.saveUserInfo({
-                area: area,
-                nickName: nickName,
-                phone: phone,
-                address: address,
-            })
-                .then(res => {
-                    this.setState({submiting: false});
-                    this.refreshUserInfo();
-                    this.notification("修改成功");
-                    setTimeout(() => this.replace(Path.PATH_USER_INDEX), 1000);
-                })
-                .catch(err => this.setState({submiting: false, subInfo: err.msg}));
-        }
-    };
 
     refreshUserInfo = () => {
         this.props.userState.getUserInfo();

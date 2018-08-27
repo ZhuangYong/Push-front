@@ -27,7 +27,7 @@ export default {
         backgroundColor: '#ffffff'
     },
     item: {
-        padding: '1rem',
+        padding: '1rem!important',
         borderTop: '1px solid #dedede'
     },
     itemIcon: {

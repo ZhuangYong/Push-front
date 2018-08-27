@@ -28,6 +28,7 @@ export default class PricePage extends PullRefreshPage {
     constructor(props) {
         super(props);
         this.state = {
+            groupUuid: getQueryString("groupUuid"),
             price: 0,
             limitPrice: 0,
             editItem: "",
@@ -35,8 +36,9 @@ export default class PricePage extends PullRefreshPage {
         };
     }
 
-    pageAction = (data) => {
-        return this.props.priceState.getPricePageData(data);
+    pageAction = () => {
+        const {groupUuid} = this.state;
+        return this.props.priceState.getPricePageData(groupUuid);
     };
 
     listItem = (item) => {
@@ -76,6 +78,7 @@ export default class PricePage extends PullRefreshPage {
                             labelText="套餐价格"
                             name="price"
                             value={(this.state.price || "") + ""}
+                            reg={this.validPrice}
                         />
                     </Form>
                 }
@@ -92,15 +95,26 @@ export default class PricePage extends PullRefreshPage {
         });
     };
 
+    validPrice = (v) => {
+        const {limitPrice} = this.state;
+        if (limitPrice) {
+            return parseInt(v, 10) >= limitPrice;
+        } else {
+            return parseInt(v, 10) > 0;
+        }
+    };
+
     handelEditPrice = () => {
         const {price, editItem} = this.state;
-        this.setState({submitIng: true});
-        this.props.priceState.saveProductPrice({prices: [price], uuids: [editItem.uuid]})
-            .then(res => {
-                editItem.price = price;
-                this.setState({submitIng: false, openEditPrice: false, editItem: editItem});
-            })
-            .catch(err => this.setState({submitIng: false}));
+        if (this.refs.form.valid()) {
+            this.setState({submitIng: true});
+            this.props.priceState.saveProductPrice({prices: [price], uuids: [editItem.uuid]})
+                .then(res => {
+                    editItem.price = price;
+                    this.setState({submitIng: false, openEditPrice: false, editItem: editItem});
+                })
+                .catch(err => this.setState({submitIng: false}));
+        }
     };
 
 

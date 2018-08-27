@@ -11,11 +11,10 @@ export default class priceState extends BaseState {
         this.orderData = data;
     }
 
-    getPricePageData(data) {
+    getPricePageData(groupUuid) {
         return this.fetch({
-            url: Api.API_PRICE_PRODUCT_PAGE,
+            url: Api.API_PRICE_PRODUCT_PAGE + "?uuid=" + groupUuid,
             setState: "setPricePageData",
-            data: data
         });
     }
 

@@ -125,10 +125,16 @@ export default class BaseForm extends React.Component {
      */
     validItem(node, v, notShow) {
         const {name, required, reg} = node.props;
+        console.log("================", v);
         if (required && !v) {
             this.state.validSuccess[name] = false;
-        } else if (typeof reg !== "undefined" && reg.test && !reg.test(v)) {
-            this.state.validSuccess[name] = false;
+        } else if (typeof reg !== "undefined") {
+            if (reg.test) {
+                this.state.validSuccess[name] = reg.test(v);
+            } else if (typeof reg === "function") {
+                console.log("================", reg);
+                this.state.validSuccess[name] = reg(v);
+            }
         } else {
             this.state.validSuccess[name] = true;
         }

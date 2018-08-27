@@ -22,7 +22,8 @@ import ktvIcon from "../../assets/img/icon/ktv.png";
 import percentIcon from "../../assets/img/icon/percent.png";
 import incomeIcon from "../../assets/img/icon/income.png";
 import totalIncomeIcon from "../../assets/img/icon/totalIncome.png";
-import {BarrageIcon} from "../../components/common/SvgIcons";
+import {BarrageIcon, PriceIcon} from "../../components/common/SvgIcons";
+import {getQueryString} from "../../utils/comUtils";
 
 @withStyles({
     ...customStyle,
@@ -85,12 +86,17 @@ export default class Index extends BaseComponent {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            groupUuid: getQueryString("groupUuid")
+        };
     }
     componentDidMount() {
+        this.getDeviceGroupDetail();
     }
+
     render() {
         const {deviceGroupDetailData} = this.props.deviceState;
+        console.log(deviceGroupDetailData);
         const {classes = ""} = this.props;
         return <div>
             <Card className={classes.card} style={{borderRadius: 0}}>
@@ -137,7 +143,7 @@ export default class Index extends BaseComponent {
                             <img src={ktvIcon} className={classes.itemIcon}/>
                         </ListItemIcon>
                         <ListItemText
-                            primary="设备数"
+                            primary="设备"
                         />
                         <ListItemSecondaryAction>
                             {deviceGroupDetailData.deviceCount}
@@ -146,6 +152,22 @@ export default class Index extends BaseComponent {
                             </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>
+
+                    <ListItem className={classes.item} onClick={() => this.devicePriceList(deviceGroupDetailData)}>
+                        <ListItemIcon>
+                            <PriceIcon size="1.6rem"/>
+                        </ListItemIcon>
+                        <ListItemText className={classes.ListItemText}
+                            primary="套餐价格"
+                        />
+                        <ListItemSecondaryAction>
+                            {deviceGroupDetailData.deviceCount}
+                            <IconButton onClick={() => this.devicePriceList(deviceGroupDetailData)}>
+                                <ArrowForwardIcon/>
+                            </IconButton>
+                        </ListItemSecondaryAction>
+                    </ListItem>
+
 
                     <ListItem className={classes.item} style={{borderBottom: '1px solid #cecece'}} onClick={() => this.deviceMarqueeList(deviceGroupDetailData)}>
                         <ListItemIcon>
@@ -201,8 +223,17 @@ export default class Index extends BaseComponent {
         this.linkTo(Path.PATH_DEVICE_INDEX, {groupUuid: item.uuid || "", channelCode: item.channelCode || ""});
     };
 
+    devicePriceList = (item) => {
+        this.linkTo(Path.PATH_PRICE_INDEX, {groupUuid: item.uuid || ""});
+    };
+
     deviceMarqueeList = (item) => {
         item.uuid && this.linkTo(Path.PATH_DEVICE_MARQUEE_LIST, {groupUuid: item.uuid});
+    };
+
+    getDeviceGroupDetail = () => {
+        const {groupUuid} = this.state;
+        this.props.deviceState.getDeviceGroupDetail(groupUuid);
     };
 
 }

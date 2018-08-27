@@ -65,8 +65,12 @@ export default {
     // 修改价格
     API_PRICE_PRODUCT_SAVE: "/wxback/product/save",
 
+    // ------- 合作伙伴 ------
     // 查询销售方
     API_SALES_PAGE: "/wxback/device/salesList",
+
+    // 合作伙伴详情
+    API_PARTNER_DETAIL: "/wxback/user/child/",
 
     // 保存销售方
     API_SALES_EDIT: "/wxback/device/saveSales",
@@ -74,7 +78,10 @@ export default {
     // 保存销售方设备(选择设备保存)
     API_SALES_SAVE_DEVICE: "/wxback/device/saveDevice",
 
-    // 自营
+    // ----------自营---------
+    // 设备组详情
+    API_DEVICE_GROUP_STATIS: "/wxback/statis/group/",
+
     // 保存设备组
     API_DEVICE_GROUP_SAVE: "/wxback/device/saveGroup",
 
