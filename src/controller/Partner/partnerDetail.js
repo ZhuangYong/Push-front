@@ -86,7 +86,7 @@ export default class Index extends BaseComponent {
                         style={{paddingBottom: '2rem'}}
                         className={[classes.carHeader, classes.partnerCarHead].join(" ")}
                         title={<PictureUpload
-                            label={partnerDetailData.name || ""}
+                            label={partnerDetailData.viewName || "..."}
                             labelStyle={style.carHeaderLabel}
                             defaultImage={partnerDetailData.headImg}
                         />}

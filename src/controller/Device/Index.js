@@ -1,3 +1,7 @@
+/**
+ * 设备组、合作者tabs页面
+ */
+
 import React from "react";
 
 import {observer} from "mobx-react";

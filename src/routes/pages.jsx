@@ -11,12 +11,14 @@ import ElectronicAgreement from "../controller/User/ElectronicAgreement";
 import Feedback from "../controller/User/Feedback";
 import EditSales from "../controller/Partner/EditPartner";
 import PartnerDeviceList from "../controller/Device/PartnerDeviceList";
-import EditDeviceGroup from "../controller/Device/EditDeviceGroup";
+import EditDeviceGroup from "../controller/Device/Group/EditDeviceGroup";
 import CashApplyList from "../controller/Order/CashApplyList";
-import SelfDeviceGroupDetail from "../controller/Device/SelfDeviceGroupDetail";
+import SelfDeviceGroupDetail from "../controller/Device/Group/SelfDeviceGroupDetail";
 import PartnerDetail from "../controller/Partner/partnerDetail";
 import DeviceMarquee from "../controller/Device/Marquee/DeviceMarqueeList";
 import EditMarquee from "../controller/Device/Marquee/EditMarquee";
+import DeviceGroupIndex from "../controller/Device/Group/DeviceGroupIndex";
+import PartnerListIndex from "../controller/Partner/PartnerListIndex";
 
 const dashRoutes = [
     {path: Path.PATH_INDEX, name: "index", component: Index, needLogin: true},
@@ -25,6 +27,8 @@ const dashRoutes = [
     {path: Path.PATH_DEVICE_GROUP_SELF_DETAIL, name: "self device group detail", component: SelfDeviceGroupDetail, needLogin: true},
     {path: Path.PATH_PARTNER_DETAIL, name: "partner detail", component: PartnerDetail, needLogin: true},
     {path: Path.PATH_DEVICE_INDEX, name: "deviceList", component: SelfDeviceList, needLogin: true},
+    {path: Path.PATH_DEVICE_GROUP_INDEX, name: "device group list", component: DeviceGroupIndex, needLogin: true},
+    {path: Path.PATH_PARTNER_LIST_INDEX, name: "partner list", component: PartnerListIndex, needLogin: true},
     {path: Path.PATH_DEVICE_MARQUEE_LIST, name: "device marquee", component: DeviceMarquee, needLogin: true},
     {path: Path.PATH_DEVICE_MARQUEE_EDIT, name: "edit marquee", component: EditMarquee, needLogin: true},
     {path: Path.PATH_DEVICE_PARTNER_INDEX, name: "partnerDeviceList", component: PartnerDeviceList, needLogin: true},

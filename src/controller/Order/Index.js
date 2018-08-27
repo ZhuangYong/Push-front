@@ -3,15 +3,10 @@ import withStyles from "material-ui/styles/withStyles";
 
 import {observer} from "mobx-react";
 import {inject} from "mobx-react/index";
-import BaseComponent from "../../components/common/BaseComponent";
 import customStyle from "../../assets/jss/view/custom";
-import SearchInput from "../../components/CustomInput/SearchInput";
-import PullRefresh from "../../components/PageContainer/PullRefresh";
 import ListItem from '@material-ui/core/ListItem';
 import svgBottom from "../../assets/svg/bottom-tear.svg";
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import PullRefreshPage from "../../components/CommonPage/PullrefreshPage";
-import {BlankImage} from "../../components/common/SvgIcons";
 
 const style = {
     ...customStyle,

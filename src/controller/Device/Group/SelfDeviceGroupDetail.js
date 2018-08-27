@@ -1,5 +1,5 @@
 import React from "react";
-import BaseComponent from "../../components/common/BaseComponent";
+import BaseComponent from "../../../components/common/BaseComponent";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -12,18 +12,18 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 
-import customStyle from "../../assets/jss/view/custom";
+import customStyle from "../../../assets/jss/view/custom";
 
 import {observer} from "mobx-react";
 import {inject} from "mobx-react/index";
-import Path from "../../utils/path";
+import Path from "../../../utils/path";
 
-import ktvIcon from "../../assets/img/icon/ktv.png";
-import percentIcon from "../../assets/img/icon/percent.png";
-import incomeIcon from "../../assets/img/icon/income.png";
-import totalIncomeIcon from "../../assets/img/icon/totalIncome.png";
-import {BarrageIcon, PriceIcon} from "../../components/common/SvgIcons";
-import {getQueryString} from "../../utils/comUtils";
+import ktvIcon from "../../../assets/img/icon/ktv.png";
+import percentIcon from "../../../assets/img/icon/percent.png";
+import incomeIcon from "../../../assets/img/icon/income.png";
+import totalIncomeIcon from "../../../assets/img/icon/totalIncome.png";
+import {BarrageIcon, PriceIcon} from "../../../components/common/SvgIcons";
+import {getQueryString} from "../../../utils/comUtils";
 
 @withStyles({
     ...customStyle,
@@ -77,6 +77,16 @@ import {getQueryString} from "../../utils/comUtils";
             color: 'white',
             position: 'absolute',
             textShadow: '1px 1px 4px black'
+        },
+        todayDetail: {
+            display: 'flex',
+            fontSize: '1rem',
+            backgroundColor: '#e6e6e6',
+            padding: '0 3rem 0 16px',
+            '&>p': {
+                margin: '0 2rem 1rem 0',
+                whiteSpace: 'nowrap'
+            }
         }
     }
 })
@@ -101,9 +111,15 @@ export default class Index extends BaseComponent {
         return <div>
             <Card className={classes.card} style={{borderRadius: 0}}>
                 <CardHeader
+                    style={{backgroundColor: '#e6e6e6'}}
                     title={<p className={classes.nickname}>{deviceGroupDetailData.name}</p>}
-                    subheader={<p className={classes.viewName}>创建时间：{deviceGroupDetailData.createTime}</p>}
+                    subheader={<p className={classes.viewName}>{deviceGroupDetailData.createTime}</p>}
                 />
+                <span className={classes.todayDetail}>
+                    <p>今日  ￥{deviceGroupDetailData.dayAmount}</p>
+                    <p>昨日  ￥{deviceGroupDetailData.dayAmount}</p>
+                    <p>本周  ￥{deviceGroupDetailData.dayAmount}</p>
+                </span>
                 <List className={classes.list}>
                     <ListItem className={classes.item}>
                         <ListItemIcon>
@@ -127,7 +143,7 @@ export default class Index extends BaseComponent {
                             {deviceGroupDetailData.allAmount}
                         </ListItemSecondaryAction>
                     </ListItem>
-                    <ListItem className={classes.item}>
+                    <ListItem className={classes.item} style={{borderBottom: '1px solid #cecece'}} >
                         <ListItemIcon>
                             <img src={totalIncomeIcon} className={classes.itemIcon}/>
                         </ListItemIcon>
@@ -138,6 +154,13 @@ export default class Index extends BaseComponent {
                             {deviceGroupDetailData.getAmount}
                         </ListItemSecondaryAction>
                     </ListItem>
+
+                    <div>
+                        <p className={classes.staticsTitle}>
+                             &nbsp;
+                        </p>
+                    </div>
+
                     <ListItem className={classes.item} onClick={() => this.deviceList(deviceGroupDetailData)}>
                         <ListItemIcon>
                             <img src={ktvIcon} className={classes.itemIcon}/>
@@ -158,10 +181,9 @@ export default class Index extends BaseComponent {
                             <PriceIcon size="1.6rem"/>
                         </ListItemIcon>
                         <ListItemText className={classes.ListItemText}
-                            primary="套餐价格"
+                                      primary="套餐价格"
                         />
                         <ListItemSecondaryAction>
-                            {deviceGroupDetailData.deviceCount}
                             <IconButton onClick={() => this.devicePriceList(deviceGroupDetailData)}>
                                 <ArrowForwardIcon/>
                             </IconButton>
@@ -169,48 +191,17 @@ export default class Index extends BaseComponent {
                     </ListItem>
 
 
-                    <ListItem className={classes.item} style={{borderBottom: '1px solid #cecece'}} onClick={() => this.deviceMarqueeList(deviceGroupDetailData)}>
+                    <ListItem className={classes.item} onClick={() => this.deviceMarqueeList(deviceGroupDetailData)}>
                         <ListItemIcon>
                             <BarrageIcon size="1.6rem" color="red"/>
                         </ListItemIcon>
                         <ListItemText className={classes.ListItemText}
-                            primary="扫码滚动文字"
+                                      primary="扫码滚动文字"
                         />
                         <ListItemSecondaryAction>
                             <IconButton onClick={() => this.deviceMarqueeList(deviceGroupDetailData)}>
                                 <ArrowForwardIcon/>
                             </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-
-                    <div>
-                        <p className={classes.staticsTitle}>
-                            最近收入
-                        </p>
-                    </div>
-
-                    <ListItem className={classes.item}>
-                        <ListItemText
-                            primary="今日收入"
-                        />
-                        <ListItemSecondaryAction className={classes.secondary}>
-                            {deviceGroupDetailData.dayAmount}
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                    <ListItem className={classes.item}>
-                        <ListItemText
-                            primary="昨日收入"
-                        />
-                        <ListItemSecondaryAction className={classes.secondary}>
-                            {deviceGroupDetailData.yesterdayAmount}
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                    <ListItem className={classes.item}>
-                        <ListItemText
-                            primary="本周收入"
-                        />
-                        <ListItemSecondaryAction className={classes.secondary}>
-                            {deviceGroupDetailData.sevenAmount}
                         </ListItemSecondaryAction>
                     </ListItem>
                 </List>

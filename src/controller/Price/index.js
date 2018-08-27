@@ -11,6 +11,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Form from "../../components/Form/BaseForm";
 import CustomDialog from "../../components/CustomDialog/CustomDialog";
 import CustomInput from "../../components/CustomInput/CustomInput";
+import DeviceMarquee from "../Device/Marquee/DeviceMarqueeList";
 
 const style = {
     ...customStyle,
@@ -116,6 +117,9 @@ export default class PricePage extends PullRefreshPage {
                 .catch(err => this.setState({submitIng: false}));
         }
     };
-
-
 }
+
+PricePage.defaultProps = {
+    showSearch: false
+};
+

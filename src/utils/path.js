@@ -8,7 +8,7 @@ export default {
     // 首页
     PATH_INDEX: "/index",
 
-    // 设备组列表
+    // 设备组列表(tab 页面，包含合作者)
     PATH_DEVICE_GROUP_LIST: "/device/groupList",
 
     // 添加自营设备组
@@ -22,6 +22,9 @@ export default {
 
     // 设备列表
     PATH_DEVICE_INDEX: "/device/list",
+
+    // 设备组列表
+    PATH_DEVICE_GROUP_INDEX: "/device/group/list",
 
     // 共享设备扫码底部滚动文字/跑马灯 列表
     PATH_DEVICE_MARQUEE_LIST: "/device/marquee/list",
@@ -58,5 +61,8 @@ export default {
 
     // 修改销售方
     PATH_SALES_EDIT: "/sales/edit",
+
+    // 下级合作者列表
+    PATH_PARTNER_LIST_INDEX: "/partner/list/index"
 
 };

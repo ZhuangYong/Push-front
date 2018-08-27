@@ -25,7 +25,7 @@ const style = {
         height: '2.4rem',
         borderRadius: '2.4rem',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: '#dcdcdc',
         border: '1px solid #dcdcdc',
         justifyContent: 'space-between',
         padding: '.8rem .3rem .8rem 1rem'
@@ -34,7 +34,8 @@ const style = {
         height: '2.2rem',
         width: "88%",
         fontSize: '1rem',
-        border: 'none'
+        border: 'none',
+        backgroundColor: '#dcdcdc'
     },
     clearButton: {
         height: '1.8rem',

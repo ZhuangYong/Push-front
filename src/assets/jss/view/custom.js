@@ -38,6 +38,7 @@ export default {
         fontSize: '.86rem'
     },
     ListItemText: {
+        maxWidth: '80%',
         paddingLeft: '.6rem!important'
     },
     infoLine: {
