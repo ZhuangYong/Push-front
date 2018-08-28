@@ -1,6 +1,6 @@
 import React from "react";
 import withStyles from "material-ui/styles/withStyles";
-
+import propTypes from "prop-types";
 import {observer} from "mobx-react";
 import {inject} from "mobx-react/index";
 import customStyle from "../../assets/jss/view/custom";
@@ -19,6 +19,7 @@ import CircularProgress from "material-ui/Progress/CircularProgress";
 import AppHeader from "../../components/Header/AppHeader";
 import Dialog from '@material-ui/core/Dialog';
 import _ from "lodash";
+import Path from "../../utils/path";
 
 const style = {
     ...customStyle,
@@ -45,112 +46,6 @@ export default class SelfDeviceList extends PullrefreshPage {
         this.state.openChooseDevicePage = false;
     }
 
-    /*constructor(props) {
-        super(props);
-        this.state = {
-            editItem: {},
-            searchIng: false,
-            nickname: "",
-            submitIng: false,
-            searchKeyWords: ""
-        };
-        this.devicePageAction = this.devicePageAction.bind(this);
-        this.handlerSearch = this.handlerSearch.bind(this);
-        this.handlerClear = this.handlerClear.bind(this);
-    }
-    render() {
-        const {loginUserData} = this.props.userState;
-        const {searchIng, searchKeyWords, openEditDeviceNickname, nickname, submitIng} = this.state;
-        const {classes = ""} = this.props;
-        const groupUuid = getQueryString("groupUuid");
-        const channelCode = getQueryString("channelCode");
-        let pageParam = {};
-        if (groupUuid) {
-            pageParam = {groupUuid: groupUuid};
-        } else if (channelCode) {
-            pageParam = {channelCode: channelCode};
-        }
-        let fixBottom = 56 + window.rem2px(3.2);
-        if (searchKeyWords) {
-            fixBottom += 28;
-        }
-        return <div>
-            <div>
-                <SearchInput
-                    placeholder="请输入设备号 、SN号"
-                    handelSearch={this.handlerSearch}
-                    handelClear={this.handlerClear}
-                    searchIng={searchIng}
-                />
-            </div>
-            {
-                searchKeyWords ? <div className={classes.searchResult}>
-                        "{searchKeyWords}"的搜索结果
-                    <DeleteOutlinedIcon className={classes.icon} style={style.searchClear} onClick={this.handlerClear}/>
-                </div> : ""
-            }
-
-            <div className="pull-data-list">
-                <PullRefresh
-                    ref="pager"
-                    pageParam={pageParam}
-                    fixBottom={fixBottom}
-                    pageAction={this.devicePageAction}
-                    renderItem={item => {
-                        return <ListItem key={item.deviceId} className={classes.item}>
-                            <div>
-                                {
-                                    loginUserData.type === Const.ROLE.SALES && <p className={classes.infoLine}>
-                                        <font className={classes.infoLabel}>别名：</font>{item.consumerName || "无"} <EditIcon color="#e91e63" size='1.2rem' onClick={() => this.editDevice(item)}/>
-                                    </p>
-                                }
-                                <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>机型：</font>{item.channelName}
-                                </p>
-                                <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>收入总额：</font><font color="red">￥{item.total}</font>
-                                </p>
-                                {
-                                    loginUserData.type === Const.ROLE.SALES && <p className={classes.infoLine}>
-                                        <font className={classes.infoLabel}>投放时间：</font>{item.putTime}
-                                    </p>
-                                }
-                                <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>SN号：</font>{item.sn}
-                                </p>
-                                <p className={classes.infoLine}>
-                                    <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
-                                </p>
-                            </div>
-                        </ListItem>;
-                    }}
-                />
-            </div>
-
-            <CustomDialog
-                title="修改设备别名"
-                open={openEditDeviceNickname}
-                handelClose={() => this.setState({openEditDeviceNickname: false})}
-                handleSure={() => this.handelEditDeviceNickname()}
-                loading={submitIng}
-
-                content={
-                    <Form
-                        ref="form"
-                        setState={this.stateFun}>
-                        <CustomInput
-                            labelText="设备别名"
-                            name="nickname"
-                            inputProps={{
-                                value: this.state.nickname
-                            }}
-                        />
-                    </Form>
-                }
-            />
-        </div>;
-    }*/
-
     getPageParam = () => {
         const groupUuid = getQueryString("groupUuid");
         const salesUuid = getQueryString("salesUuid");
@@ -171,6 +66,7 @@ export default class SelfDeviceList extends PullrefreshPage {
     };
 
     renderExt = () => {
+        const {classes} = this.props;
         const salesUuid = getQueryString("salesUuid");
         const {openEditDeviceNickname, submitIng, openChooseDevicePage} = this.state;
         return <div>
@@ -193,13 +89,8 @@ export default class SelfDeviceList extends PullrefreshPage {
                 }
             />
 
-            <Button
-                mini
-                variant="fab"
-                color="secondary"
-                style={style.addButton}
-                onClick={() => this.setState({openChooseDevicePage: true})}>
-                <AddIcon/>
+            <Button className={classes.menuBottomButton} style={{bottom: 56}} onClick={() => this.setState({openChooseDevicePage: true})}>
+                <AddIcon/> 添加设备
             </Button>
 
             <Dialog
@@ -256,6 +147,15 @@ export default class SelfDeviceList extends PullrefreshPage {
         </ListItem>;
     };
 
+    getFixBottom = () => {
+        const {searchKeyWords} = this.state;
+        let fixBottom = 56 + window.rem2px(3.2) + 41;
+        if (searchKeyWords) {
+            fixBottom += 28;
+        }
+        return fixBottom;
+    };
+
     editDevice = (item) => {
         this.setState({
             openEditDeviceNickname: true,
@@ -304,3 +204,7 @@ export default class SelfDeviceList extends PullrefreshPage {
         this.setState({openChooseDevicePage: false});
     };
 }
+
+SelfDeviceList.propTypes = {
+    addDevice: propTypes.bool
+};

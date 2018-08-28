@@ -17,6 +17,12 @@ export default {
     // 微信授权
     API_WEIXIN_AUTH: "/wxback/auth",
 
+    // 配置
+    API_CONFIG_INDEX: "/wxback/config/index",
+
+
+    API_CONFIG_CHANGE_FREE_SING: "/wxback/config/onOffFreeSing",
+
     // 首页统计数据
     API_STATIS_INDEX: "/wxback/statis/index",
 
@@ -28,6 +34,9 @@ export default {
 
     // 修改用户信息接口
     API_USER_SAVE: "/wxback/user/save",
+
+    // 修改用户密码
+    API_USER_CHANGE_PASSWORD: "/wxback/user/modifyPass",
 
     // 设备组列表（销售方|自营分组）
     API_STATIS_DEVICE_GROUP_PAGE: "/wxback/device/index",

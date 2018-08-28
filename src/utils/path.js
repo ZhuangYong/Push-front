@@ -26,6 +26,9 @@ export default {
     // 设备组列表
     PATH_DEVICE_GROUP_INDEX: "/device/group/list",
 
+    // 渠道方设备组列表
+    PATH_MANUFACTURE_DEVICE_GROUP_INDEX: "/device/manufacture/group/list",
+
     // 共享设备扫码底部滚动文字/跑马灯 列表
     PATH_DEVICE_MARQUEE_LIST: "/device/marquee/list",
 
@@ -49,6 +52,9 @@ export default {
 
     // 编辑用户信息
     PATH_USER_EDIT_INFO: "/user/edit",
+
+    // 编辑用户密码
+    PATH_USER_EDIT_PASSWORD: "/user/edit/pwd",
 
     // 收入概况
     PATH_USER_INCOME_INFO: "/user/income",

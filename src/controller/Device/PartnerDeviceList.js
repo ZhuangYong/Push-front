@@ -79,6 +79,7 @@ export default class PartnerDeviceList extends PullrefreshPage {
     };
 
     renderExt = () => {
+        const {classes} = this.props;
         const salesUuid = getQueryString("salesUuid");
         const {openEditDeviceNickname, submitIng, openChooseDevicePage} = this.state;
         return <div>
@@ -101,13 +102,8 @@ export default class PartnerDeviceList extends PullrefreshPage {
                 }
             />
 
-            <Button
-                mini
-                variant="fab"
-                color="secondary"
-                style={style.addButton}
-                onClick={() => this.setState({openChooseDevicePage: true})}>
-                <AddIcon/>
+            <Button className={classes.menuBottomButton} style={{bottom: 56}} onClick={() => this.setState({openChooseDevicePage: true})}>
+                <AddIcon/> 添加设备
             </Button>
 
             <Dialog
@@ -162,6 +158,15 @@ export default class PartnerDeviceList extends PullrefreshPage {
                 </p>
             </div>
         </ListItem>;
+    };
+
+    getFixBottom = () => {
+        const {searchKeyWords} = this.state;
+        let fixBottom = 56 + window.rem2px(3.2) + 41;
+        if (searchKeyWords) {
+            fixBottom += 28;
+        }
+        return fixBottom;
     };
 
     editDevice = (item) => {

@@ -106,7 +106,6 @@ export default class Index extends BaseComponent {
 
     render() {
         const {deviceGroupDetailData} = this.props.deviceState;
-        console.log(deviceGroupDetailData);
         const {classes = ""} = this.props;
         return <div>
             <Card className={classes.card} style={{borderRadius: 0}}>

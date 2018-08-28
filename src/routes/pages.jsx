@@ -19,6 +19,8 @@ import DeviceMarquee from "../controller/Device/Marquee/DeviceMarqueeList";
 import EditMarquee from "../controller/Device/Marquee/EditMarquee";
 import DeviceGroupIndex from "../controller/Device/Group/DeviceGroupIndex";
 import PartnerListIndex from "../controller/Partner/PartnerListIndex";
+import EditPassword from "../controller/User/EditPassword";
+import MaufactureDeviceGroupIndex from "../controller/Manufacture/Device/Group/DeviceGroupIndex";
 
 const dashRoutes = [
     {path: Path.PATH_INDEX, name: "index", component: Index, needLogin: true},
@@ -26,7 +28,7 @@ const dashRoutes = [
     {path: Path.PATH_DEVICE_GROUP_EDIT, name: "editDeviceGroup", component: EditDeviceGroup, needLogin: true},
     {path: Path.PATH_DEVICE_GROUP_SELF_DETAIL, name: "self device group detail", component: SelfDeviceGroupDetail, needLogin: true},
     {path: Path.PATH_PARTNER_DETAIL, name: "partner detail", component: PartnerDetail, needLogin: true},
-    {path: Path.PATH_DEVICE_INDEX, name: "deviceList", component: SelfDeviceList, needLogin: true},
+    {path: Path.PATH_DEVICE_INDEX, name: "device list", component: SelfDeviceList, needLogin: true},
     {path: Path.PATH_DEVICE_GROUP_INDEX, name: "device group list", component: DeviceGroupIndex, needLogin: true},
     {path: Path.PATH_PARTNER_LIST_INDEX, name: "partner list", component: PartnerListIndex, needLogin: true},
     {path: Path.PATH_DEVICE_MARQUEE_LIST, name: "device marquee", component: DeviceMarquee, needLogin: true},
@@ -38,9 +40,15 @@ const dashRoutes = [
     {path: Path.PATH_PRICE_INDEX, name: "price", component: PriceIndex, needLogin: true},
     {path: Path.PATH_USER_INDEX, name: "index", component: UserIndex, needLogin: true},
     {path: Path.PATH_USER_EDIT_INFO, name: "editUserInfo", component: EditInfo, needLogin: true},
+    {path: Path.PATH_USER_EDIT_PASSWORD, name: "edit user password", component: EditPassword, needLogin: true},
     {path: Path.PATH_USER_INCOME_INFO, name: "editUserInfo", component: UserIncome, needLogin: true},
     {path: Path.PATH_USER_FEEDBACK, name: "feedback", component: Feedback, needLogin: true},
     {path: Path.PATH_USER_ELECTRONIC_AGREEMENT, name: "electronicAgreement", component: ElectronicAgreement, needLogin: true},
+
+    // Manufacture
+    {path: Path.PATH_MANUFACTURE_DEVICE_GROUP_INDEX, name: "device group list", component: MaufactureDeviceGroupIndex, needLogin: true},
+
+
     {redirect: true, path: "/", pathTo: Path.PATH_INDEX, name: "index", needLogin: true}
 ];
 export default dashRoutes;

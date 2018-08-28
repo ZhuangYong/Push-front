@@ -3,6 +3,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import withStyles from "material-ui/styles/withStyles";
 import pageRoutes from "../routes/pages";
 
+import {Device2Icon, DeviceIcon, HomeIcon, OrderIcon, PartnerIcon, UserIcon} from "../components/common/SvgIcons";
 import appStyle from "../assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 import BaseComponent from "../components/common/BaseComponent";
 import CommonFrame from "../components/common/CommonFrame";
@@ -13,6 +14,7 @@ import BottomNavs from "../components/Menus/BottomNavs";
 import NavUtils from "../utils/navUtils";
 import Path from "../utils/path";
 import {getToken} from "../utils/auth";
+import Const from "../utils/const";
 
 const genRoute = (prop, key) => {
     return <Route exact path={prop.path} render={() => {
@@ -58,11 +60,12 @@ export default class Dashboard extends BaseComponent {
         this.initial();
     }
     getRoute() {
-        return this.props.location.pathname !== "/maps/full-screen-maps";
+        return this.props.location.pathname !== "/some/condition/path";
     }
 
     render() {
         const {classes} = this.props;
+        const {loginUserData} = this.props.userState;
         return (
             <div className={classes.wrapper}>
                 <div ref="mainPanel" style={{paddingBottom: '5.6rem'}}>
@@ -74,7 +77,23 @@ export default class Dashboard extends BaseComponent {
                         <div className={classes.map}>{switchRoutes}</div>
                     )}
                 </div>
-                <BottomNavs/>
+                {
+                    loginUserData.type === Const.ROLE.SALES && <BottomNavs items={[
+                        {label: "首页", icon: <HomeIcon/>, paths: [Path.PATH_INDEX, Path.PATH_USER_INCOME_INFO]},
+                        {label: "设备组", icon: <Device2Icon/>, paths: [Path.PATH_DEVICE_GROUP_INDEX, Path.PATH_DEVICE_INDEX, Path.PATH_DEVICE_GROUP_SELF_DETAIL]},
+                        {label: "合作者", icon: <PartnerIcon/>, paths: [Path.PATH_PARTNER_LIST_INDEX, Path.PATH_PARTNER_DETAIL, Path.PATH_DEVICE_PARTNER_INDEX]},
+                        {label: "订单", icon: <OrderIcon/>, paths: [Path.PATH_ORDER_INDEX]},
+                        {label: "我", icon: <UserIcon/>, paths: [Path.PATH_USER_INDEX, Path.PATH_USER_EDIT_INFO, Path.PATH_USER_FEEDBACK]},
+                    ]}/>
+                }
+                {
+                    loginUserData.type === Const.ROLE.MANUFACTURE && <BottomNavs items={[
+                        {label: "首页", icon: <HomeIcon/>, paths: [Path.PATH_INDEX, Path.PATH_USER_INCOME_INFO]},
+                        {label: "设备组", icon: <Device2Icon/>, paths: [Path.PATH_MANUFACTURE_DEVICE_GROUP_INDEX, Path.PATH_DEVICE_INDEX, Path.PATH_DEVICE_GROUP_SELF_DETAIL]},
+                        {label: "订单", icon: <OrderIcon/>, paths: [Path.PATH_ORDER_INDEX]},
+                        {label: "我", icon: <UserIcon/>, paths: [Path.PATH_USER_INDEX, Path.PATH_USER_EDIT_INFO, Path.PATH_USER_FEEDBACK]},
+                    ]}/>
+                }
             </div>
         );
     }

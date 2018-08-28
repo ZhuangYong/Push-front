@@ -46,7 +46,7 @@ export default class DeviceMarquee extends PullRefreshPage {
     };
 
     getFixBottom = () => {
-        return 41;
+        return 41 + 58;
     };
 
     listItem = (item) => {
@@ -78,7 +78,7 @@ export default class DeviceMarquee extends PullRefreshPage {
 
     renderExt = () => {
         const {classes} = this.props;
-        return <Button className={classes.menuBottomButton} style={{bottom: 0}} onClick={this.editDeviceMarquee}>
+        return <Button className={classes.menuBottomButton} style={{bottom: 58}} onClick={this.editDeviceMarquee}>
             <AddIcon/> 添加
         </Button>;
     };

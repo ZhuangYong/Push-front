@@ -8,6 +8,7 @@ export default class userState extends BaseState {
     @observable loginData = "";
     @observable loginUserData = "";
     @observable userIncomeData = "";
+    @observable configData = "";
 
     @action
     setLoginData(data) {
@@ -32,6 +33,12 @@ export default class userState extends BaseState {
     @action
     setUserIncomeData(data) {
         this.userIncomeData = data;
+    }
+
+
+    @action
+    setConfigData(data) {
+        this.configData = data;
     }
 
     /**
@@ -83,6 +90,14 @@ export default class userState extends BaseState {
             data: data
         });
     }
+
+    updateUserPassword(data) {
+        return this.fetch({
+            url: Api.API_USER_CHANGE_PASSWORD,
+            data: data
+        });
+    }
+
     getUserIncomeInfo(data) {
         return this.fetch({
             url: Api.API_STATIS_INDEX_DETAIL,
@@ -95,6 +110,23 @@ export default class userState extends BaseState {
         return this.fetch({
             url: Api.API_USER_SAVE_FEEDBACK,
             data: data
+        });
+    }
+
+    /**
+     * 获取配置
+     * @returns {*}
+     */
+    getConfigData() {
+        return this.fetch({
+            url: Api.API_CONFIG_INDEX,
+            setState: "setConfigData",
+        });
+    }
+
+    onOffFreeSing() {
+        return this.fetch({
+            url: Api.API_CONFIG_CHANGE_FREE_SING,
         });
     }
 }

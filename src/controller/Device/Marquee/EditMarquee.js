@@ -116,9 +116,10 @@ export default class EditMarquee extends BaseComponent {
                     />
                     <CustomInput
                         placeholder="滚动显示文字字体"
-                        labelText="字体"
+                        labelText="请输入整数"
                         value={font}
                         name="font"
+                        reg={/^\d{1,6}$/}
                     />
                     <CustomInput
                         placeholder="滚动显示文字颜色"
@@ -163,17 +164,17 @@ export default class EditMarquee extends BaseComponent {
                         label="是否启用"
                         className="form-control-label"
                         labelPlacement="start"
-                        style={{borderBottom: '1px solid #d2d2d2', marginBottom: 10}}
+                        style={{marginBottom: 10}}
                         control={<div>
                             <FormControlLabel
-                                checked={isEnabled === '1'}
+                                checked={isEnabled + "" === '1'}
                                 value={'1'}
                                 control={<Radio onChange={e => this.setState({isEnabled: e.target.value})}/>}
                                 label="启用"
                                 labelPlacement="end"
                             />
                             <FormControlLabel
-                                checked={isEnabled === '0'}
+                                checked={isEnabled + "" === '0'}
                                 value={'0'}
                                 control={<Radio onChange={e => this.setState({isEnabled: e.target.value})}/>}
                                 label="禁用"

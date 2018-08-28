@@ -46,10 +46,7 @@ const style = {
         borderRadius: '0'
     }
 };
-@inject(({store: {deviceState}}) => ({deviceState}))
-@observer
 export default class DeviceGroup extends BaseComponent {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -133,11 +130,17 @@ export default class DeviceGroup extends BaseComponent {
                 />
             </div>
 
-            <Button style={{...style.menuBottomButton, bottom: 56}} onClick={() => this.linkTo(Path.PATH_DEVICE_GROUP_EDIT)}>
-                <AddIcon/> 添加分组
-            </Button>
+            {
+                this.renderExt()
+            }
         </div>;
     }
+
+    renderExt = () => {
+        return <Button style={{...style.menuBottomButton, bottom: 56}} onClick={() => this.linkTo(Path.PATH_DEVICE_GROUP_EDIT)}>
+            <AddIcon/> 添加分组
+        </Button>;
+    };
 
     getFixBottom = () => {
         const {searchKeyWords} = this.state;
@@ -149,17 +152,15 @@ export default class DeviceGroup extends BaseComponent {
     };
 
     deviceGroupDetail = (item) => {
-        // this.linkTo(Path.PATH_DEVICE_INDEX, {groupUuid: item.uuid || "", channelCode: item.channelCode || ""});
-        this.props.deviceState.setDeviceGroupDetailData(item);
-        this.linkTo(Path.PATH_DEVICE_GROUP_SELF_DETAIL, {groupUuid: item.uuid || "", channelCode: item.channelCode || ""});
+        console.log("not set device group detail action");
     };
 
     deviceGroupPageAction = (data) => {
-        return this.props.deviceState.getDeviceGroupPage(data);
+        console.log("not set device group action");
     };
 
     deviceListPageAction = (data) => {
-        return this.props.deviceState.getDevicePage(data);
+        console.log("not set device list action");
     };
 
     handlerSearch(v) {
