@@ -76,7 +76,7 @@ export default {
 
     // ------- 合作伙伴 ------
     // 查询销售方
-    API_SALES_PAGE: "/wxback/device/salesList",
+    API_SALES_PAGE: "/wxback/sales/list",
 
     // 子销售方分成比例组
     API_SALES_GROUP_LIST: "/wxback/group/list",
@@ -94,7 +94,7 @@ export default {
     API_PARTNER_DETAIL: "/wxback/user/child/",
 
     // 保存销售方
-    API_SALES_EDIT: "/wxback/device/saveSales",
+    API_SALES_EDIT: "/wxback/sales/save",
 
     // 保存销售方下的价格组
     API_SALES_GROUP_EDIT: "/wxback/group/save",
