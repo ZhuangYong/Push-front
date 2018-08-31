@@ -94,6 +94,11 @@ export default class Dashboard extends BaseComponent {
                         {label: "我", icon: <UserIcon/>, paths: [Path.PATH_USER_INDEX, Path.PATH_USER_EDIT_INFO, Path.PATH_USER_FEEDBACK]},
                     ]}/>
                 }
+                {
+                    !loginUserData && <BottomNavs items={[
+                        {label: "...", icon: <HomeIcon/>, paths: []},
+                    ]}/>
+                }
             </div>
         );
     }

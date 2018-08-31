@@ -14,8 +14,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ArrowForwardIcon from "@material-ui/icons/KeyboardArrowRight";
+import ListItemIcon from "material-ui/List/ListItemIcon";
 import Path from "../../utils/path";
 import SearchInput from "../CustomInput/SearchInput";
+import {DeviceIcon} from "../common/SvgIcons";
 
 const style = {
     ...customStyle,
@@ -85,6 +87,11 @@ export default class DeviceGroup extends BaseComponent {
                             key={item.id || item.uuid || item.channelCode}
                             style={classes.item}
                             onClick={() => this.deviceGroupDetail(item)}>
+                            {
+                                item.isDefault === 1 && <ListItemIcon>
+                                    <DeviceIcon size="1.6rem"/>
+                                </ListItemIcon>
+                            }
                             <ListItemText style={classes.ListItemText}
                                           primary={<span>{item.name || item.channelName || "未命名"}<font style={{fontSize: '.8rem', color: '#808080'}}> （{item.deviceCount || 0}台）</font></span>}
                             />

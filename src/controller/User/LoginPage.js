@@ -61,7 +61,7 @@ export default class LoginPage extends BaseComponent {
                                 <LoginCard
                                     customCardClass={classes[this.state.cardAnimaton]}
                                     headerColor="blue"
-                                    cardTitle="微信共享商户平台"
+                                    cardTitle="微信商户平台"
                                     cardSubtitle={<span style={{color: subInfo ? 'red' : ""}}>
                                         {subInfo || "请登陆"}
                                     </span>}

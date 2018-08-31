@@ -68,6 +68,7 @@ export default class SelfDeviceList extends PullrefreshPage {
 
     renderExt = () => {
         const {classes} = this.props;
+        const {showAction} = this.state;
         const {openEditDeviceNickname, submitIng, openChooseDevicePage} = this.state;
         return <div>
             <CustomDialog
@@ -89,9 +90,11 @@ export default class SelfDeviceList extends PullrefreshPage {
                 }
             />
 
-            <Button className={classes.menuBottomButton} style={{bottom: 56}} onClick={() => this.setState({openChooseDevicePage: true})}>
-                <AddIcon/> 添加设备
-            </Button>
+            {
+                showAction && <Button className={classes.menuBottomButton} style={{bottom: 56}} onClick={() => this.setState({openChooseDevicePage: true})}>
+                    <AddIcon/> 添加设备
+                </Button>
+            }
 
             <Dialog
                 ref="openedFullPage"
@@ -119,6 +122,10 @@ export default class SelfDeviceList extends PullrefreshPage {
         const {classes = ""} = this.props;
         const {delIng} = this.state;
         const showAction = (item.tails || {}).isDefault !== 1;
+        if (this.state.showAction !== showAction) {
+            this.state.showAction = showAction;
+            setTimeout(() => this.setState({showAction: showAction}), 0);
+        }
         return <ActionCustomItem
             key={item.deviceId}
             loading={!!delIng}
@@ -159,8 +166,8 @@ export default class SelfDeviceList extends PullrefreshPage {
     };
 
     getFixBottom = () => {
-        const {searchKeyWords} = this.state;
-        let fixBottom = 56 + window.rem2px(3.2) + 41;
+        const {searchKeyWords, showAction} = this.state;
+        let fixBottom = 56 + window.rem2px(3.2) + (showAction ? 41 : 0);
         if (searchKeyWords) {
             fixBottom += 28;
         }
