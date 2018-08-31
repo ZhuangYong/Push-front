@@ -117,11 +117,12 @@ export default class SelfDeviceList extends PullrefreshPage {
         const {loginUserData} = this.props.userState;
         const {classes = ""} = this.props;
         const {delIng} = this.state;
+        const showAction = (item.tails || {}).isDefault !== 1;
         return <ActionCustomItem
             key={item.deviceId}
             loading={!!delIng}
             className={classes.item}
-            showAction={(delIng && delIng === item.uuid) || !delIng}
+            showAction={((delIng && delIng === item.uuid) || !delIng) && showAction}
             onActionClick={() => this.openDrawerMenu({drawerMenus: [
                     {label: '修改别名', onClick: () => this.editDevice(item)},
                     {label: '解绑设备', onClick: () => this.unBindDevice(item)},

@@ -19,6 +19,12 @@ export default class deviceState extends BaseState {
 
     @action
     setDeviceData(data) {
+        const {tails} = data;
+        if (tails && data.data && data.data.map) {
+            data.data.map(item => {
+                item.tails = tails;
+            });
+        }
         this.deviceData = data;
     }
 
