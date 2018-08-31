@@ -62,6 +62,9 @@ export default {
     // 头像上传
     API_IMAGE_UPLOAD_AVATAR: "/wxback/user/saveImage",
 
+    // 上传图片
+    API_IMAGE_UPLOAD: "/wxback/config/upload",
+
     // 保存意见反馈
     API_USER_SAVE_FEEDBACK: "/wxback/user/saveRemark",
 

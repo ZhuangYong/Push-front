@@ -82,14 +82,16 @@ export default class DeviceGroup extends BaseComponent {
                     pageAction={this.deviceGroupPageAction}
                     renderItem={item => {
                         return <ListItem
-                            key={item.id || item.channelCode}
+                            key={item.id || item.uuid || item.channelCode}
                             style={classes.item}
                             onClick={() => this.deviceGroupDetail(item)}>
                             <ListItemText style={classes.ListItemText}
                                           primary={<span>{item.name || item.channelName || "未命名"}<font style={{fontSize: '.8rem', color: '#808080'}}> （{item.deviceCount || 0}台）</font></span>}
                             />
                             <ListItemSecondaryAction>
-                                <font color="#808080">{item.parentProportions || 0}元</font>
+                                {
+                                    item.isDefault !== 1 && <font color="#808080">{item.allAmount || 0}元</font>
+                                }
                                 <IconButton onClick={() => this.deviceGroupDetail(item)}>
                                     <ArrowForwardIcon color="disabled"/>
                                 </IconButton>

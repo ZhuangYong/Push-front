@@ -81,7 +81,7 @@ export default class Dashboard extends BaseComponent {
                     loginUserData.type === Const.ROLE.SALES && <BottomNavs items={[
                         {label: "首页", icon: <HomeIcon/>, paths: [Path.PATH_INDEX, Path.PATH_USER_INCOME_INFO]},
                         {label: "设备组", icon: <Device2Icon/>, paths: [Path.PATH_DEVICE_GROUP_INDEX, Path.PATH_DEVICE_INDEX, Path.PATH_DEVICE_GROUP_SELF_DETAIL, Path.PATH_PRICE_INDEX, Path.PATH_DEVICE_MARQUEE_LIST, Path.PATH_DEVICE_GROUP_EDIT]},
-                        {label: "合作者", icon: <PartnerIcon/>, iconSize: "2rem", paths: [Path.PATH_PARTNER_LIST_INDEX, Path.PATH_PARTNER_DETAIL, Path.PATH_DEVICE_PARTNER_INDEX, Path.PATH_PARTNER_DEVICE_GROUP_LIST]},
+                        {label: "合作者", icon: <PartnerIcon/>, iconSize: "1.8rem", paths: [Path.PATH_PARTNER_LIST_INDEX, Path.PATH_PARTNER_DETAIL, Path.PATH_DEVICE_PARTNER_INDEX, Path.PATH_PARTNER_DEVICE_GROUP_LIST]},
                         {label: "订单", icon: <OrderIcon/>, paths: [Path.PATH_ORDER_INDEX]},
                         {label: "我", icon: <UserIcon/>, paths: [Path.PATH_USER_INDEX, Path.PATH_USER_EDIT_INFO, Path.PATH_USER_FEEDBACK]},
                     ]}/>

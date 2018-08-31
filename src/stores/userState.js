@@ -84,6 +84,13 @@ export default class userState extends BaseState {
         });
     }
 
+    uploadImage(data) {
+        return this.fetch({
+            url: Api.API_IMAGE_UPLOAD,
+            data: data
+        });
+    }
+
     saveUserInfo(data) {
         return this.fetch({
             url: Api.API_USER_SAVE,

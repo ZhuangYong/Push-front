@@ -94,7 +94,7 @@ export default class ElectronicAgreement extends BaseComponent {
 
             </div>
             {
-                empty && <p>暂未上传电子协议</p>
+                empty && <p style={{textAlign: 'center', padding: '2rem'}}>暂未上传电子协议</p>
             }
         </div>;
     }

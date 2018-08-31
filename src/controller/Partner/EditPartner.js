@@ -288,7 +288,7 @@ export default class EditPartner extends BaseComponent {
     };
 
     uploadUserAvatarAction = (data) => {
-        return this.props.userState.uploadUserAvatar(data)
+        return this.props.userState.uploadImage(data)
             .then(setTimeout(() => this.props.userState.getUserInfo(), 500));
     };
 

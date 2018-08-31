@@ -6,6 +6,6 @@
 module.exports = {
     VERSION: '"0.0.1"',
     NODE_ENV: '"production"',
-    ENV_CONFIG: '"dev"',
+    ENV_CONFIG: '"production"',
     apiDomain: '"http://bms.j-make.cn"',
 };
