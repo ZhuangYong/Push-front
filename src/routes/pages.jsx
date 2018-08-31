@@ -2,7 +2,7 @@ import Index from "../controller/Index";
 import SelfDeviceList from "../controller/Device/SelfDeviceList";
 import OrderIndex from "../controller/Order/Index";
 import UserIndex from "../controller/User/Index";
-import PriceIndex from "../controller/price/Index";
+import PriceIndex from "../controller/Price/Index";
 import EditInfo from "../controller/User/EditInfo";
 import UserIncome from "../controller/User/UserIncome";
 import Path from "../utils/path";
