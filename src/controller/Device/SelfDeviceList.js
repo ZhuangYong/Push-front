@@ -45,11 +45,13 @@ export default class SelfDeviceList extends PullrefreshPage {
         super(props);
         this.state.chooseDevices = [];
         this.state.openChooseDevicePage = false;
+        this.state.groupUuid = getQueryString("groupUuid");
+        this.state.salesUuid = getQueryString("salesUuid");
+        this.state.channelCode = getQueryString("channelCode");
     }
 
     getPageParam = () => {
-        const salesUuid = getQueryString("salesUuid");
-        const channelCode = getQueryString("channelCode");
+        const {salesUuid, channelCode} = this.state;
         let pageParam = {};
         if (salesUuid) {
             pageParam = {salesUuid: salesUuid};
@@ -60,13 +62,12 @@ export default class SelfDeviceList extends PullrefreshPage {
     };
 
     pageAction = (data) => {
-        const groupUuid = getQueryString("groupUuid");
+        const {groupUuid} = this.state;
         return this.props.deviceState.getDevicePage(groupUuid, data);
     };
 
     renderExt = () => {
         const {classes} = this.props;
-        const salesUuid = getQueryString("salesUuid");
         const {openEditDeviceNickname, submitIng, openChooseDevicePage} = this.state;
         return <div>
             <CustomDialog

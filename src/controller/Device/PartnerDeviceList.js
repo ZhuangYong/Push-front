@@ -61,6 +61,8 @@ export default class PartnerDeviceList extends PullrefreshPage {
         this.state.openChooseDevicePage = false;
         this.state.delIng = "";
         this.state.defaultSearchValue = getQueryString("sno");
+        this.state.salesUuid = getQueryString("salesUuid");
+        this.state.groupUuid = getQueryString("groupUuid");
     }
 
     componentDidMount() {
@@ -68,7 +70,7 @@ export default class PartnerDeviceList extends PullrefreshPage {
     }
 
     getPageParam = () => {
-        const salesUuid = getQueryString("salesUuid");
+        const {salesUuid} = this.state;
         let pageParam = {};
         if (salesUuid) {
             pageParam = {salesUuid: salesUuid};
@@ -77,15 +79,15 @@ export default class PartnerDeviceList extends PullrefreshPage {
     };
 
     pageAction = (data) => {
-        const groupUuid = getQueryString("groupUuid");
+        const {groupUuid} = this.state;
         return this.props.deviceState.getPartnerDevicePage(groupUuid, data);
     };
 
     renderExt = () => {
         const {classes} = this.props;
-        const groupUuid = getQueryString("groupUuid");
-        const salesUuid = getQueryString("salesUuid");
+        const {groupUuid, salesUuid} = this.state;
         const {openEditDeviceNickname, submitIng, openChooseDevicePage} = this.state;
+        if (!groupUuid) return "";
         return <div>
             <CustomDialog
                 title="修改设备别名"
@@ -133,13 +135,14 @@ export default class PartnerDeviceList extends PullrefreshPage {
     };
 
     listItem = (item) => {
-        const {delIng} = this.state;
+        const {delIng, groupUuid} = this.state;
         const {loginUserData} = this.props.userState;
         const {classes = ""} = this.props;
+        const showAction = !!groupUuid;
         return <ActionCustomItem
             key={item.deviceId}
             loading={!!delIng}
-            showAction={(delIng && delIng === item.deviceUuid) || !delIng}
+            showAction={((delIng && delIng === item.deviceUuid) || !delIng) && showAction}
             onActionClick={() => this.openDrawerMenu({drawerMenus: [
                 {label: '编辑别名', onClick: () => this.editDevice(item)},
                 {label: '解绑设备', onClick: () => this.unBindDevice(item)},
@@ -176,8 +179,8 @@ export default class PartnerDeviceList extends PullrefreshPage {
     };
 
     getFixBottom = () => {
-        const {searchKeyWords} = this.state;
-        let fixBottom = 56 + window.rem2px(3.2) + 41;
+        const {searchKeyWords, groupUuid} = this.state;
+        let fixBottom = 56 + window.rem2px(3.2) + (groupUuid ? 41 : 0);
         if (searchKeyWords) {
             fixBottom += 28;
         }
