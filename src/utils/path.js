@@ -38,6 +38,9 @@ export default {
     // 合作方设备列表
     PATH_DEVICE_PARTNER_INDEX: "/device/partner/list",
 
+    // 为合作方添加价格组
+    PATH_DEVICE_PARTNER_GROUP_EDIT: "/device/partner/group/edit",
+
     // 定单首页
     PATH_ORDER_INDEX: "/order/index",
 
@@ -69,6 +72,9 @@ export default {
     PATH_SALES_EDIT: "/sales/edit",
 
     // 下级合作者列表
-    PATH_PARTNER_LIST_INDEX: "/partner/list/index"
+    PATH_PARTNER_LIST_INDEX: "/partner/list/index",
+
+    // 合作者设备组列表
+    PATH_PARTNER_DEVICE_GROUP_LIST: "/partner/group/list"
 
 };

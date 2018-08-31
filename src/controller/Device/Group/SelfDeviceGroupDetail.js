@@ -4,6 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import CircularProgress from "material-ui/Progress/CircularProgress";
 import withStyles from "material-ui/styles/withStyles";
 import IconButton from '@material-ui/core/IconButton';
 import ArrowForwardIcon from "@material-ui/icons/KeyboardArrowRight";
@@ -97,7 +98,8 @@ export default class Index extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            groupUuid: getQueryString("groupUuid")
+            groupUuid: getQueryString("groupUuid"),
+            submiting: false
         };
     }
     componentDidMount() {
@@ -107,6 +109,7 @@ export default class Index extends BaseComponent {
     render() {
         const {deviceGroupDetailData} = this.props.deviceState;
         const {classes = ""} = this.props;
+        const {submiting} = this.state;
         return <div>
             <Card className={classes.card} style={{borderRadius: 0}}>
                 <CardHeader
@@ -120,7 +123,7 @@ export default class Index extends BaseComponent {
                     <p>本周  ￥{deviceGroupDetailData.dayAmount}</p>
                 </span>
                 <List className={classes.list}>
-                    <ListItem className={classes.item}>
+                    {/*<ListItem className={classes.item}>
                         <ListItemIcon>
                             <img src={percentIcon} className={classes.itemIcon}/>
                         </ListItemIcon>
@@ -130,7 +133,7 @@ export default class Index extends BaseComponent {
                         <ListItemSecondaryAction className={classes.secondary}>
                             {deviceGroupDetailData.proportion}
                         </ListItemSecondaryAction>
-                    </ListItem>
+                    </ListItem>*/}
                     <ListItem className={classes.item}>
                         <ListItemIcon>
                             <img src={incomeIcon} className={classes.itemIcon}/>
@@ -206,13 +209,36 @@ export default class Index extends BaseComponent {
                 </List>
             </Card>
 
+            <Card className={classes.card} style={{marginTop: 16}}>
+                <List className={classes.list}>
+                    <ListItem className={classes.item} onClick={() => !submiting && this.deleteGroup()}>
+                        <ListItemText
+                            primary={<div style={{margin: 0, padding: 0, textAlign: 'center'}}>
+                                {
+                                    submiting && <CircularProgress color="secondary" size={14} />
+                                }
+                                删除
+                            </div>}
+                        />
+                    </ListItem>
+                </List>
+            </Card>
+
         </div>;
     }
 
+    /**
+     * 设备组
+     * @param item
+     */
     deviceList = (item) => {
         this.linkTo(Path.PATH_DEVICE_INDEX, {groupUuid: item.uuid || "", channelCode: item.channelCode || ""});
     };
 
+    /**
+     * 设备组中的套餐价格包
+     * @param item
+     */
     devicePriceList = (item) => {
         this.linkTo(Path.PATH_PRICE_INDEX, {groupUuid: item.uuid || ""});
     };
@@ -225,5 +251,21 @@ export default class Index extends BaseComponent {
         const {groupUuid} = this.state;
         this.props.deviceState.getDeviceGroupDetail(groupUuid);
     };
+
+    /**
+     * 删除虚拟设备组
+     */
+    deleteGroup() {
+        const {deviceGroupDetailData} = this.props.deviceState;
+        this.alert("确认删除？", "", () => {
+            this.setState({submiting: true});
+            this.props.deviceState.deleteDeviceGroup(deviceGroupDetailData.uuid).then(res => {
+                this.notification("删除成功！");
+                setTimeout(() => this.back(), 1500);
+            }).catch(err => this.setState({submiting: false}));
+        }, null, true);
+
+    }
+
 
 }

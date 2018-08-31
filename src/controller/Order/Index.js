@@ -77,4 +77,8 @@ export default class OrderIndex extends PullRefreshPage {
         </ListItem>;
     };
 
+    getFixBottom = () => {
+        return 56 + window.rem2px(3.2);
+    };
+
 }

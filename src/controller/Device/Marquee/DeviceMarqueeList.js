@@ -10,19 +10,21 @@ import {inject} from "mobx-react/index";
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
+import CircularProgress from "material-ui/Progress/CircularProgress";
 import customStyle from "../../../assets/jss/view/custom";
 import 'react-picker-address/dist/react-picker-address.css';
 import {getQueryString} from "../../../utils/comUtils";
-import {EditIcon} from "../../../components/common/SvgIcons";
+import {EditIcon, MenuDotIcon} from "../../../components/common/SvgIcons";
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import PullRefreshPage from "../../../components/CommonPage/PullrefreshPage";
 import Path from "../../../utils/path";
 
 @withRouter
 @withStyles({...customStyle, ...{
     editIcon: {
-        position: 'absolute',
-        top: '1rem',
-        right: '1rem'
+        position: 'absolute!important',
+        top: '2.6rem!important',
+        right: '1rem!important'
     }
 }})
 @inject(({store: {deviceState}}) => ({deviceState}))
@@ -32,8 +34,7 @@ export default class DeviceMarquee extends PullRefreshPage {
 
     constructor(props, context) {
         super(props, context);
-        this.state = {
-        };
+        this.state.delIng = "";
     }
 
     pageAction = (data) => {
@@ -50,9 +51,9 @@ export default class DeviceMarquee extends PullRefreshPage {
     };
 
     listItem = (item) => {
+        const {delIng} = this.state;
         const {classes} = this.props;
         return <ListItem key={item.id} className={classes.item} style={{position: 'relative'}}>
-            <EditIcon color="#e91e63" size='2.2rem' className={classes.editIcon} onClick={() => this.editDeviceMarquee(item)}/>
             <div>
                 <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>行数：</font>{item.lineNum}
@@ -73,6 +74,22 @@ export default class DeviceMarquee extends PullRefreshPage {
                     <font className={classes.infoLabel}>背景：</font>{item.img ? <img src={item.img} style={{maxWidth: '20rem'}}/> : "未设置"}
                 </p>
             </div>
+
+            {
+                !delIng && <ListItemSecondaryAction className={classes.editIcon}>
+                    <MenuDotIcon color="#e91e63" size='2.2rem' onClick={() => this.openDrawerMenu({drawerMenus: [
+                            {label: '编辑', onClick: () => this.editDeviceMarquee(item)},
+                            {label: '删除', onClick: () => this.delDeviceMarquee(item)},
+                        ]})}/>
+                </ListItemSecondaryAction>
+            }
+
+            {
+                delIng && delIng === item.id ? <ListItemSecondaryAction className={classes.editIcon}>
+                    <CircularProgress color="secondary" size={20} />
+                </ListItemSecondaryAction> : ""
+            }
+
         </ListItem>;
     };
 
@@ -93,6 +110,17 @@ export default class DeviceMarquee extends PullRefreshPage {
         this.linkTo(Path.PATH_DEVICE_MARQUEE_EDIT, param);
     };
 
+    delDeviceMarquee = (item) => {
+        this.alert("确认删除吗？", "", () => {
+            this.setState({delIng: item.id});
+            this.props.deviceState.deleteDeviceMarquee({ids: item.id})
+                .then(res => {
+                    this.setState({delIng: ""});
+                    this.handelPageRefresh();
+                })
+                .catch(err => this.setState({delIng: ""}));
+        }, null, true);
+    };
 }
 
 DeviceMarquee.defaultProps = {

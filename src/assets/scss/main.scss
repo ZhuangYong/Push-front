@@ -12,9 +12,16 @@ input:-webkit-autofill
     font-weight: 400;
 }
 .empty-pull-list{
-    background: white url("../../assets/img/null/no-content.jpg") no-repeat center 30%;
+    .state-reset{
+        background: white url("../../assets/img/null/no-content.jpg") no-repeat center 30%;
+    }
     .pull-load-footer-default.nomore:after{
         content: "暂无数据"
+    }
+    .state-refreshing{
+        .nomore{
+            display: none;
+        }
     }
 }
 .network-err{

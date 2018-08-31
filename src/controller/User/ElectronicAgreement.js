@@ -78,7 +78,7 @@ export default class ElectronicAgreement extends BaseComponent {
                                 transformOrigin: '0 0 0',
                                 // transitionDelay: `${index * 400}ms`,
                             }}>
-                            <div className={classes.item}>
+                            <div className={imgList.length > 1 ? classes.item : ""}>
                                 <img src={i.image} className={classes.img} onClick={() => this.setState({showImgView: true, viewImgIndex: index})}/>
                             </div>
                         </Grow>;

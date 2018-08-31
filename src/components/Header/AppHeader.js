@@ -35,7 +35,7 @@ const style = {
         textAlign: 'center'
     }
 };
-export default class AppHeader extends BaseComponent {
+export default class AppHeader extends React.Component {
     render() {
         const {title, fullPageToolButtons, onClose} = this.props;
         const {left, right} = fullPageToolButtons;

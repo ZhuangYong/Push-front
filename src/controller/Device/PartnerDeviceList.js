@@ -6,8 +6,9 @@ import {inject} from "mobx-react/index";
 import customStyle from "../../assets/jss/view/custom";
 import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import {getQueryString} from "../../utils/comUtils";
-import {EditIcon} from "../../components/common/SvgIcons";
+import {EditIcon, MenuDotIcon} from "../../components/common/SvgIcons";
 import AddIcon from '@material-ui/icons/Add';
 import Const from "../../utils/const";
 import CustomDialog from "../../components/CustomDialog/CustomDialog";
@@ -19,6 +20,7 @@ import CircularProgress from "material-ui/Progress/CircularProgress";
 import AppHeader from "../../components/Header/AppHeader";
 import Dialog from '@material-ui/core/Dialog';
 import _ from "lodash";
+import ActionCustomItem from "../../components/CustomItem/ActionCustomItem";
 
 const style = {
     ...customStyle,
@@ -57,29 +59,31 @@ export default class PartnerDeviceList extends PullrefreshPage {
         super(props);
         this.state.chooseDevices = [];
         this.state.openChooseDevicePage = false;
+        this.state.delIng = "";
+        this.state.defaultSearchValue = getQueryString("sno");
+    }
+
+    componentDidMount() {
+        this.initial();
     }
 
     getPageParam = () => {
-        const groupUuid = getQueryString("groupUuid");
         const salesUuid = getQueryString("salesUuid");
-        const channelCode = getQueryString("channelCode");
         let pageParam = {};
         if (salesUuid) {
             pageParam = {salesUuid: salesUuid};
-        } else if (groupUuid) {
-            pageParam = {groupUuid: groupUuid};
-        } else if (channelCode) {
-            pageParam = {channelCode: channelCode};
         }
         return pageParam;
     };
 
     pageAction = (data) => {
-        return this.props.deviceState.getDevicePage(data);
+        const groupUuid = getQueryString("groupUuid");
+        return this.props.deviceState.getPartnerDevicePage(groupUuid, data);
     };
 
     renderExt = () => {
         const {classes} = this.props;
+        const groupUuid = getQueryString("groupUuid");
         const salesUuid = getQueryString("salesUuid");
         const {openEditDeviceNickname, submitIng, openChooseDevicePage} = this.state;
         return <div>
@@ -121,19 +125,29 @@ export default class PartnerDeviceList extends PullrefreshPage {
                         </div>
                     }}/>
                 <DeviceChooseList
+                    fixBottom={window.rem2px(3) + 1}
+                    pageAction={data => this.props.salesState.getPartnerChooseDeviceListData({...(data || {}), salesUuid: salesUuid, groupUuid: groupUuid})}
                     handelChooseChange={v => this.setState({chooseDevices: v})}/>
             </Dialog>
         </div>;
     };
 
     listItem = (item) => {
+        const {delIng} = this.state;
         const {loginUserData} = this.props.userState;
         const {classes = ""} = this.props;
-        return <ListItem key={item.deviceId} className={classes.item}>
+        return <ActionCustomItem
+            key={item.deviceId}
+            loading={!!delIng}
+            showAction={(delIng && delIng === item.deviceUuid) || !delIng}
+            onActionClick={() => this.openDrawerMenu({drawerMenus: [
+                {label: '编辑别名', onClick: () => this.editDevice(item)},
+                {label: '解绑设备', onClick: () => this.unBindDevice(item)},
+            ]})}>
             <div>
                 {
                     loginUserData.type === Const.ROLE.SALES && <p className={classes.infoLine}>
-                        <font className={classes.infoLabel}>别名：</font>{item.consumerName || "无"} <EditIcon color="#e91e63" size='1.2rem' onClick={() => this.editDevice(item)}/>
+                        <font className={classes.infoLabel}>别名：</font>{item.consumerName || "无"}
                     </p>
                 }
                 <p className={classes.infoLine}>
@@ -157,7 +171,8 @@ export default class PartnerDeviceList extends PullrefreshPage {
                     <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
                 </p>
             </div>
-        </ListItem>;
+        </ActionCustomItem>;
+
     };
 
     getFixBottom = () => {
@@ -191,6 +206,7 @@ export default class PartnerDeviceList extends PullrefreshPage {
     handelSaveSaleDevices = () => {
         const salesUuid = getQueryString("salesUuid");
         const defaultGroupUuid = getQueryString("defaultGroupUuid");
+        const groupUuid = getQueryString("groupUuid");
         const {chooseDevices} = this.state;
         if (_.isEmpty(chooseDevices)) {
             this.notification("请选择");
@@ -199,7 +215,7 @@ export default class PartnerDeviceList extends PullrefreshPage {
         this.setState({submitIng: true});
         this.props.salesState.saveSalesDevice({
             salesUuid: salesUuid,
-            groupUuid: defaultGroupUuid,
+            groupUuid: defaultGroupUuid || groupUuid,
             deviceUuids: chooseDevices
         })
             .then(res => {
@@ -218,4 +234,30 @@ export default class PartnerDeviceList extends PullrefreshPage {
     closeChooseDevicePage = () => {
         this.setState({openChooseDevicePage: false});
     };
+
+    unBindDevice = (item) => {
+        const salesUuid = getQueryString("salesUuid");
+        this.alert("确认解绑设备吗？", "", () => {
+            this.setState({delIng: item.deviceUuid});
+            this.props.salesState.unbindSalesDevice({salesUuid: salesUuid, deviceUuids: [item.deviceUuid]})
+                .then(res => {
+                    this.setState({delIng: ""});
+                    this.handelPageRefresh();
+                })
+                .catch(err => this.setState({delIng: ""}));
+        }, null, true);
+    };
+
+    initial = () => {
+        const {defaultSearchValue} = this.state;
+        if (defaultSearchValue) {
+            this.handlerSearch(defaultSearchValue);
+        } else {
+            this.handelPageRefresh();
+        }
+    };
 }
+
+PartnerDeviceList.defaultProps = {
+    autoFirstPage: false
+};

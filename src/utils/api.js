@@ -38,11 +38,11 @@ export default {
     // 修改用户密码
     API_USER_CHANGE_PASSWORD: "/wxback/user/modifyPass",
 
-    // 设备组列表（销售方|自营分组）
-    API_STATIS_DEVICE_GROUP_PAGE: "/wxback/device/index",
+    // 设备组列表（自营分组）
+    API_STATIS_DEVICE_GROUP_PAGE: "/wxback/team/list",
 
     // 查询设备列表
-    API_STATIS_DEVICE_PAGE: "/wxback/device/deviceList",
+    API_DEVICE_CHOOSE_PAGE: "/wxback/team/selectDeviceList",
 
     // 订单列表
     API_STATIS_ORDER_PAGE: "/wxback/order/index",
@@ -78,25 +78,59 @@ export default {
     // 查询销售方
     API_SALES_PAGE: "/wxback/device/salesList",
 
+    // 子销售方分成比例组
+    API_SALES_GROUP_LIST: "/wxback/group/list",
+
+    // 删除子销售方分成比例组
+    API_PARTNER_GROUP_DELETE: "/wxback/group/delete/",
+
+    // 子销售方分成比例组设备列表
+    API_SALES_GROUP_DEVICE_LIST: "/wxback/group/deviceList/",
+
+    // 为子销售方添加设备
+    API_SALES_GROUP_CHOOSE_DEVICE_LIST: "/wxback/group/selectDeviceList",
+
     // 合作伙伴详情
     API_PARTNER_DETAIL: "/wxback/user/child/",
 
     // 保存销售方
     API_SALES_EDIT: "/wxback/device/saveSales",
 
+    // 保存销售方下的价格组
+    API_SALES_GROUP_EDIT: "/wxback/group/save",
+
     // 保存销售方设备(选择设备保存)
-    API_SALES_SAVE_DEVICE: "/wxback/device/saveDevice",
+    // API_SALES_SAVE_DEVICE: "/wxback/device/saveDevice",
+    API_SALES_SAVE_DEVICE: "/wxback/group/bind",
+
+    // 解绑销售方设备
+    API_SALES_UNBIND_DEVICE: "/wxback/group/unbind",
 
     // ----------自营---------
-    // 设备组详情
-    API_DEVICE_GROUP_STATIS: "/wxback/statis/group/",
+    // 虚拟设备列表
+    API_DEVICE_PAGE: "/wxback/team/deviceList/",
 
-    // 保存设备组
-    API_DEVICE_GROUP_SAVE: "/wxback/device/saveGroup",
+    // 虚拟设备组详情
+    API_DEVICE_GROUP_STATIS: "/wxback/team/detail/",
+
+    // 为虚拟组添加设备
+    API_DEVICE_CHOOSE_SAVE: "/wxback/team/bind",
+
+    // 解绑虚拟组设备
+    API_UNBIND_DEVICE: "/wxback/team/unbind",
+
+    // 保存虚拟设备组
+    API_DEVICE_GROUP_SAVE: "/wxback/team/save",
+
+    // 删除虚拟设备组
+    API_DEVICE_GROUP_DELETE: "/wxback/team/delete/",
 
     // 销售组的跑马灯列表
     API_DEVICE_MARQUEE_LIST: "/wxback/marquee/index",
 
     // 销售组的跑马灯修改
     API_DEVICE_MARQUEE_SAVE: "/wxback/marquee/save",
+
+    // 删除跑马灯
+    API_DEVICE_MARQUEE_DELETE: "/wxback/marquee/delete",
 };

@@ -109,7 +109,7 @@ const request = (config, success, error) =>
                 newError.msg = msg;
                 newError.data = data;
 
-                dispatchCustomEvent('EVENT_API_ERR', msg);
+                dispatchCustomEvent(Const.EVENT.EVENT_API_ERR, msg);
 
                 handelErr(status);
 
@@ -147,7 +147,7 @@ const request = (config, success, error) =>
             if (typeof error === 'function') {
                 error(description);
             }
-            dispatchCustomEvent('EVENT_API_ERR', description || message);
+            dispatchCustomEvent(Const.EVENT.EVENT_API_ERR, description || message);
             return Promise.reject(description || message);
         }
     );

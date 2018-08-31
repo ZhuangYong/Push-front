@@ -5,13 +5,15 @@ import ListItem from '@material-ui/core/ListItem';
 import CardHeader from '@material-ui/core/CardHeader';
 import customStyle from "../../assets/jss/view/custom";
 import withStyles from "material-ui/styles/withStyles";
-import {BlankImage, EditIcon} from "../../components/common/SvgIcons";
+import {BlankImage, EditIcon, MenuDotIcon} from "../../components/common/SvgIcons";
 import {getQueryString} from "../../utils/comUtils";
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Form from "../../components/Form/BaseForm";
 import CustomDialog from "../../components/CustomDialog/CustomDialog";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import DeviceMarquee from "../Device/Marquee/DeviceMarqueeList";
+import Const from "../../utils/const";
+import ActionCustomItem from "../../components/CustomItem/ActionCustomItem";
 
 const style = {
     ...customStyle,
@@ -44,7 +46,13 @@ export default class PricePage extends PullRefreshPage {
 
     listItem = (item) => {
         const {classes = ""} = this.props;
-        return <ListItem key={item.id} className={classes.item}>
+
+        return <ActionCustomItem
+            key={item.id}
+            className={classes.item}
+            onActionClick={() => this.openDrawerMenu({drawerMenus: [
+                    {label: '修改价格', onClick: () => this.editPrice(item)},
+                ]})}>
             <CardHeader
                 avatar={
                     item.wxPic ? <img src={item.wxPic || BlankImage} style={{height: '4rem'}}/> : <BlankImage style={{height: '4rem', width: '4rem', margin: 0, float: 'left'}}/>
@@ -55,15 +63,12 @@ export default class PricePage extends PullRefreshPage {
                 </span>}
                 style={{padding: 0}}
             />
-            <ListItemSecondaryAction>
-                <EditIcon color="#e91e63" size='2.2rem' onClick={() => this.editPrice(item)}/>
-            </ListItemSecondaryAction>
-        </ListItem>;
+        </ActionCustomItem>;
     };
 
     renderExt = () => {
         const salesUuid = getQueryString("salesUuid");
-        const {openEditPrice, submitIng} = this.state;
+        const {openEditPrice, submitIng, price} = this.state;
         return <div>
             <CustomDialog
                 title="修改设备套餐价格"
@@ -74,11 +79,12 @@ export default class PricePage extends PullRefreshPage {
                 content={
                     <Form
                         ref="form"
+                        v-data={this.state}
                         setState={this.stateFun}>
                         <CustomInput
                             labelText="套餐价格"
                             name="price"
-                            value={(this.state.price || "") + ""}
+                            value={(price || "") + ""}
                             reg={this.validPrice}
                         />
                     </Form>

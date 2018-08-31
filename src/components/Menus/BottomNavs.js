@@ -32,7 +32,6 @@ export default class BottomNavs extends BaseComponent {
         const {classes} = this.props;
         const {value} = this.state;
         const items = this.getItems();
-        console.log(this.inPath(), this.props.history.location.pathname);
         if (!this.inPath()) {
             return "";
         }
@@ -61,7 +60,7 @@ export default class BottomNavs extends BaseComponent {
             return <BottomNavigationAction
                 key={index}
                 label={item.label}
-                icon={<item.icon.type size='1.6rem' color={color}/>}
+                icon={<item.icon.type size={item.iconSize ? item.iconSize : '1.6rem'} color={color}/>}
                 style={{color: color, minWidth: 0}}/>;
         });
     };

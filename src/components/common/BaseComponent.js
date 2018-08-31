@@ -1,20 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Const from "../../utils/const";
 import NavUtils from "../../utils/navUtils";
-import Path from "../../utils/path";
 import Slide from '@material-ui/core/Slide';
 import _ from "lodash";
-import {dispatchCustomEvent} from "../../utils/comUtils";
+import CommonMessage from "./CommonMessage";
+import {dispatchCustomEvent, getQueryString, setSession} from "../../utils/comUtils";
+import Const from "../../utils/const";
 
 export default class BaseComponent extends React.Component {
 
     constructor(props) {
         super(props);
         this.title = this.title.bind(this);
-        this.stateFun = state => {
-            this.setState(state);
-        };
+        this.stateFun = state => this.setState(state);
+        this.initialBase();
     }
 
     componentDidMount() {
@@ -49,16 +48,12 @@ export default class BaseComponent extends React.Component {
         NavUtils.replace(path, state);
     }
 
-    alert(msg, title, onSure, onClose) {
-        // this.props.alert(msg, title, onSure, onClose);
-        const type = "alert";
-        dispatchCustomEvent('EVENT_MSG', {type, msg, title, onSure, onClose});
+    alert(msg, title, onSure, onClose, cancel) {
+        CommonMessage.alert(msg, title, onSure, onClose, cancel);
     }
 
     notification(msg, pos) {
-        // this.props.notification(msg, pos);
-        const type = "notification";
-        dispatchCustomEvent('EVENT_MSG', {type, msg, pos});
+        CommonMessage.notification(msg, pos);
     }
 
     /**
@@ -68,15 +63,15 @@ export default class BaseComponent extends React.Component {
      * @param fullPageContent 页面内容
      */
     showFullPage(msg, fullPageToolButtons, fullPageContent) {
-        // this.props.showFullPage(fullPageTitle, fullPageToolButtons, fullPageContent);
-        const type = "showFullPage";
-        dispatchCustomEvent('EVENT_MSG', {type, msg, fullPageToolButtons, fullPageContent});
+        CommonMessage.showFullPage(msg, fullPageToolButtons, fullPageContent);
     }
 
     closeFullPage() {
-        // this.props.closeFullPage();
-        const type = "closeFullPage";
-        dispatchCustomEvent('EVENT_MSG', {type});
+        CommonMessage.closeFullPage();
+    }
+
+    openDrawerMenu(menus) {
+        CommonMessage.openDrawerMenu(menus);
     }
 
     initialState(data, key) {
@@ -89,6 +84,17 @@ export default class BaseComponent extends React.Component {
 
     TransitionUp = (props) => {
         return <Slide direction="up" {...props} />;
+    };
+
+    appLoadingDone = () => {
+        dispatchCustomEvent(Const.EVENT.APP_LOADING_DONE);
+    };
+
+    initialBase = () => {
+        const bindUuid = getQueryString("bindUuid");
+        if (bindUuid) {
+            setSession("bindUuid", bindUuid);
+        }
     };
 
 }

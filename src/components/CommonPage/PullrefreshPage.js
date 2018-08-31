@@ -38,13 +38,13 @@ export default class PullRefreshPage extends BaseComponent {
             searchIng: false,
             nickname: "",
             submitIng: false,
-            searchKeyWords: ""
+            searchKeyWords: "",
         };
         this.handlerSearch = this.handlerSearch.bind(this);
         this.handlerClear = this.handlerClear.bind(this);
     }
     render() {
-        const {showSearch} = this.props;
+        const {showSearch, autoFirstPage} = this.props;
         const {searchIng, searchKeyWords, openEditDeviceNickname, nickname, submitIng, listClassName} = this.state;
         // const groupUuid = getQueryString("groupUuid");
         // const channelCode = getQueryString("channelCode");
@@ -75,6 +75,7 @@ export default class PullRefreshPage extends BaseComponent {
             <div className={`pull-data-list ${listClassName}`}>
                 <PullRefresh
                     ref="pager"
+                    autoFirstPage={autoFirstPage}
                     pageParam={pageParam}
                     fixBottom={fixBottom}
                     pageAction={this.pageAction}
@@ -87,24 +88,41 @@ export default class PullRefreshPage extends BaseComponent {
         </div>;
     }
 
+    /**
+     * 搜索头
+     * @returns {*}
+     */
     renderSearch = () => {
-        const {searchIng} = this.state;
+        const {searchIng, defaultSearchValue} = this.state;
         return <SearchInput
             placeholder="请输入设备号 、SN号"
+            defaultValue={defaultSearchValue}
             handelSearch={this.handlerSearch}
             handelClear={this.handlerClear}
             searchIng={searchIng}
         />;
     };
 
+    /**
+     * render 头部添加额外node
+     * @returns {string}
+     */
     renderTopExt = () => {
         return "";
     };
 
+    /**
+     * 尾部添加额外node
+     * @returns {string}
+     */
     renderExt = () => {
         return "";
     };
 
+    /**
+     * pull refresh 底部高度修正
+     * @returns {number}
+     */
     getFixBottom = () => {
         // const {searchKeyWords} = this.state;
         // let fixBottom = 56 + window.rem2px(3.2);
@@ -115,17 +133,38 @@ export default class PullRefreshPage extends BaseComponent {
         return 0;
     };
 
+    /**
+     * 分页参数
+     * @returns {{}}
+     */
     getPageParam = () => {
         return {};
     };
 
+    /**
+     * 列表子项模板
+     * @param item
+     */
     listItem = (item) => {
+        return <div>
+            this is list item template
+        </div>;
     };
 
+    /**
+     * 分页接口方法 成功失败都需要返回promise对象
+     * @param data
+     */
     pageAction = (data) => {
+        // return apiFunction();
     };
 
 
+    /**
+     * 搜索关键字
+     * @param v
+     * @returns {*}
+     */
     handlerSearch(v) {
         if (this.validSearchKeyWord(v)) {
             this.setState({searchIng: true});
@@ -143,6 +182,10 @@ export default class PullRefreshPage extends BaseComponent {
         }
     }
 
+    /**
+     * 清空搜索
+     * @returns {*|Observable<any>|Promise<T>}
+     */
     handlerClear() {
         this.setState({searchIng: true});
         return this.refs.pager.handelFilter({searchKey: ""})
@@ -156,6 +199,18 @@ export default class PullRefreshPage extends BaseComponent {
             });
     }
 
+    /**
+     * 刷新pull refresh页面
+     */
+    handelPageRefresh = () => {
+        this.refs.pager.handRefreshing();
+    };
+
+    /**
+     * 验证搜索关键字
+     * @param v
+     * @returns {boolean}
+     */
     validSearchKeyWord(v) {
         const valid = !!v.replace(/ /g, "");
         if (!valid) {
@@ -166,9 +221,11 @@ export default class PullRefreshPage extends BaseComponent {
 }
 
 PullRefreshPage.propTypes = {
-    showSearch: PropTypes.bool
+    showSearch: PropTypes.bool,
+    autoFirstPage: PropTypes.bool
 };
 
 PullRefreshPage.defaultProps = {
-    showSearch: true
+    showSearch: true,
+    autoFirstPage: true
 };

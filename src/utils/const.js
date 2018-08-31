@@ -2,6 +2,13 @@ export default {
     // 是否是生成环境
     isProduction: process.env === "production",
 
+    EVENT: {
+        APP_LOADING_DONE: "appLoadingDone",
+        EVENT_API_ERR: "EVENT_API_ERR",
+        EVENT_MSG: "EVENT_MSG",
+        EVENT_DRAWER_MENU: "EVENT_DRAWER_MENU"
+    },
+
     // 状态
     //-----------------------------
     CODE_SUCCESS: 200,

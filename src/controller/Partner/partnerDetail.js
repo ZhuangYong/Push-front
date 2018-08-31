@@ -20,7 +20,7 @@ import customStyle from "../../assets/jss/view/custom";
 import {
     AddressIcon,
     AgreementIcon,
-    AliPayIcon, DeviceIcon,
+    AliPayIcon, DeviceIcon, GroupIcon,
     LocationIcon,
     PhoneIcon,
     UserIcon
@@ -159,11 +159,26 @@ export default class Index extends BaseComponent {
                             <DeviceIcon size="1.6rem"/>
                         </ListItemIcon>
                         <ListItemText className={classes.ListItemText}
-                            primary="设备数"
+                            primary="设备"
                         />
                         <ListItemSecondaryAction>
                             {partnerDetailData.count}
                             <IconButton onClick={this.deviceList}>
+                                <ArrowForwardIcon/>
+                            </IconButton>
+                        </ListItemSecondaryAction>
+                    </ListItem>
+
+                    <ListItem className={classes.item} onClick={this.deviceGroupList}>
+                        <ListItemIcon>
+                            <GroupIcon size="1.6rem"/>
+                        </ListItemIcon>
+                        <ListItemText className={classes.ListItemText}
+                                      primary="价格组"
+                        />
+                        <ListItemSecondaryAction>
+                            {partnerDetailData.groupCount}
+                            <IconButton onClick={this.deviceGroupList}>
                                 <ArrowForwardIcon/>
                             </IconButton>
                         </ListItemSecondaryAction>
@@ -188,16 +203,33 @@ export default class Index extends BaseComponent {
         </div>;
     }
 
+    /**
+     * 所有设备
+     */
     deviceList = () => {
         const {salesUuid} = this.state;
         this.linkTo(Path.PATH_DEVICE_PARTNER_INDEX, {salesUuid: salesUuid || ""});
     };
 
+    /**
+     * 价格组设备
+     */
+    deviceGroupList = () => {
+        const {salesUuid} = this.state;
+        this.linkTo(Path.PATH_PARTNER_DEVICE_GROUP_LIST, {salesUuid: salesUuid || ""});
+    };
+
+    /**
+     * 获取合作者详情
+     */
     getPartnerDetail = () => {
         const {salesUuid} = this.state;
         this.props.salesState.getPartnerDetail(salesUuid);
     };
 
+    /**
+     * 合作者电子协议
+     */
     partnerAgreement = () => {
         const {salesUuid} = this.state;
         this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT, {salesUuid: salesUuid});

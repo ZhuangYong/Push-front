@@ -20,6 +20,7 @@ import Form from "../../components/Form/BaseForm";
 import md5 from "md5";
 import CircularProgress from "material-ui/Progress/CircularProgress";
 import Path from "../../utils/path";
+import {getSession, removeSession} from "../../utils/comUtils";
 
 @inject(({store: {userState}}) => ({userState}))
 @observer
@@ -125,12 +126,18 @@ export default class LoginPage extends BaseComponent {
         setTimeout(() => {
             if (this.refs.form.valid()) {
                 this.setState({submiting: true});
-                this.props.userState.login({
+                const param = {
                     loginname: loginname,
                     password: md5(password)
-                })
+                };
+                const bindUuid = getSession("bindUuid");
+                if (bindUuid) {
+                    param.bindUuid = bindUuid;
+                }
+                this.props.userState.login(param)
                     .then(res => {
                         this.setState({submiting: false});
+                        removeSession("bindUuid");
                         this.props.history.push(Path.PATH_INDEX);
                     })
                     .catch(err => this.setState({submiting: false, subInfo: err.msg}));

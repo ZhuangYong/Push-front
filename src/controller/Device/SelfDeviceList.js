@@ -20,6 +20,7 @@ import AppHeader from "../../components/Header/AppHeader";
 import Dialog from '@material-ui/core/Dialog';
 import _ from "lodash";
 import Path from "../../utils/path";
+import ActionCustomItem from "../../components/CustomItem/ActionCustomItem";
 
 const style = {
     ...customStyle,
@@ -47,14 +48,11 @@ export default class SelfDeviceList extends PullrefreshPage {
     }
 
     getPageParam = () => {
-        const groupUuid = getQueryString("groupUuid");
         const salesUuid = getQueryString("salesUuid");
         const channelCode = getQueryString("channelCode");
         let pageParam = {};
         if (salesUuid) {
             pageParam = {salesUuid: salesUuid};
-        } else if (groupUuid) {
-            pageParam = {groupUuid: groupUuid};
         } else if (channelCode) {
             pageParam = {channelCode: channelCode};
         }
@@ -62,7 +60,8 @@ export default class SelfDeviceList extends PullrefreshPage {
     };
 
     pageAction = (data) => {
-        return this.props.deviceState.getDevicePage(data);
+        const groupUuid = getQueryString("groupUuid");
+        return this.props.deviceState.getDevicePage(groupUuid, data);
     };
 
     renderExt = () => {
@@ -108,6 +107,7 @@ export default class SelfDeviceList extends PullrefreshPage {
                         </div>
                     }}/>
                 <DeviceChooseList
+                    fixBottom={window.rem2px(3) + 1}
                     handelChooseChange={v => this.setState({chooseDevices: v})}/>
             </Dialog>
         </div>;
@@ -116,11 +116,20 @@ export default class SelfDeviceList extends PullrefreshPage {
     listItem = (item) => {
         const {loginUserData} = this.props.userState;
         const {classes = ""} = this.props;
-        return <ListItem key={item.deviceId} className={classes.item}>
+        const {delIng} = this.state;
+        return <ActionCustomItem
+            key={item.deviceId}
+            loading={!!delIng}
+            className={classes.item}
+            showAction={(delIng && delIng === item.uuid) || !delIng}
+            onActionClick={() => this.openDrawerMenu({drawerMenus: [
+                    {label: '修改别名', onClick: () => this.editDevice(item)},
+                    {label: '解绑设备', onClick: () => this.unBindDevice(item)},
+                ]})}>
             <div>
                 {
                     loginUserData.type === Const.ROLE.SALES && <p className={classes.infoLine}>
-                        <font className={classes.infoLabel}>别名：</font>{item.consumerName || "无"} <EditIcon color="#e91e63" size='1.2rem' onClick={() => this.editDevice(item)}/>
+                        <font className={classes.infoLabel}>别名：</font>{item.consumerName || "无"}
                     </p>
                 }
                 <p className={classes.infoLine}>
@@ -144,7 +153,7 @@ export default class SelfDeviceList extends PullrefreshPage {
                     <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
                 </p>
             </div>
-        </ListItem>;
+        </ActionCustomItem>;
     };
 
     getFixBottom = () => {
@@ -162,6 +171,18 @@ export default class SelfDeviceList extends PullrefreshPage {
             editItem: item,
             nickname: item.consumerName
         });
+    };
+
+    unBindDevice = (item) => {
+        this.alert("确认解绑设备吗？", "", () => {
+            this.setState({delIng: item.deviceUuid});
+            this.props.deviceState.unbindSalesDevice({deviceUuids: [item.deviceUuid]})
+                .then(res => {
+                    this.setState({delIng: ""});
+                    this.handelPageRefresh();
+                })
+                .catch(err => this.setState({delIng: ""}));
+        }, null, true);
     };
 
     handelEditDeviceNickname = () => {
@@ -183,8 +204,8 @@ export default class SelfDeviceList extends PullrefreshPage {
             return;
         }
         this.setState({submitIng: true});
-        this.props.salesState.saveSalesDevice({
-            groupUuid: groupUuid,
+        this.props.deviceState.saveChooseDevice({
+            teamUuid: groupUuid,
             deviceUuids: chooseDevices
         })
             .then(res => {

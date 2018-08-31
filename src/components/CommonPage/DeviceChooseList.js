@@ -22,13 +22,18 @@ export default class DeviceChooseList extends PullrefreshPage {
     }
 
     // override 获取分页参数
-    getPageParam = () => {
-        return {};
-    };
+    // getPageParam = () => {
+    //     return {};
+    // };
 
     // 分页接口
     pageAction = (data) => {
-        return this.props.deviceState.getDevicePage(data);
+        const {pageAction} = this.props;
+        if (pageAction) {
+            return pageAction(data);
+        } else {
+            return this.props.deviceState.getDeviceChoosePage(data);
+        }
     };
 
     // 列表子项
@@ -58,6 +63,11 @@ export default class DeviceChooseList extends PullrefreshPage {
         </ListItem>;
     };
 
+    getFixBottom = () => {
+       const {fixBottom} = this.props;
+        return fixBottom + window.rem2px(3.2);
+    };
+
     changeChoose = (deviceUuid) => {
         const {handelChooseChange} = this.props;
         const {chooseDevices} = this.state;
@@ -75,10 +85,13 @@ export default class DeviceChooseList extends PullrefreshPage {
 
 DeviceChooseList.propTypes = {
     salesUuid: PropTypes.string,
+    pageAction: PropTypes.func,
+    fixBottom: PropTypes.number,
     handelChooseChange: PropTypes.func
 };
 
 DeviceChooseList.defaultProps = {
     salesUuid: "",
+    fixBottom: 0,
     handelChooseChange: f => f
 };

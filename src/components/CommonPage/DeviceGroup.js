@@ -3,8 +3,6 @@
  */
 
 import React from "react";
-import {observer} from "mobx-react";
-import {inject} from "mobx-react/index";
 import BaseComponent from "../../components/common/BaseComponent";
 import customStyle from "../../assets/jss/view/custom";
 import PullRefresh from "../../components/PageContainer/PullRefresh";
@@ -88,7 +86,7 @@ export default class DeviceGroup extends BaseComponent {
                             style={classes.item}
                             onClick={() => this.deviceGroupDetail(item)}>
                             <ListItemText style={classes.ListItemText}
-                                primary={<span>{item.name || item.channelName || "未命名"}<font style={{fontSize: '.8rem', color: '#808080'}}> （{item.deviceCount || 0}台）</font></span>}
+                                          primary={<span>{item.name || item.channelName || "未命名"}<font style={{fontSize: '.8rem', color: '#808080'}}> （{item.deviceCount || 0}台）</font></span>}
                             />
                             <ListItemSecondaryAction>
                                 <font color="#808080">{item.parentProportions || 0}元</font>
