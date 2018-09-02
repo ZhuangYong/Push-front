@@ -68,7 +68,7 @@ import Button from "material-ui/Button/Button";
         }
     }
 })
-@inject(({store: {userState, statisticsState}}) => ({userState, statisticsState}))
+@inject("userState", "statisticsState")
 @observer
 export default class Index extends BaseComponent {
 

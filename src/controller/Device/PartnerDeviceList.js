@@ -51,7 +51,7 @@ const style = {
     }
 };
 @withStyles(style)
-@inject(({store: {deviceState, userState, salesState}}) => ({deviceState, userState, salesState}))
+@inject("deviceState", "userState", "salesState")
 @observer
 export default class PartnerDeviceList extends PullrefreshPage {
 

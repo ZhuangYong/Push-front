@@ -185,7 +185,7 @@ module.exports = {
         // 不允许对 function 的参数进行重新赋值
         "no-param-reassign": 0,
         // 禁用 __proto__ 属性
-        "no-proto": 2,
+        "no-proto": 0,
         // 禁止使用 var 多次声明同一变量
         "no-redeclare": 2,
         // 禁用指定的通过 require 加载的模块

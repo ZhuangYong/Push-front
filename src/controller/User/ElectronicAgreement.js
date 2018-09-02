@@ -26,8 +26,7 @@ import {getQueryString} from "../../utils/comUtils";
             maxWidth: "100%",
         }
 }})
-@inject(({store: {userState, salesState}}) => ({userState, salesState}))
-@inject("store")
+@inject("userState", "salesState")
 @observer
 export default class ElectronicAgreement extends BaseComponent {
 

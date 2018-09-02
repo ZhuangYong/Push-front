@@ -59,8 +59,7 @@ import {district} from "../../utils/district";
             maxHeight: '96%',
         }
 }})
-@inject(({store: {salesState, userState}}) => ({salesState, userState}))
-@inject("store")
+@inject("userState", "salesState")
 @observer
 export default class EditPartner extends BaseComponent {
 

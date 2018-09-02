@@ -44,7 +44,7 @@ const switchRoutes = (
 );
 
 @withStyles(appStyle)
-@inject(({store: {userState}}) => ({userState}))
+@inject("userState")
 @observer
 export default class Dashboard extends BaseComponent {
 

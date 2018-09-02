@@ -40,7 +40,7 @@ const style = {
         borderRadius: '0'
     }
 };
-@inject(({store: {salesState}}) => ({salesState}))
+@inject("salesState")
 @observer
 export default class PartnerListIndex extends PullRefreshPage {
     constructor(props) {

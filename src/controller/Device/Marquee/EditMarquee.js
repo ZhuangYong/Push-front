@@ -58,8 +58,7 @@ import {getQueryString} from "../../../utils/comUtils";
             maxHeight: '96%',
         }
     }})
-@inject(({store: {deviceState, userState}}) => ({deviceState, userState}))
-@inject("store")
+@inject("deviceState", "userState")
 @observer
 export default class EditMarquee extends BaseComponent {
 

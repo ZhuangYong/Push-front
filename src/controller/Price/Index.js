@@ -25,7 +25,7 @@ const style = {
     }
 };
 @withStyles(style)
-@inject(({store: {priceState, userState}}) => ({priceState, userState}))
+@inject("priceState", "userState")
 @observer
 export default class PricePage extends PullRefreshPage {
     constructor(props) {

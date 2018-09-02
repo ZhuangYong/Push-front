@@ -91,7 +91,7 @@ import {getQueryString} from "../../../utils/comUtils";
         }
     }
 })
-@inject(({store: {deviceState}}) => ({deviceState}))
+@inject("deviceState")
 @observer
 export default class Index extends BaseComponent {
 

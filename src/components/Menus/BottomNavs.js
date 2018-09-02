@@ -5,8 +5,6 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import BaseComponent from "../common/BaseComponent";
 import {withRouter} from "react-router-dom";
-import {inject} from "mobx-react/index";
-import _ from "lodash";
 
 @withStyles({
     root: {
@@ -16,7 +14,6 @@ import _ from "lodash";
         borderTop: '1px solid rgba(233, 30, 99, 0.2)',
     }
 })
-@inject(({store: {userState}}) => ({userState}))
 @withRouter
 export default class BottomNavs extends BaseComponent {
 
@@ -69,13 +66,6 @@ export default class BottomNavs extends BaseComponent {
         const {items} = this.props;
         this.setState({ value });
         this.linkTo((items[value].paths || [])[0]);
-    };
-
-    getActiveStyle = (index) => {
-        const {value} = this.state;
-        const activeColor = "#e91e63";
-        if (value === index) return {color: activeColor, minWidth: 0};
-        return {color: 'rgba(0, 0, 0, 0.54)', minWidth: 0};
     };
 }
 

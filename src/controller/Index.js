@@ -32,6 +32,7 @@ import activeIcon from "../assets/img/icon/active.png";
 
 import defaultImage from "../assets/img/default-avatar.png";
 import Const from "../utils/const";
+import {Service, Use} from "../utils/annotation";
 
 @withStyles({
     ...customStyle,
@@ -92,9 +93,15 @@ import Const from "../utils/const";
         }
     }
 })
-@inject(({store: {statisticsState, userState}}) => ({statisticsState, userState}))
+@inject("statisticsState", "userState")
 @observer
 export default class Index extends BaseComponent {
+
+    @Service
+    @observer
+    testData;
+
+    test2 = this;
 
     constructor(props) {
         super(props);
@@ -108,6 +115,7 @@ export default class Index extends BaseComponent {
         const {loginUserData} = this.props.userState;
         const {indexStatisticsData} = this.props.statisticsState;
         const {classes = ""} = this.props;
+        console.log("==========", this.testData);
         return <div>
                 {
                     loginUserData.type === Const.ROLE.MANUFACTURE && <div>

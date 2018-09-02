@@ -27,8 +27,7 @@ import Path from "../../../utils/path";
         right: '1rem!important'
     }
 }})
-@inject(({store: {deviceState}}) => ({deviceState}))
-@inject("store")
+@inject("deviceState")
 @observer
 export default class DeviceMarquee extends PullRefreshPage {
 

@@ -9,6 +9,8 @@ export default class userState extends BaseState {
     @observable loginUserData = "";
     @observable userIncomeData = "";
     @observable configData = "";
+    @observable
+    testData = "1";
 
     @action
     setLoginData(data) {

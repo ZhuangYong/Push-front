@@ -54,8 +54,7 @@ import {getQueryString} from "../../../utils/comUtils";
             maxHeight: '96%',
         }
 }})
-@inject(({store: {salesState, userState}}) => ({salesState, userState}))
-@inject("store")
+@inject("salesState", "userState")
 @observer
 export default class EditDeviceGroup extends BaseComponent {
 

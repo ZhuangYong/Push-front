@@ -12,7 +12,7 @@ import customStyle from "../../assets/jss/view/custom";
 const style = {
     ...customStyle,
 };
-@inject(({store: {deviceState, userState}}) => ({deviceState, userState}))
+@inject("deviceState", "userState")
 @observer
 export default class DeviceChooseList extends PullrefreshPage {
 

@@ -53,8 +53,7 @@ import 'react-picker-address/dist/react-picker-address.css';
             maxHeight: '96%',
         }
 }})
-@inject(({store: {deviceState, userState}}) => ({deviceState, userState}))
-@inject("store")
+@inject("deviceState", "userState")
 @observer
 export default class EditInfo extends BaseComponent {
 

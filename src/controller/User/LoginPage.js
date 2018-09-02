@@ -22,7 +22,7 @@ import CircularProgress from "material-ui/Progress/CircularProgress";
 import Path from "../../utils/path";
 import {getSession, removeSession} from "../../utils/comUtils";
 
-@inject(({store: {userState}}) => ({userState}))
+@inject("userState")
 @observer
 @withRouter
 @withStyles(loginPageStyle, {name: "loginPage", flip: true, withTheme: true})

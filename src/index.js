@@ -26,7 +26,7 @@ if (!Const.isProduction) {
 
 render(
     <JssProvider classNamePrefix="J-">
-        <Provider store={store}>
+        <Provider {...store}>
             <Router history={history}>
                 <Switch>
                     {indexRoutes.map((prop, key) => {

@@ -21,8 +21,7 @@ import CircularProgress from "material-ui/Progress/CircularProgress";
         boxShadow: '1px 1px 8px 3px #80808014',
     }
 }})
-@inject(({store: {userState}}) => ({userState}))
-@inject("store")
+@inject("userState")
 @observer
 export default class EditPassword extends BaseComponent {
 

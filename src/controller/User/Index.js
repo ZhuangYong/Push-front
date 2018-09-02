@@ -65,7 +65,7 @@ const style = {...customStyle, ...{
         }
     }};
 @withStyles(style)
-@inject(({store: {statisticsState, userState}}) => ({statisticsState, userState}))
+@inject("statisticsState", "userState")
 @observer
 export default class Index extends BaseComponent {
 

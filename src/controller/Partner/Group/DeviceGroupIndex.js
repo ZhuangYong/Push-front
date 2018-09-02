@@ -12,7 +12,7 @@ import SearchInput from "../../../components/CustomInput/SearchInput";
 import ActionCustomItem from "../../../components/CustomItem/ActionCustomItem";
 
 @withStyles(customStyle)
-@inject(({store: {salesState}}) => ({salesState}))
+@inject("salesState")
 @observer
 export default class DeviceGroupIndex extends PullrefreshPage {
 

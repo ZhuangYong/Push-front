@@ -3,7 +3,7 @@ import DeviceGroup from "../../../../components/CommonPage/DeviceGroup";
 import Path from "../../../../utils/path";
 import {inject, observer} from "mobx-react/index";
 
-@inject(({store: {deviceState}}) => ({deviceState}))
+@inject("deviceState")
 @observer
 export default class DeviceGroupIndex extends DeviceGroup {
 

@@ -39,7 +39,7 @@ const style = {
     }
 };
 @withStyles(style)
-@inject(({store: {orderState}}) => ({orderState}))
+@inject("orderState")
 @observer
 export default class OrderIndex extends PullRefreshPage {
 
