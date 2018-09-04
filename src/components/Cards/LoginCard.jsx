@@ -72,7 +72,8 @@ LoginCard.propTypes = {
     "red",
     "blue",
     "purple",
-    "rose"
+    "rose",
+      "black"
   ]),
   cardTitle: PropTypes.node,
   cardSubtitle: PropTypes.node,

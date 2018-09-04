@@ -38,28 +38,51 @@ export default class DeviceChooseList extends PullrefreshPage {
 
     // 列表子项
     listItem = (item) => {
-        const {classes = ""} = this.props;
+        const parentProportions = item.parentProportions;
+        const {classes = "", isPartner, maxProportions} = this.props;
         const {chooseDevices} = this.state;
+        const canAdd = !isPartner || parentProportions >= maxProportions;
+
         return <ListItem
             key={item.deviceId}
             style={{...style.item, padding: 0}}
-            onClick={() => this.changeChoose(item.deviceUuid)}>
-
+            onClick={canAdd ? () => this.changeChoose(item.deviceUuid) : f => f}>
             <Checkbox
+                disabled={!canAdd}
+                indeterminate={!canAdd}
                 checked={chooseDevices.indexOf(item.deviceUuid) >= 0}
                 disableRipple
             />
-            <ListItemText
-                style={{padding: '.6rem .2rem'}}
-                primary={ <span className={classes.infoLine}>
+            {
+                isPartner ? <ListItemText
+                    style={{padding: '.6rem .2rem'}}
+                    primary={ <span className={classes.infoLine}>
                     <font className={classes.infoLabel}>机型：</font>{item.channelName}
                 </span>}
-                secondary={<span className={classes.infoLine}>
-                    <font className={classes.infoLabel}>SN号：</font>{item.sn}
-                    <br/>
-                    <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
+                    secondary={
+                        <span className={classes.infoLine}>
+                            <font className={classes.infoLabel}>分成比例：</font>{item.parentProportions} % {!canAdd && <font color="red">（ 比例不匹配 ）</font>}
+                                <br/>
+                            <font className={classes.infoLabel}>SN号：</font>{item.sn}
+                                <br/>
+                            <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
+                        </span>
+                    }
+                /> : <ListItemText
+                    style={{padding: '.6rem .2rem'}}
+                    primary={ <span className={classes.infoLine}>
+                    <font className={classes.infoLabel}>机型：</font>{item.channelName}
                 </span>}
-            />
+                    secondary={
+                        <span className={classes.infoLine}>
+                            <font className={classes.infoLabel}>SN号：</font>{item.sn}
+                                <br/>
+                            <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
+                        </span>
+                    }
+                />
+            }
+
         </ListItem>;
     };
 
@@ -84,6 +107,8 @@ export default class DeviceChooseList extends PullrefreshPage {
 }
 
 DeviceChooseList.propTypes = {
+    isPartner: PropTypes.bool,
+    maxProportions: PropTypes.number,
     salesUuid: PropTypes.string,
     pageAction: PropTypes.func,
     fixBottom: PropTypes.number,
@@ -91,6 +116,8 @@ DeviceChooseList.propTypes = {
 };
 
 DeviceChooseList.defaultProps = {
+    isPartner: false,
+    maxProportions: 100,
     salesUuid: "",
     fixBottom: 0,
     handelChooseChange: f => f

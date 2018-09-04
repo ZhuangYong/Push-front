@@ -274,8 +274,6 @@ export default class Index extends BaseComponent {
                     <div
                         tabIndex={0}
                         role="button"
-                        onClick={f => f}
-                        onKeyDown={f => f}
                     >
                         <div style={{padding: '.46rem', borderBottom: '1px solid #dedede'}}>
                             <Button size="large" className={classes.button} onClick={this.closeDrawer}>

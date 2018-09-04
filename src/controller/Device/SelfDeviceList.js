@@ -48,6 +48,7 @@ export default class SelfDeviceList extends PullrefreshPage {
         this.state.groupUuid = getQueryString("groupUuid");
         this.state.salesUuid = getQueryString("salesUuid");
         this.state.channelCode = getQueryString("channelCode");
+        this.state.isDefault = getQueryString("isDefault");
     }
 
     getPageParam = () => {
@@ -68,7 +69,8 @@ export default class SelfDeviceList extends PullrefreshPage {
 
     renderExt = () => {
         const {classes} = this.props;
-        const {showAction} = this.state;
+        const {isDefault} = this.state;
+        const showAction = !isDefault;
         const {openEditDeviceNickname, submitIng, openChooseDevicePage} = this.state;
         return <div>
             <CustomDialog
@@ -120,12 +122,8 @@ export default class SelfDeviceList extends PullrefreshPage {
     listItem = (item) => {
         const {loginUserData} = this.props.userState;
         const {classes = ""} = this.props;
-        const {delIng} = this.state;
-        const showAction = (item.tails || {}).isDefault !== 1;
-        if (this.state.showAction !== showAction) {
-            this.state.showAction = showAction;
-            setTimeout(() => this.setState({showAction: showAction}), 0);
-        }
+        const {delIng, isDefault} = this.state;
+        const showAction = !isDefault;
         return <ActionCustomItem
             key={item.deviceId}
             loading={!!delIng}
@@ -166,7 +164,8 @@ export default class SelfDeviceList extends PullrefreshPage {
     };
 
     getFixBottom = () => {
-        const {searchKeyWords, showAction} = this.state;
+        const {searchKeyWords, isDefault} = this.state;
+        const showAction = !isDefault;
         let fixBottom = 56 + window.rem2px(3.2) + (showAction ? 41 : 0);
         if (searchKeyWords) {
             fixBottom += 28;
@@ -195,9 +194,9 @@ export default class SelfDeviceList extends PullrefreshPage {
     };
 
     handelEditDeviceNickname = () => {
-        const {nickname, editItem} = this.state;
+        const {nickname, editItem, groupUuid} = this.state;
         this.setState({submitIng: true});
-        this.props.deviceState.saveDeviceInfo({name: nickname, deviceId: editItem.deviceId})
+        this.props.deviceState.saveDeviceName({name: nickname, deviceUuid: editItem.deviceUuid, groupUuid: groupUuid})
             .then(res => {
                 editItem.consumerName = nickname;
                 this.setState({submitIng: false, openEditDeviceNickname: false, editItem: editItem});
@@ -206,7 +205,7 @@ export default class SelfDeviceList extends PullrefreshPage {
     };
 
     handelSaveSaleDevices = () => {
-        const groupUuid = getQueryString("groupUuid");
+        const {groupUuid} = this.state;
         const {chooseDevices} = this.state;
         if (_.isEmpty(chooseDevices)) {
             this.notification("请选择");

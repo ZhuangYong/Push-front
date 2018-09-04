@@ -18,8 +18,9 @@ const CLOSE_TIME_COUNT = 3;
 let timeout;
 const style = {
     drawerMenu: {
+        padding: '.8rem',
         backgroundColor: 'white',
-        borderTop: '1px solid #dedede',
+        borderBottom: '1px solid #dedede',
         justifyContent: 'center',
     }
 };
@@ -49,17 +50,9 @@ export default class CommonMessage extends React.Component {
     }
 
     componentDidMount() {
-        document.addEventListener(Const.EVENT.EVENT_API_ERR, e => {
-            this.notification(e.cause === "Network Error" ? "网络错误，请稍后重试！" : e.cause);
-        });
-        document.addEventListener(Const.EVENT.EVENT_MSG, e => {
-            const {type, msg, ...arg} = e.cause;
-            this.showMsg(type, msg, arg);
-        });
-        document.addEventListener(Const.EVENT.EVENT_DRAWER_MENU, e => {
-            const {...arg} = e.cause;
-            this.showDrawerMenu(arg);
-        });
+        document.addEventListener(Const.EVENT.EVENT_API_ERR, this.eventApiErr);
+        document.addEventListener(Const.EVENT.EVENT_MSG, this.eventMsg);
+        document.addEventListener(Const.EVENT.EVENT_DRAWER_MENU, this.eventDrawMenu);
     }
 
     componentWillUnmount() {
@@ -67,6 +60,9 @@ export default class CommonMessage extends React.Component {
             clearTimeout(timeout);
             timeout = null;
         }
+        document.removeEventListener(Const.EVENT.EVENT_API_ERR, this.eventApiErr);
+        document.removeEventListener(Const.EVENT.EVENT_MSG, this.eventMsg);
+        document.removeEventListener(Const.EVENT.EVENT_DRAWER_MENU, this.eventDrawMenu);
     }
 
     render() {
@@ -163,7 +159,7 @@ export default class CommonMessage extends React.Component {
                     }}
                     onClose={() => this.setState({openDrawerMenu: false})}>
                     <div style={{backgroundColor: 'rgba(0,0,0,0)'}}>
-                        <List style={{padding: 0}}>
+                        <List style={{padding: 0, borderTop: style.drawerMenu.borderBottom}}>
                             {
                                 drawerMenus && drawerMenus.map((menu, index) => <ListItem
                                     dense
@@ -181,7 +177,7 @@ export default class CommonMessage extends React.Component {
                             <ListItem
                                 dense
                                 button
-                                style={{...style.drawerMenu, color: 'red', marginTop: '1rem'}}
+                                style={{...style.drawerMenu, color: 'red', marginTop: '1rem', borderTop: style.drawerMenu.borderBottom}}
                                 onClick={() => this.setState({openDrawerMenu: false})}>
                                 取消
                             </ListItem>
@@ -329,4 +325,18 @@ export default class CommonMessage extends React.Component {
     static openDrawerMenu(menus) {
         dispatchCustomEvent(Const.EVENT.EVENT_DRAWER_MENU, menus);
     }
+
+    eventApiErr = e => {
+        this.notification(e.cause === "Network Error" ? "网络错误，请稍后重试！" : e.cause);
+    };
+
+    eventMsg = e => {
+        const {type, msg, ...arg} = e.cause;
+        this.showMsg(type, msg, arg);
+    };
+
+    eventDrawMenu = e => {
+        const {...arg} = e.cause;
+        this.showDrawerMenu(arg);
+    };
 }

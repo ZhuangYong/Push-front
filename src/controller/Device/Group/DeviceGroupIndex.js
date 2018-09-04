@@ -11,7 +11,7 @@ export default class DeviceGroupIndex extends DeviceGroup {
     deviceGroupDetail = (item) => {
         const {isDefault} = item;
         if (isDefault === 1) {
-            this.linkTo(Path.PATH_DEVICE_INDEX, {groupUuid: item.uuid || ""});
+            this.linkTo(Path.PATH_DEVICE_INDEX, {groupUuid: item.uuid || "", isDefault: isDefault});
         } else {
             this.props.deviceState.setDeviceGroupDetailData(item);
             this.linkTo(Path.PATH_DEVICE_GROUP_SELF_DETAIL, {groupUuid: item.uuid || "", channelCode: item.channelCode || ""});

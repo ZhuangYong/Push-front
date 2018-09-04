@@ -125,6 +125,9 @@ export default {
     // 保存虚拟设备组
     API_DEVICE_GROUP_SAVE: "/wxback/team/save",
 
+    // 修改别名
+    API_DEVICE_NAME_SAVE: "/wxback/team/rename",
+
     // 删除虚拟设备组
     API_DEVICE_GROUP_DELETE: "/wxback/team/delete/",
 

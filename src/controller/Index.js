@@ -97,12 +97,6 @@ import {Service, Use} from "../utils/annotation";
 @observer
 export default class Index extends BaseComponent {
 
-    @Service
-    @observer
-    testData;
-
-    test2 = this;
-
     constructor(props) {
         super(props);
         this.state = {};
@@ -115,7 +109,6 @@ export default class Index extends BaseComponent {
         const {loginUserData} = this.props.userState;
         const {indexStatisticsData} = this.props.statisticsState;
         const {classes = ""} = this.props;
-        console.log("==========", this.testData);
         return <div>
                 {
                     loginUserData.type === Const.ROLE.MANUFACTURE && <div>
@@ -248,8 +241,8 @@ export default class Index extends BaseComponent {
                                 <ListItemText
                                     primary="分成比例"
                                 />
-                                <ListItemSecondaryAction className={classes.secondary}>
-                                    {indexStatisticsData.proportion}
+                                <ListItemSecondaryAction className={classes.secondary} style={{width: '60%', textOverflow: 'ellipsis', overflow: 'hidden', textAlign: 'right'}}>
+                                    {indexStatisticsData.proportion && indexStatisticsData.proportion.join("%,") + "%"}
                                 </ListItemSecondaryAction>
                             </ListItem>
                             <ListItem className={classes.item}>

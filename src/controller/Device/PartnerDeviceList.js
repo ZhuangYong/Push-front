@@ -5,11 +5,13 @@ import {observer} from "mobx-react";
 import {inject} from "mobx-react/index";
 import customStyle from "../../assets/jss/view/custom";
 import Button from '@material-ui/core/Button';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import List from "material-ui/List";
+import Checkbox from '@material-ui/core/Checkbox';
+import ListItem from "material-ui/List/ListItem";
+import ListItemText from "material-ui/List/ListItemText";
 import {getQueryString} from "../../utils/comUtils";
-import {EditIcon, MenuDotIcon} from "../../components/common/SvgIcons";
 import AddIcon from '@material-ui/icons/Add';
+import Drawer from "material-ui/Drawer";
 import Const from "../../utils/const";
 import CustomDialog from "../../components/CustomDialog/CustomDialog";
 import CustomInput from "../../components/CustomInput/CustomInput";
@@ -48,6 +50,16 @@ const style = {
         bottom: 62,
         right: '.4rem',
         opacity: '.6'
+    },
+    chooseProportion: {
+        backgroundColor: 'rgb(233, 33, 101)',
+        color: 'white',
+        "&>p": {
+            padding: 0,
+            margin: '.6rem 1rem',
+            height: '1.8rem',
+            borderBottom: '1px solid white'
+        }
     }
 };
 @withStyles(style)
@@ -59,7 +71,9 @@ export default class PartnerDeviceList extends PullrefreshPage {
         super(props);
         this.state.chooseDevices = [];
         this.state.openChooseDevicePage = false;
+        this.state.partnerDeviceGroup = [];
         this.state.delIng = "";
+        this.state.proportionOpen = false;
         this.state.defaultSearchValue = getQueryString("sno");
         this.state.salesUuid = getQueryString("salesUuid");
         this.state.groupUuid = getQueryString("groupUuid");
@@ -85,9 +99,10 @@ export default class PartnerDeviceList extends PullrefreshPage {
 
     renderExt = () => {
         const {classes} = this.props;
-        const {groupUuid, salesUuid} = this.state;
-        const {openEditDeviceNickname, submitIng, openChooseDevicePage} = this.state;
-        if (!groupUuid) return "";
+        const {groupUuid, salesUuid, partnerDeviceGroup = [], chooseProportion = {}} = this.state;
+        const {openEditDeviceNickname, submitIng, openChooseDevicePage, proportionOpen} = this.state;
+        // 如果是分成组则不显示添加
+        if (groupUuid) return "";
         return <div>
             <CustomDialog
                 title="修改设备别名"
@@ -126,11 +141,72 @@ export default class PartnerDeviceList extends PullrefreshPage {
                             确定
                         </div>
                     }}/>
+                {
+                    partnerDeviceGroup.length === 1 && <div className={classes.chooseProportion}>
+                        <p style={{border: 'none'}}>
+                            分成比例 {chooseProportion.parentProportions}%
+                        </p>
+                    </div>
+                }
+
+                {
+                    partnerDeviceGroup.length > 1 && <div className={classes.chooseProportion} onClick={this.openDrawer}>
+                        <p>
+                            <font>▼</font> 分成比例 {chooseProportion.parentProportions}%, {chooseProportion.name}
+                        </p>
+                    </div>
+                }
+
                 <DeviceChooseList
-                    fixBottom={window.rem2px(3) + 1}
+                    isPartner={true}
+                    maxProportions={chooseProportion.parentProportions || 0}
+                    fixBottom={window.rem2px(3 + 3) + 1}
                     pageAction={data => this.props.salesState.getPartnerChooseDeviceListData({...(data || {}), salesUuid: salesUuid, groupUuid: groupUuid})}
                     handelChooseChange={v => this.setState({chooseDevices: v})}/>
             </Dialog>
+
+            <Drawer
+                anchor="bottom"
+                open={proportionOpen}
+                disableEnforceFocus={true}
+                onClose={this.closeDrawer}>
+                <div
+                    tabIndex={0}
+                    role="button">
+                    <div style={{padding: '0.66rem 1rem', borderBottom: '1px solid #dedede'}}>
+                        <span>请选择分成比例组</span>
+                        <span
+                            className={classes.button}
+                            style={{float: 'right', color: '#f50057'}}
+                            onClick={this.closeDrawer}>
+                            取消
+                        </span>
+                    </div>
+                    <List style={{maxHeight: '17.6rem', overflowY: 'scroll'}}>
+                        {(partnerDeviceGroup || []).map(item => (
+                            <ListItem
+                                dense
+                                button
+                                key={item.id}
+                                style={{paddingTop: 0, paddingBottom: 0}}
+                                onClick={() => {
+                                    if (chooseProportion.id !== item.id) {
+                                        this.setState({chooseProportion: item, proportionOpen: false});
+                                    }
+                                }}
+                                className={classes.listItem}
+                            >
+                                <Checkbox
+                                    checked={chooseProportion.id === item.id}
+                                    tabIndex={-1}
+                                    disableRipple
+                                />
+                                <ListItemText primary={`（ ${item.parentProportions}% ）` + item.name} style={{padding: 0}} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </div>
+            </Drawer>
         </div>;
     };
 
@@ -138,7 +214,8 @@ export default class PartnerDeviceList extends PullrefreshPage {
         const {delIng, groupUuid} = this.state;
         const {loginUserData} = this.props.userState;
         const {classes = ""} = this.props;
-        const showAction = !!groupUuid;
+        // const showAction = !!groupUuid;
+        const showAction = true;
         return <ActionCustomItem
             key={item.deviceId}
             loading={!!delIng}
@@ -155,6 +232,9 @@ export default class PartnerDeviceList extends PullrefreshPage {
                 }
                 <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>机型：</font>{item.channelName}
+                </p>
+                <p className={classes.infoLine}>
+                    <font className={classes.infoLabel}>分成比例：</font>{item.parentProportions}%
                 </p>
                 <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>收入总额：</font><font color="red">￥{item.total}</font>
@@ -180,7 +260,7 @@ export default class PartnerDeviceList extends PullrefreshPage {
 
     getFixBottom = () => {
         const {searchKeyWords, groupUuid} = this.state;
-        let fixBottom = 56 + window.rem2px(3.2) + (groupUuid ? 41 : 0);
+        let fixBottom = 56 + window.rem2px(3.2) + (!groupUuid ? 41 : 0);
         if (searchKeyWords) {
             fixBottom += 28;
         }
@@ -198,7 +278,7 @@ export default class PartnerDeviceList extends PullrefreshPage {
     handelEditDeviceNickname = () => {
         const {nickname, editItem} = this.state;
         this.setState({submitIng: true});
-        this.props.deviceState.saveDeviceInfo({name: nickname, deviceId: editItem.deviceId})
+        this.props.deviceState.saveDeviceInfo({name: nickname, deviceUuid: editItem.deviceUuid, groupUuid: editItem.groupUuid})
             .then(res => {
                 editItem.consumerName = nickname;
                 this.setState({submitIng: false, openEditDeviceNickname: false, editItem: editItem});
@@ -207,9 +287,8 @@ export default class PartnerDeviceList extends PullrefreshPage {
     };
 
     handelSaveSaleDevices = () => {
-        const salesUuid = getQueryString("salesUuid");
+        const {groupUuid, salesUuid, chooseProportion = {}} = this.state;
         const defaultGroupUuid = getQueryString("defaultGroupUuid");
-        const groupUuid = getQueryString("groupUuid");
         const {chooseDevices} = this.state;
         if (_.isEmpty(chooseDevices)) {
             this.notification("请选择");
@@ -218,7 +297,7 @@ export default class PartnerDeviceList extends PullrefreshPage {
         this.setState({submitIng: true});
         this.props.salesState.saveSalesDevice({
             salesUuid: salesUuid,
-            groupUuid: defaultGroupUuid || groupUuid,
+            groupUuid: defaultGroupUuid || groupUuid || chooseProportion.uuid,
             deviceUuids: chooseDevices
         })
             .then(res => {
@@ -239,7 +318,7 @@ export default class PartnerDeviceList extends PullrefreshPage {
     };
 
     unBindDevice = (item) => {
-        const salesUuid = getQueryString("salesUuid");
+        const {salesUuid} = this.state;
         this.alert("确认解绑设备吗？", "", () => {
             this.setState({delIng: item.deviceUuid});
             this.props.salesState.unbindSalesDevice({salesUuid: salesUuid, deviceUuids: [item.deviceUuid]})
@@ -258,6 +337,21 @@ export default class PartnerDeviceList extends PullrefreshPage {
         } else {
             this.handelPageRefresh();
         }
+        this.getProportion();
+    };
+
+    getProportion = () => {
+        const {salesUuid} = this.state;
+        this.props.salesState.getPartnerDeviceGroupPageData({salesUuid: salesUuid})
+            .then(res => this.setState({partnerDeviceGroup: res.data, chooseProportion: (res.data || [])[0]}));
+    };
+
+    openDrawer = () => {
+        this.setState({proportionOpen: true});
+    };
+
+    closeDrawer = () => {
+        this.setState({proportionOpen: false});
     };
 }
 

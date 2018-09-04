@@ -174,7 +174,7 @@ export default class Index extends BaseComponent {
                             <GroupIcon size="1.6rem"/>
                         </ListItemIcon>
                         <ListItemText className={classes.ListItemText}
-                                      primary="价格组"
+                                      primary="分成组"
                         />
                         <ListItemSecondaryAction>
                             {partnerDetailData.groupCount}

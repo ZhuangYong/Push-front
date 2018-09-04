@@ -137,6 +137,18 @@ export default class deviceState extends BaseState {
     }
 
     /**
+     * 保存虚拟设备组设备别名
+     * @param data
+     * @returns {*}
+     */
+    saveDeviceName(data) {
+        return this.fetch({
+            url: Api.API_DEVICE_NAME_SAVE,
+            data: data
+        });
+    }
+
+    /**
      * 删除虚拟设备组
      * @param teamUuid
      * @returns {*}

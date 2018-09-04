@@ -12,7 +12,7 @@ const style = {
         position: 'static',
         alignItems: "center",
         boxShadow: 'none',
-        backgroundColor: "#e92165",
+        backgroundColor: "rgb(33, 157, 233)",
         justifyContent: "space-between",
     },
     leftAction: {

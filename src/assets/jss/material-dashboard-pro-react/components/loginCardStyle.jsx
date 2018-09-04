@@ -13,6 +13,7 @@ import {
     purpleCardHeader,
     roseCardHeader
 } from "../../../../assets/jss/material-dashboard-pro-react.jsx";
+import {blackCardHeader} from "../../material-dashboard-pro-react";
 
 const loginCardStyle = {
     card: {
@@ -43,6 +44,7 @@ const loginCardStyle = {
     redCardHeader,
     blueCardHeader,
     purpleCardHeader,
+    blackCardHeader,
     roseCardHeader,
     cardTitle: {
         ...defaultFont,

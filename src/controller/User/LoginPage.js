@@ -21,13 +21,28 @@ import md5 from "md5";
 import CircularProgress from "material-ui/Progress/CircularProgress";
 import Path from "../../utils/path";
 import {getSession, removeSession} from "../../utils/comUtils";
+import loginBg from "../../assets/img/bg/login_bg.jpg";
 
 @inject("userState")
 @observer
 @withRouter
-@withStyles(loginPageStyle, {name: "loginPage", flip: true, withTheme: true})
+@withStyles({...loginPageStyle,
+    ...{
+        loginBg: {
+            backgroundImage: `url(${loginBg})`,
+            backgroundSize: '100% auto',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: '#0d0101',
+        },
+        loginButton: {
+            width: '100%',
+            background: '#ffffff47',
+            padding: '1rem 2rem',
+            color: 'white',
+        }
+    }
+}, {name: "loginPage", flip: true, withTheme: true})
 export default class LoginPage extends BaseComponent {
-    formData = {};
     constructor(props) {
         super(props);
         this.state = {
@@ -47,20 +62,21 @@ export default class LoginPage extends BaseComponent {
             }.bind(this),
             700
         );
+        this.appLoadingDone();
     }
 
     render() {
         const {classes = ""} = this.props;
         const {subInfo} = this.state;
         return (
-            <div className={classes.content}>
+            <div className={[classes.content, classes.loginBg].join(" ")}>
                 <div className={classes.container}>
                     <GridContainer justify="center">
                         <ItemGrid xs={12} sm={6} md={4}>
                             <form>
                                 <LoginCard
                                     customCardClass={classes[this.state.cardAnimaton]}
-                                    headerColor="blue"
+                                    headerColor="black"
                                     cardTitle="微信商户平台"
                                     cardSubtitle={<span style={{color: subInfo ? 'red' : ""}}>
                                         {subInfo || "请登陆"}
@@ -83,11 +99,11 @@ export default class LoginPage extends BaseComponent {
                                                 <CustomInput
                                                     labelText="登录名"
                                                     inputProps={{
-                                                        endAdornment: (
-                                                            <InputAdornment position="end">
-                                                                <Face className={classes.inputAdornmentIcon}/>
-                                                            </InputAdornment>
-                                                        ),
+                                                        // endAdornment: (
+                                                        //     <InputAdornment position="end">
+                                                        //         <Face className={classes.inputAdornmentIcon}/>
+                                                        //     </InputAdornment>
+                                                        // ),
                                                         value: this.state.loginname
                                                     }}
                                                     name="loginname"
@@ -97,13 +113,13 @@ export default class LoginPage extends BaseComponent {
                                                     labelText="密码"
                                                     inputProps={{
                                                         type: "password",
-                                                        endAdornment: (
-                                                            <InputAdornment position="end">
-                                                                <LockOutline
-                                                                    className={classes.inputAdornmentIcon}
-                                                                />
-                                                            </InputAdornment>
-                                                        ),
+                                                        // endAdornment: (
+                                                        //     <InputAdornment position="end">
+                                                        //         <LockOutline
+                                                        //             className={classes.inputAdornmentIcon}
+                                                        //         />
+                                                        //     </InputAdornment>
+                                                        // ),
                                                         value: this.state.password
                                                     }}
                                                     name="password"

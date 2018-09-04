@@ -44,7 +44,7 @@ const switchRoutes = (
 );
 
 @withStyles(appStyle)
-@inject("userState")
+@inject("userState", "appState")
 @observer
 export default class Dashboard extends BaseComponent {
 
@@ -65,7 +65,11 @@ export default class Dashboard extends BaseComponent {
 
     render() {
         const {classes} = this.props;
+        const {appLoaded} = this.props.appState;
         const {loginUserData} = this.props.userState;
+        if (!appLoaded) {
+            return "";
+        }
         return (
             <div className={classes.wrapper}>
                 <div ref="mainPanel" style={{paddingBottom: '5.6rem'}}>
@@ -112,6 +116,10 @@ export default class Dashboard extends BaseComponent {
     }
 
     refreshUserInfo() {
-        this.props.userState.getUserInfo();
+        this.props.userState.getUserInfo()
+            .then(res => {
+                this.props.appState.setAppLoaded(true);
+                this.appLoadingDone();
+            });
     }
 }
