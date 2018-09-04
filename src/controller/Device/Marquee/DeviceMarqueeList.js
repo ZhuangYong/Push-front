@@ -13,7 +13,7 @@ import ListItem from '@material-ui/core/ListItem';
 import CircularProgress from "material-ui/Progress/CircularProgress";
 import customStyle from "../../../assets/jss/view/custom";
 import 'react-picker-address/dist/react-picker-address.css';
-import {getQueryString} from "../../../utils/comUtils";
+import {getQueryString, setTitle} from "../../../utils/comUtils";
 import {EditIcon, MenuDotIcon} from "../../../components/common/SvgIcons";
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import PullRefreshPage from "../../../components/CommonPage/PullrefreshPage";
@@ -33,6 +33,7 @@ export default class DeviceMarquee extends PullRefreshPage {
 
     constructor(props, context) {
         super(props, context);
+        setTitle("跑马灯列表");
         this.state.delIng = "";
     }
 

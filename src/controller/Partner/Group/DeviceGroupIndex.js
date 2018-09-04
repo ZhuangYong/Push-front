@@ -5,7 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AddIcon from '@material-ui/icons/Add';
 import Path from "../../../utils/path";
 import {inject, observer} from "mobx-react/index";
-import {getQueryString} from "../../../utils/comUtils";
+import {getQueryString, setTitle} from "../../../utils/comUtils";
 import customStyle from "../../../assets/jss/view/custom";
 import PullrefreshPage from "../../../components/CommonPage/PullrefreshPage";
 import SearchInput from "../../../components/CustomInput/SearchInput";
@@ -18,7 +18,7 @@ export default class DeviceGroupIndex extends PullrefreshPage {
 
     constructor(props) {
         super(props);
-        this.title("合作者价格组");
+        setTitle("合作者分成组");
         this.state.delIng = "";
     }
 
@@ -31,8 +31,8 @@ export default class DeviceGroupIndex extends PullrefreshPage {
             loading={!!delIng}
             showAction={(delIng && delIng === item.uuid) || !delIng}
             onActionClick={() => this.openDrawerMenu({drawerMenus: [
-                    {label: '查看价格组设备', onClick: () => this.deviceGroupDetail(item)},
-                    {label: <font color="red">删除价格组</font>, onClick: () => this.deleteGroup(item)},
+                    {label: '查看分成组设备', onClick: () => this.deviceGroupDetail(item)},
+                    {label: <font color="red">删除分成组</font>, onClick: () => this.deleteGroup(item)},
                 ]})}>
             <div>
                 <p className={classes.infoLine}>

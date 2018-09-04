@@ -78,11 +78,26 @@ export default class deviceState extends BaseState {
     }
 
     getDevicePage(groupUuid, data) {
-        return this.fetch({
-            url: Api.API_DEVICE_PAGE + groupUuid,
-            setState: "setDeviceData",
-            data: data
-        });
+        if (typeof groupUuid === "string") {
+            return this.fetch({
+                url: Api.API_DEVICE_PAGE + groupUuid,
+                setState: "setDeviceData",
+                data: data
+            });
+        } else if (typeof groupUuid === "object") {
+            return this.fetch({
+                url: Api.API_DEVICE_PAGE,
+                setState: "setDeviceData",
+                data: groupUuid
+            });
+        } else if (!groupUuid) {
+            return this.fetch({
+                url: Api.API_DEVICE_PAGE,
+                setState: "setDeviceData",
+                data: data
+            });
+        }
+
     }
 
     getDeviceGroupDetail(groupUUID) {

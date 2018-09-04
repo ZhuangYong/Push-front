@@ -6,7 +6,7 @@ import {inject} from "mobx-react/index";
 import customStyle from "../../assets/jss/view/custom";
 import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
-import {getQueryString} from "../../utils/comUtils";
+import {getQueryString, setTitle} from "../../utils/comUtils";
 import {EditIcon} from "../../components/common/SvgIcons";
 import AddIcon from '@material-ui/icons/Add';
 import Const from "../../utils/const";
@@ -43,6 +43,7 @@ export default class SelfDeviceList extends PullrefreshPage {
 
     constructor(props) {
         super(props);
+        setTitle("设备列表");
         this.state.chooseDevices = [];
         this.state.openChooseDevicePage = false;
         this.state.groupUuid = getQueryString("groupUuid");

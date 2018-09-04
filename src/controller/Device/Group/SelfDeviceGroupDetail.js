@@ -24,7 +24,7 @@ import percentIcon from "../../../assets/img/icon/percent.png";
 import incomeIcon from "../../../assets/img/icon/income.png";
 import totalIncomeIcon from "../../../assets/img/icon/totalIncome.png";
 import {BarrageIcon, PriceIcon} from "../../../components/common/SvgIcons";
-import {getQueryString} from "../../../utils/comUtils";
+import {getQueryString, setTitle} from "../../../utils/comUtils";
 
 @withStyles({
     ...customStyle,
@@ -97,6 +97,7 @@ export default class Index extends BaseComponent {
 
     constructor(props) {
         super(props);
+        setTitle("设备组详情");
         this.state = {
             groupUuid: getQueryString("groupUuid"),
             submiting: false

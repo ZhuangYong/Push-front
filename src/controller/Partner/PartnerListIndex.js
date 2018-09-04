@@ -12,6 +12,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ArrowForwardIcon from "@material-ui/icons/KeyboardArrowRight";
 import Path from "../../utils/path";
 import PullRefreshPage from "../../components/CommonPage/PullrefreshPage";
+import {setTitle} from "../../utils/comUtils";
 
 const style = {
     ...customStyle,
@@ -45,6 +46,7 @@ const style = {
 export default class PartnerListIndex extends PullRefreshPage {
     constructor(props) {
         super(props);
+        setTitle("合作者");
     }
 
     pageAction = (data) => {

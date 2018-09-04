@@ -8,7 +8,7 @@ import Grow from '@material-ui/core/Grow';
 import customStyle from "../../assets/jss/view/custom";
 import {withRouter} from "react-router-dom";
 import WxImageViewer from 'react-wx-images-viewer';
-import {getQueryString} from "../../utils/comUtils";
+import {getQueryString, setTitle} from "../../utils/comUtils";
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -32,6 +32,7 @@ export default class ElectronicAgreement extends BaseComponent {
 
     constructor(props, context) {
         super(props, context);
+        setTitle("电子协议");
         this.state = {
             salesUuid: getQueryString("salesUuid"),
             area: "",

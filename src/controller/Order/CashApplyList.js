@@ -3,13 +3,12 @@ import withStyles from "material-ui/styles/withStyles";
 
 import {observer} from "mobx-react";
 import {inject} from "mobx-react/index";
-import Button from '@material-ui/core/Button';
 import customStyle from "../../assets/jss/view/custom";
 import ListItem from '@material-ui/core/ListItem';
 import svgBottom from "../../assets/svg/bottom-tear.svg";
 import PullRefreshPage from "../../components/CommonPage/PullrefreshPage";
 import CircularProgress from "material-ui/Progress/CircularProgress";
-import {getQueryString} from "../../utils/comUtils";
+import {setTitle} from "../../utils/comUtils";
 
 const style = {
     ...customStyle,
@@ -66,6 +65,7 @@ export default class CashApplyList extends PullRefreshPage {
 
     constructor(props) {
         super(props);
+        setTitle("提现记录");
         this.state = {
             listClassName: "pull-data-list-order",
         };

@@ -7,6 +7,7 @@ import customStyle from "../../assets/jss/view/custom";
 import ListItem from '@material-ui/core/ListItem';
 import svgBottom from "../../assets/svg/bottom-tear.svg";
 import PullRefreshPage from "../../components/CommonPage/PullrefreshPage";
+import {setTitle} from "../../utils/comUtils";
 
 const style = {
     ...customStyle,
@@ -45,6 +46,7 @@ export default class OrderIndex extends PullRefreshPage {
 
     constructor(props) {
         super(props);
+        setTitle("订单");
         this.state = {
             listClassName: "pull-data-list-order"
         };

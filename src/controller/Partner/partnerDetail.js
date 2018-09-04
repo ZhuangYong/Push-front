@@ -27,7 +27,7 @@ import {
 } from "../../components/common/SvgIcons";
 import ktvIcon from "../../assets/img/icon/ktv.png";
 import headBg from "../../assets/img/bg/headbg.jpg";
-import {getQueryString} from "../../utils/comUtils";
+import {getQueryString, setTitle} from "../../utils/comUtils";
 
 const style = {...customStyle, ...{
         partnerCarHead: {
@@ -66,6 +66,7 @@ export default class Index extends BaseComponent {
 
     constructor(props) {
         super(props);
+        setTitle("合作者详情");
         this.state = {
             submiting: false,
             salesUuid: getQueryString("salesUuid")

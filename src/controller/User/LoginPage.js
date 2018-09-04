@@ -20,7 +20,7 @@ import Form from "../../components/Form/BaseForm";
 import md5 from "md5";
 import CircularProgress from "material-ui/Progress/CircularProgress";
 import Path from "../../utils/path";
-import {getSession, removeSession} from "../../utils/comUtils";
+import {getSession, removeSession, setTitle} from "../../utils/comUtils";
 import loginBg from "../../assets/img/bg/login_bg.jpg";
 
 @inject("userState")
@@ -45,6 +45,7 @@ import loginBg from "../../assets/img/bg/login_bg.jpg";
 export default class LoginPage extends BaseComponent {
     constructor(props) {
         super(props);
+        setTitle("金麦客商户通");
         this.state = {
             cardAnimaton: "cardHidden",
             submiting: false,

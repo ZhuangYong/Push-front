@@ -11,7 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import CircularProgress from "material-ui/Progress/CircularProgress";
 import 'react-picker-address/dist/react-picker-address.css';
-import {getQueryString} from "../../../utils/comUtils";
+import {getQueryString, setTitle} from "../../../utils/comUtils";
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -60,7 +60,7 @@ export default class EditDeviceGroup extends BaseComponent {
 
     constructor(props, context) {
         super(props, context);
-        this.title("合作者价格组");
+        setTitle("添加合作者价格组");
         this.state = {
             salesUuid: getQueryString("salesUuid"),
             groupUuid: getQueryString("groupUuid"),
@@ -96,7 +96,7 @@ export default class EditDeviceGroup extends BaseComponent {
                         labelText={`结算比例配置（%）不能高于 ${partnerDetailData.proportion}`}
                         value={parentProportions}
                         name="parentProportions"
-                        reg={v => /^\d{1,2}(\.\d{1,2})?$|^100$/.test(v) && v < partnerDetailData.proportion}
+                        reg={v => /^\d{1,2}(\.\d{1,2})?$|^100$/.test(v) && v <= partnerDetailData.proportion}
                         required
                     />
                     <CustomInput
@@ -112,17 +112,19 @@ export default class EditDeviceGroup extends BaseComponent {
 
             </div>
 
-            <div style={{marginTop: '1rem', backgroundColor: 'white'}}>
-                <ListItem className={classes.item} style={{borderBottom: '0.01rem solid #dadada'}} onClick={this.submit}>
-                    <ListItemText
-                        primary={<div style={{margin: 0, padding: 0, textAlign: 'center'}}>
-                            {
-                                this.state.submiting ? <div style={{paddingTop: 4}}><CircularProgress color="secondary" size={16} /></div> : "提交"
-                            }
-                        </div>}
-                    />
-                </ListItem>
-            </div>
+            {
+                partnerDetailData && <div style={{marginTop: '1rem', backgroundColor: 'white'}}>
+                    <ListItem className={classes.item} style={{borderBottom: '0.01rem solid #dadada'}} onClick={this.submit}>
+                        <ListItemText
+                            primary={<div style={{margin: 0, padding: 0, textAlign: 'center'}}>
+                                {
+                                    this.state.submiting ? <div style={{paddingTop: 4}}><CircularProgress color="secondary" size={16} /></div> : "提交"
+                                }
+                            </div>}
+                        />
+                    </ListItem>
+                </div>
+            }
         </div>;
     }
 
@@ -148,9 +150,17 @@ export default class EditDeviceGroup extends BaseComponent {
         // 如果没有 salesUuid 将退回上个页面
         const {salesUuid} = this.state;
         const {partnerDetailData} = this.props.salesState;
-        if (!salesUuid || !partnerDetailData) {
+        if (!salesUuid) {
             this.back();
         }
+        if (!partnerDetailData) {
+            this.getPartnerDetail();
+        }
+    };
+
+    getPartnerDetail = () => {
+        const {salesUuid} = this.state;
+        this.props.salesState.getPartnerDetail(salesUuid);
     };
 
 }

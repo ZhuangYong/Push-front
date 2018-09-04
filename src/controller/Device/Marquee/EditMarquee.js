@@ -15,7 +15,7 @@ import DeleteIcon from '@material-ui/icons/DeleteForever';
 import CircularProgress from "material-ui/Progress/CircularProgress";
 import MultiPictureUpload from "../../../components/CustomUpload/MultiPictureUpload";
 import 'react-picker-address/dist/react-picker-address.css';
-import {getQueryString} from "../../../utils/comUtils";
+import {getQueryString, setTitle} from "../../../utils/comUtils";
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -64,6 +64,7 @@ export default class EditMarquee extends BaseComponent {
 
     constructor(props, context) {
         super(props, context);
+        setTitle("跑马灯");
         // groupUuid，id(编辑时传，新增不传)，content，contentUuid(编辑时传，新增不传)，lineNum，font，color，img，isEnabled
         const id = getQueryString("id");
         const groupUuid = getQueryString("groupUuid");

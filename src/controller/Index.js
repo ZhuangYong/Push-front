@@ -33,6 +33,7 @@ import activeIcon from "../assets/img/icon/active.png";
 import defaultImage from "../assets/img/default-avatar.png";
 import Const from "../utils/const";
 import {Service, Use} from "../utils/annotation";
+import {setTitle} from "../utils/comUtils";
 
 @withStyles({
     ...customStyle,
@@ -99,6 +100,7 @@ export default class Index extends BaseComponent {
 
     constructor(props) {
         super(props);
+        setTitle("金麦客商户通");
         this.state = {};
         this.refreshStatistics = this.refreshStatistics.bind(this);
     }

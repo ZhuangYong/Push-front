@@ -10,6 +10,7 @@ import {withRouter} from "react-router-dom";
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import CircularProgress from "material-ui/Progress/CircularProgress";
+import {setTitle} from "../../utils/comUtils";
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -25,6 +26,7 @@ export default class Feedback extends BaseComponent {
 
     constructor(props, context) {
         super(props, context);
+        setTitle("意见反馈");
         this.state = {
             feedback: "",
             submiting: false,

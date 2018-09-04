@@ -17,6 +17,7 @@ import MultiPictureUpload from "../../components/CustomUpload/MultiPictureUpload
 import Picker from 'react-picker-address';
 import 'react-picker-address/dist/react-picker-address.css';
 import {district} from "../../utils/district";
+import {setTitle} from "../../utils/comUtils";
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -65,6 +66,7 @@ export default class EditPartner extends BaseComponent {
 
     constructor(props, context) {
         super(props, context);
+        setTitle("添加合作者");
         this.state = {
             name: "",
             alipayAccount: "",

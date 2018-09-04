@@ -6,7 +6,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import customStyle from "../../assets/jss/view/custom";
 import withStyles from "material-ui/styles/withStyles";
 import {BlankImage, EditIcon, MenuDotIcon} from "../../components/common/SvgIcons";
-import {getQueryString} from "../../utils/comUtils";
+import {getQueryString, setTitle} from "../../utils/comUtils";
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Form from "../../components/Form/BaseForm";
 import CustomDialog from "../../components/CustomDialog/CustomDialog";
@@ -30,6 +30,7 @@ const style = {
 export default class PricePage extends PullRefreshPage {
     constructor(props) {
         super(props);
+        setTitle("价格包");
         this.state = {
             groupUuid: getQueryString("groupUuid"),
             price: 0,

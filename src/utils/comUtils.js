@@ -406,3 +406,7 @@ export function getScreenSize() {
         height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
     };
 }
+
+export function setTitle(title) {
+    document.title = title;
+}

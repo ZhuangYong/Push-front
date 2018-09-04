@@ -2,11 +2,15 @@ import React from "react";
 import DeviceGroup from "../../../components/CommonPage/DeviceGroup";
 import Path from "../../../utils/path";
 import {inject, observer} from "mobx-react/index";
+import {setTitle} from "../../../utils/comUtils";
 
 @inject("deviceState")
 @observer
 export default class DeviceGroupIndex extends DeviceGroup {
-
+    constructor(props) {
+        super(props);
+        setTitle("设备组");
+    }
     // override
     deviceGroupDetail = (item) => {
         const {isDefault} = item;

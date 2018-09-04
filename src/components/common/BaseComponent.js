@@ -11,7 +11,6 @@ export default class BaseComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        this.title = this.title.bind(this);
         this.stateFun = state => this.setState(state);
         this.initialBase();
     }
@@ -22,10 +21,6 @@ export default class BaseComponent extends React.Component {
         return (
             <div/>
         );
-    }
-
-    title(title) {
-        document.title = title;
     }
 
     linkTo(url, param) {

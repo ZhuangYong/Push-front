@@ -22,7 +22,7 @@ import {observer} from "mobx-react";
 import {inject} from "mobx-react/index";
 import PullRefresh from "../../components/PageContainer/PullRefresh";
 import Const from "../../utils/const";
-import {parseTime} from "../../utils/comUtils";
+import {parseTime, setTitle} from "../../utils/comUtils";
 import DatePicker from 'react-mobile-datepicker';
 import Drawer from '@material-ui/core/Drawer';
 import CircularProgress from "material-ui/Progress/CircularProgress";
@@ -74,6 +74,7 @@ export default class Index extends BaseComponent {
 
     constructor(props) {
         super(props);
+        setTitle("收入概况");
         const startTime = this.formatTime(new Date().getTime() - 1000 * 60 * 60 * 24 * 6);
         const endTime = this.formatTime(new Date());
         this.state = {

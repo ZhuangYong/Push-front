@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import CircularProgress from "material-ui/Progress/CircularProgress";
 import 'react-picker-address/dist/react-picker-address.css';
+import {setTitle} from "../../../utils/comUtils";
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -59,6 +60,7 @@ export default class EditInfo extends BaseComponent {
 
     constructor(props, context) {
         super(props, context);
+        setTitle("添加设备组");
         this.state = {
             name: "",
             // 1: 直营 2: 加盟 3: 同步

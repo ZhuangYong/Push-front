@@ -9,7 +9,7 @@ import List from "material-ui/List";
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItem from "material-ui/List/ListItem";
 import ListItemText from "material-ui/List/ListItemText";
-import {getQueryString} from "../../utils/comUtils";
+import {getQueryString, setTitle} from "../../utils/comUtils";
 import AddIcon from '@material-ui/icons/Add';
 import Drawer from "material-ui/Drawer";
 import Const from "../../utils/const";
@@ -69,6 +69,7 @@ export default class PartnerDeviceList extends PullrefreshPage {
 
     constructor(props) {
         super(props);
+        setTitle("合作者设备列表");
         this.state.chooseDevices = [];
         this.state.openChooseDevicePage = false;
         this.state.partnerDeviceGroup = [];

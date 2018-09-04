@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Path from "../../utils/path";
 import CircularProgress from "material-ui/Progress/CircularProgress";
+import {setTitle} from "../../utils/comUtils";
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -26,6 +27,7 @@ export default class EditInfo extends BaseComponent {
 
     constructor(props, context) {
         super(props, context);
+        setTitle("修改基本信息");
         this.state = {
             area: "",
             nickName: "",

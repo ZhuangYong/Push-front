@@ -31,6 +31,7 @@ import {
     PhoneIcon, TryIcon,
     UserIcon
 } from "../../components/common/SvgIcons";
+import {setTitle} from "../../utils/comUtils";
 
 // 0表示未开启 1表示已开启 2表示已关闭  0可以开启 1 可以关闭  2不可以操作*
 const FREE_SING_TYPE_OFF = 0;
@@ -71,6 +72,7 @@ export default class Index extends BaseComponent {
 
     constructor(props) {
         super(props);
+        setTitle("企业中心");
         this.state = {
             submiting: false
         };

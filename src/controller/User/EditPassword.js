@@ -12,6 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Path from "../../utils/path";
 import md5 from "md5";
 import CircularProgress from "material-ui/Progress/CircularProgress";
+import {setTitle} from "../../utils/comUtils";
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -27,6 +28,7 @@ export default class EditPassword extends BaseComponent {
 
     constructor(props, context) {
         super(props, context);
+        setTitle("修改密码");
         this.state = {
             oldpwd: "",
             newpwd: "",
