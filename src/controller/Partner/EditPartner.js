@@ -110,8 +110,8 @@ export default class EditPartner extends BaseComponent {
                         required
                     />
                     <CustomInput
+                        labelText="支付宝账号"
                         placeholder="合作伙伴支付宝账号"
-                        labelText="方支付账号"
                         value={alipayAccount}
                         name="alipayAccount"
                     />

@@ -20,12 +20,13 @@ import customStyle from "../../assets/jss/view/custom";
 import {
     AddressIcon,
     AgreementIcon,
-    AliPayIcon, DeviceIcon, GroupIcon,
+    AliPayIcon,
+    DeviceIcon,
+    GroupIcon,
     LocationIcon,
     PhoneIcon,
     UserIcon
 } from "../../components/common/SvgIcons";
-import ktvIcon from "../../assets/img/icon/ktv.png";
 import headBg from "../../assets/img/bg/headbg.jpg";
 import {getQueryString, setTitle} from "../../utils/comUtils";
 
@@ -87,6 +88,7 @@ export default class Index extends BaseComponent {
                         style={{paddingBottom: '2rem'}}
                         className={[classes.carHeader, classes.partnerCarHead].join(" ")}
                         title={<PictureUpload
+                            disabled={true}
                             label={partnerDetailData.viewName || "..."}
                             labelStyle={style.carHeaderLabel}
                             defaultImage={partnerDetailData.headImg}

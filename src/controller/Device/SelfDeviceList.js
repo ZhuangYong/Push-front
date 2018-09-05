@@ -136,12 +136,18 @@ export default class SelfDeviceList extends PullrefreshPage {
                 ]})}>
             <div>
                 {
+                    item.toSalesName ? <font color="red">已经被分配给：{item.toSalesName}</font> : ""
+                }
+                {
                     loginUserData.type === Const.ROLE.SALES && <p className={classes.infoLine}>
                         <font className={classes.infoLabel}>别名：</font>{item.consumerName || "无"}
                     </p>
                 }
                 <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>机型：</font>{item.channelName}
+                </p>
+                <p className={classes.infoLine}>
+                    <font className={classes.infoLabel}>分成比例：</font>{item.parentProportions}%
                 </p>
                 <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>收入总额：</font><font color="red">￥{item.total}</font>

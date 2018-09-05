@@ -53,36 +53,24 @@ export default class DeviceChooseList extends PullrefreshPage {
                 checked={chooseDevices.indexOf(item.deviceUuid) >= 0}
                 disableRipple
             />
-            {
-                isPartner ? <ListItemText
-                    style={{padding: '.6rem .2rem'}}
-                    primary={ <span className={classes.infoLine}>
+            <ListItemText
+                style={{padding: '.6rem .2rem'}}
+                primary={ <span className={classes.infoLine}>
+                    {
+                        item.toSalesName ? <font color="red">已经被分配给：{item.toSalesName}<br/></font> : ""
+                    }
                     <font className={classes.infoLabel}>机型：</font>{item.channelName}
                 </span>}
-                    secondary={
-                        <span className={classes.infoLine}>
+                secondary={
+                    <span className={classes.infoLine}>
                             <font className={classes.infoLabel}>分成比例：</font>{item.parentProportions} % {!canAdd && <font color="red">（ 比例不匹配 ）</font>}
-                                <br/>
+                        <br/>
                             <font className={classes.infoLabel}>SN号：</font>{item.sn}
-                                <br/>
+                        <br/>
                             <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
                         </span>
-                    }
-                /> : <ListItemText
-                    style={{padding: '.6rem .2rem'}}
-                    primary={ <span className={classes.infoLine}>
-                    <font className={classes.infoLabel}>机型：</font>{item.channelName}
-                </span>}
-                    secondary={
-                        <span className={classes.infoLine}>
-                            <font className={classes.infoLabel}>SN号：</font>{item.sn}
-                                <br/>
-                            <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
-                        </span>
-                    }
-                />
-            }
-
+                }
+            />
         </ListItem>;
     };
 

@@ -55,9 +55,9 @@ export default class DeviceMarquee extends PullRefreshPage {
         const {classes} = this.props;
         return <ListItem key={item.id} className={classes.item} style={{position: 'relative'}}>
             <div>
-                <p className={classes.infoLine}>
-                    <font className={classes.infoLabel}>行数：</font>{item.lineNum}
-                </p>
+                {/*<p className={classes.infoLine}>*/}
+                    {/*<font className={classes.infoLabel}>行数：</font>{item.lineNum}*/}
+                {/*</p>*/}
                 <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>字体：</font>{item.font || "未设置"}
                 </p>
@@ -77,7 +77,7 @@ export default class DeviceMarquee extends PullRefreshPage {
 
             {
                 !delIng && <ListItemSecondaryAction className={classes.editIcon}>
-                    <MenuDotIcon color="#e91e63" size='2.2rem' onClick={() => this.openDrawerMenu({drawerMenus: [
+                    <MenuDotIcon size='2.2rem' onClick={() => this.openDrawerMenu({drawerMenus: [
                             {label: '编辑', onClick: () => this.editDeviceMarquee(item)},
                             {label: '删除', onClick: () => this.delDeviceMarquee(item)},
                         ]})}/>

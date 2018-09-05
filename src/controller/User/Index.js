@@ -27,11 +27,13 @@ import {
     AliPayIcon,
     CashIcon,
     FeedbackIcon,
-    LocationIcon, PasswordIcon,
+    LocationIcon, PartnerIcon, PasswordIcon,
     PhoneIcon, TryIcon,
     UserIcon
 } from "../../components/common/SvgIcons";
 import {setTitle} from "../../utils/comUtils";
+import Button from "../../components/CustomButtons/Button";
+import UserState from "../../stores/userState";
 
 // 0表示未开启 1表示已开启 2表示已关闭  0可以开启 1 可以关闭  2不可以操作*
 const FREE_SING_TYPE_OFF = 0;
@@ -72,7 +74,7 @@ export default class Index extends BaseComponent {
 
     constructor(props) {
         super(props);
-        setTitle("企业中心");
+        setTitle("我的");
         this.state = {
             submiting: false
         };
@@ -84,8 +86,7 @@ export default class Index extends BaseComponent {
         this.refreshStatistics();
     }
     render() {
-        const {loginUserData} = this.props.userState;
-        const {configData = {}} = this.props.userState;
+        const {loginUserData, configData = {}, logoutLoading} = this.props.userState;
         const {classes = ""} = this.props;
         return <div>
             {
@@ -94,7 +95,7 @@ export default class Index extends BaseComponent {
                         style={{paddingBottom: '2rem'}}
                         className={[classes.carHeader, classes.card].join(" ")}
                         title={<PictureUpload
-                            label={loginUserData.nickName || ""}
+                            label={loginUserData.viewName || ""}
                             labelStyle={style.carHeaderLabel}
                             defaultImage={loginUserData.headImg}
                             uploadAction={this.uploadUserAvatarAction}
@@ -223,6 +224,22 @@ export default class Index extends BaseComponent {
                         </ListItem>
                     }
                     {
+                        loginUserData.type === Const.ROLE.SALES && <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_ORDER_CASH_APPLY_INDEX)}>
+                            <ListItemIcon>
+                                <PartnerIcon size="1.6rem"/>
+                            </ListItemIcon>
+                            <ListItemText className={classes.ListItemText}
+                                          // agent 1是代理人 2不是代理人 3申请中 4  审核失败
+                                          primary={"代理商"}
+                            />
+                            <ListItemSecondaryAction>
+                                {
+                                    this.getPartnerStatusStr()
+                                }
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    }
+                    {
                         loginUserData.type === Const.ROLE.SALES && <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT)}>
                             <ListItemIcon>
                                 <AgreementIcon size="1.6rem"/>
@@ -283,6 +300,51 @@ export default class Index extends BaseComponent {
             </Card>
         </div>;
     }
+
+    getPartnerStatusStr = () => {
+        const {applyLing} = this.state;
+        if (applyLing) return <CircularProgress color="secondary" size={18} style={{margin: '12px 18px'}}/>;
+        // agent 1是代理人 2不是代理人 3申请中 4  审核失败
+        const {configData} = this.props.userState;
+        const {agent} = configData || {};
+        switch (agent) {
+            case UserState.AGENT_TYPE_AGENT:
+                return "已是代理商";
+            case UserState.AGENT_TYPE_NOT_AGENT:
+                return <Button
+                    style={{padding: '.6rem 1rem'}}
+                    color="success"
+                    onClick={() => this.applyAgent()}>
+                    申请成为代理商
+                </Button>;
+            case UserState.AGENT_TYPE_AGENT_APPLY_ING:
+                return "申请中";
+            case UserState.AGENT_TYPE_AGENT_APPLY_FAIL:
+                return <Button
+                    style={{padding: '.6rem 1rem'}}
+                    color="success"
+                    onClick={() => this.applyAgent()}>
+                    审核失败，再次申请
+                </Button>;
+            default:
+                return "未知状态";
+        }
+
+    };
+
+    /**
+     * 申请成为代理商
+     */
+    applyAgent = () => {
+        this.setState({applyLing: true});
+        this.props.userState.applyAgent()
+            .then(res => {
+                this.setState({applyLing: false});
+                this.getConfig();
+                this.alert("感谢您的支持，我们将在三个工作日内为您处理！", "申请提交成功");
+            })
+            .catch(err => this.setState({applyLing: false}));
+    };
 
     uploadUserAvatarAction = (data) => {
         return this.props.userState.uploadUserAvatar(data)

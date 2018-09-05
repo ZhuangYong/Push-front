@@ -12,12 +12,12 @@
             width: 40%;
             z-index: -1;
             margin-left: -20%;
-            position: absolute;
+            position: fixed;
         }
 
         .path {
             stroke-width: 1;
-            stroke: rgb(233, 30, 99);
+            stroke: rgb(147, 147, 147);
             -webkit-animation: lineMove 3s ease-out infinite;
             animation: lineMove 3s ease-out infinite;
         }
@@ -33,7 +33,7 @@
             }
             100% {
                 stroke-dasharray: 378, 378;
-                fill: rgba(233, 30, 99, 0.5);
+                fill: rgba(147, 147, 147, 0.5);
                 opacity: 0;
             }
         }
@@ -49,7 +49,7 @@
             }
             100% {
                 stroke-dasharray: 378, 378;
-                fill: rgba(233, 30, 99, 0.5);
+                fill: rgba(147, 147, 147, 0.5);
                 opacity: 0;
             }
         }
@@ -133,8 +133,18 @@
     window.addEventListener('resize', setSize);
     window.addEventListener('orientationchange', setSize);
     window.addEventListener('appLoadingDone', function () {
-        document.querySelector("#appLoading").remove();
-        document.querySelector("#appLoadingStyle").remove();
+        var loadingdiv = document.querySelector("#appLoading");
+        var loadingstyle = document.querySelector("#appLoadingStyle");
+
+        if (loadingdiv) {
+            loadingdiv.remove();
+        }
+        if (loadingstyle) {
+            loadingstyle.remove();
+        }
     });
+    window.onerror = function(message, source, lineno, colno, error) {
+        console.log("--window on err--", message, source, lineno, colno, error);
+    }
 </script>
 </html>

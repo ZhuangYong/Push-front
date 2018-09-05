@@ -57,7 +57,7 @@ export default class DeviceGroupIndex extends PullrefreshPage {
         const {classes} = this.props;
         const salesUuid = getQueryString("salesUuid");
         return <Button className={classes.menuBottomButton} onClick={() => this.linkTo(Path.PATH_DEVICE_PARTNER_GROUP_EDIT, {salesUuid: salesUuid})}>
-            <AddIcon/> 添加价格组
+            <AddIcon/> 添加分成组
         </Button>;
     };
 

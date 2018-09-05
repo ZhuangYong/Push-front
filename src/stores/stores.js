@@ -1,5 +1,4 @@
 import {store} from "rfx-core";
-
 import userState from "./userState";
 import statisticsState from "./statisticsState";
 import deviceState from "./deviceState";

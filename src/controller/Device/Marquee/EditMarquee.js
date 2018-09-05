@@ -96,8 +96,8 @@ export default class EditMarquee extends BaseComponent {
                     v-data={this.state}
                     setState={this.stateFun}>
                     <CustomInput
-                        placeholder="滚动显示文字内容"
                         labelText="内容"
+                        placeholder="滚动显示文字内容"
                         value={content}
                         name="content"
                         required
@@ -106,24 +106,24 @@ export default class EditMarquee extends BaseComponent {
                             rows: 2,
                         }}
                     />
+                    {/*<CustomInput*/}
+                        {/*labelText="滚动显示文字行数"*/}
+                        {/*placeholder="请输入一位整数"*/}
+                        {/*value={lineNum + ""}*/}
+                        {/*name="lineNum"*/}
+                        {/*reg={/^\d{1}$/}*/}
+                        {/*required*/}
+                    {/*/>*/}
                     <CustomInput
-                        placeholder="请输入一位整数"
-                        labelText="滚动显示文字行数"
-                        value={lineNum + ""}
-                        name="lineNum"
-                        reg={/^\d{1}$/}
-                        required
-                    />
-                    <CustomInput
-                        placeholder="滚动显示文字字体"
-                        labelText="请输入整数"
+                        labelText="滚动显示文字字体"
+                        placeholder="请输入整数"
                         value={font}
                         name="font"
                         reg={/^\d{1,6}$/}
                     />
                     <CustomInput
-                        placeholder="滚动显示文字颜色"
                         labelText="颜色"
+                        placeholder="滚动显示文字颜色"
                         value={color}
                         name="color"
                     />

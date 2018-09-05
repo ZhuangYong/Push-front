@@ -48,14 +48,16 @@ class PictureUpload extends React.Component {
 
     render() {
         const {imagePreviewUrl} = this.state;
-        const {defaultImage, label, labelStyle} = this.props;
+        const {defaultImage, label, labelStyle, disabled} = this.props;
         return (
             <div className="picture-container">
                 <div className="picture" style={{width: '6rem', height: '6rem', backgroundImage: `url(${imagePreviewUrl || defaultImage || defaultNoneImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', borderColor: 'white'}}>
                         {
                             this.state.uploadIng ? <CircularProgress color="secondary" size={14} /> : ""
                         }
-                    <input type="file" onChange={e => this.handleImageChange(e)} style={{width: '6rem', height: '6rem', left: '50%', marginLeft: -38}}/>
+                    {
+                        !disabled && <input type="file" onChange={e => this.handleImageChange(e)} style={{width: '6rem', height: '6rem', left: '50%', marginLeft: -38}}/>
+                    }
                 </div>
                 <p className="description" style={{fontSize: 14, margin: 0, ...labelStyle}}>{label}</p>
             </div>
@@ -64,12 +66,14 @@ class PictureUpload extends React.Component {
 }
 
 PictureUpload.propTypes = {
+    disabled: PropTypes.bool,
     uploadAction: PropTypes.func,
     defaultImage: PropTypes.string,
     label: PropTypes.string,
     labelStyle: PropTypes.any
 };
 PictureUpload.defaultProps = {
+    disabled: false,
     uploadAction: console.log("not set uploadAction"),
     defaultImage: "",
     label: "点击编辑图片",

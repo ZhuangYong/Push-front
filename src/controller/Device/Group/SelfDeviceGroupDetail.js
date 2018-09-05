@@ -115,8 +115,8 @@ export default class Index extends BaseComponent {
             <Card className={classes.card} style={{borderRadius: 0}}>
                 <CardHeader
                     style={{backgroundColor: '#e6e6e6'}}
-                    title={<p className={classes.nickname}>{deviceGroupDetailData.name}</p>}
-                    subheader={<p className={classes.viewName}>{deviceGroupDetailData.createTime}</p>}
+                    title={<p className={classes.nickname}>{deviceGroupDetailData.name || "..."}</p>}
+                    subheader={<p className={classes.viewName}>{deviceGroupDetailData.createTime || "..."}</p>}
                 />
                 <span className={classes.todayDetail}>
                     <p>今日  ￥{deviceGroupDetailData.dayAmount}</p>

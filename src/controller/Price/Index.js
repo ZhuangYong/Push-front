@@ -69,7 +69,7 @@ export default class PricePage extends PullRefreshPage {
 
     renderExt = () => {
         const salesUuid = getQueryString("salesUuid");
-        const {openEditPrice, submitIng, price} = this.state;
+        const {openEditPrice, submitIng, price, limitPrice} = this.state;
         return <div>
             <CustomDialog
                 title="修改设备套餐价格"
@@ -83,7 +83,7 @@ export default class PricePage extends PullRefreshPage {
                         v-data={this.state}
                         setState={this.stateFun}>
                         <CustomInput
-                            labelText="套餐价格"
+                            labelText={`套餐价格${limitPrice ? `（价格不能低于${limitPrice}）` : ""}`}
                             name="price"
                             value={(price || "") + ""}
                             reg={this.validPrice}
@@ -92,6 +92,10 @@ export default class PricePage extends PullRefreshPage {
                 }
             />
         </div>;
+    };
+
+    getFixBottom = () => {
+        return 56;
     };
 
     editPrice = (item) => {

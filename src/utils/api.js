@@ -20,8 +20,11 @@ export default {
     // 配置
     API_CONFIG_INDEX: "/wxback/config/index",
 
-
+    // 1元试唱开启或关闭
     API_CONFIG_CHANGE_FREE_SING: "/wxback/config/onOffFreeSing",
+
+    // 申请成为代理商
+    API_CONFIG_APPLY_AGENT: "/wxback/config/applyAgent",
 
     // 首页统计数据
     API_STATIS_INDEX: "/wxback/statis/index",

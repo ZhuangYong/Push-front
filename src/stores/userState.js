@@ -4,13 +4,21 @@ import BaseState from "./baseState";
 import {cacheUserInfo, removeCachedUserInfo, removeToken, setToken} from "../utils/auth";
 
 export default class userState extends BaseState {
+    // agent 1是代理人 2不是代理人 3申请中 4  审核失败
+    static AGENT_TYPE_AGENT = 1;
+    static AGENT_TYPE_NOT_AGENT = 2;
+    static AGENT_TYPE_AGENT_APPLY_ING = 3;
+    static AGENT_TYPE_AGENT_APPLY_FAIL = 4;
 
+
+    // 用户登陆信息（主要是token类数据）
     @observable loginData = "";
+    // 登陆用户的用户信息（用户详情）
     @observable loginUserData = "";
+    // 用户收入概况
     @observable userIncomeData = "";
+    // 配置信息
     @observable configData = "";
-    @observable
-    testData = "1";
 
     @action
     setLoginData(data) {
@@ -21,7 +29,7 @@ export default class userState extends BaseState {
 
     @action
     setLoginUserData(data) {
-        this.loginUserData = data;
+        this.loginUserData = data || {};
         cacheUserInfo(data);
     }
 
@@ -56,6 +64,11 @@ export default class userState extends BaseState {
         });
     }
 
+    /**
+     * 获取授权
+     * @param data
+     * @returns {*}
+     */
     auth(data) {
         return this.fetch({
             url: Api.API_WEIXIN_AUTH,
@@ -63,14 +76,25 @@ export default class userState extends BaseState {
         });
     }
 
+    /**
+     * 退出登录
+     * @param data
+     * @returns {*}
+     */
     logout(data) {
         return this.fetch({
             url: Api.API_USER_LOGOUT,
             setState: "setLoginData",
+            loading: "logout",
             data: data
         }, res => this.clearLoginUserData());
     }
 
+    /**
+     * 获取用户信息
+     * @param data
+     * @returns {*}
+     */
     getUserInfo(data) {
         return this.fetch({
             url: Api.API_STATIS_USER_INFO,
@@ -79,6 +103,11 @@ export default class userState extends BaseState {
         });
     }
 
+    /**
+     * 上传登陆用户头像并直接保存
+     * @param data
+     * @returns {*}
+     */
     uploadUserAvatar(data) {
         return this.fetch({
             url: Api.API_IMAGE_UPLOAD_AVATAR,
@@ -86,6 +115,11 @@ export default class userState extends BaseState {
         });
     }
 
+    /**
+     * 上传图片
+     * @param data
+     * @returns {*}
+     */
     uploadImage(data) {
         return this.fetch({
             url: Api.API_IMAGE_UPLOAD,
@@ -93,6 +127,11 @@ export default class userState extends BaseState {
         });
     }
 
+    /**
+     * 保存用户信息
+     * @param data
+     * @returns {*}
+     */
     saveUserInfo(data) {
         return this.fetch({
             url: Api.API_USER_SAVE,
@@ -100,6 +139,11 @@ export default class userState extends BaseState {
         });
     }
 
+    /**
+     * 修改用户密码
+     * @param data
+     * @returns {*}
+     */
     updateUserPassword(data) {
         return this.fetch({
             url: Api.API_USER_CHANGE_PASSWORD,
@@ -107,6 +151,11 @@ export default class userState extends BaseState {
         });
     }
 
+    /**
+     * 获取输入概况
+     * @param data
+     * @returns {*}
+     */
     getUserIncomeInfo(data) {
         return this.fetch({
             url: Api.API_STATIS_INDEX_DETAIL,
@@ -115,6 +164,11 @@ export default class userState extends BaseState {
         });
     }
 
+    /**
+     * 保存意见反馈
+     * @param data
+     * @returns {*}
+     */
     saveFeedback(data) {
         return this.fetch({
             url: Api.API_USER_SAVE_FEEDBACK,
@@ -133,9 +187,23 @@ export default class userState extends BaseState {
         });
     }
 
+    /**
+     * 关闭或开启1元试唱功能
+     * @returns {*}
+     */
     onOffFreeSing() {
         return this.fetch({
             url: Api.API_CONFIG_CHANGE_FREE_SING,
+        });
+    }
+
+    /**
+     * 申请成为代理商
+     * @returns {*}
+     */
+    applyAgent() {
+        return this.fetch({
+            url: Api.API_CONFIG_APPLY_AGENT,
         });
     }
 }

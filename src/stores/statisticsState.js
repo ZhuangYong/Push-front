@@ -8,8 +8,6 @@ export default class statisticsState extends baseState {
     indexStatisticsData = "";
     @observable
     IndexStatisticsChannelListData = "";
-    @observable
-    testData = "";
 
     @action
     setIndexStatisticsData(data) {
