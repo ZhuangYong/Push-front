@@ -146,10 +146,5 @@
     window.onerror = function(message, source, lineno, colno, error) {
         console.log("--window on err--", message, source, lineno, colno, error);
     };
-    document.querySelector('body').addEventListener('touchmove', function(e) {
-        if (!document.querySelector('#root').contains(e.target)) {
-            e.preventDefault();
-        }
-    });
 </script>
 </html>
