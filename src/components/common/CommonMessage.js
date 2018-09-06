@@ -327,7 +327,8 @@ export default class CommonMessage extends React.Component {
     }
 
     eventApiErr = e => {
-        this.notification(e.cause === "Network Error" ? "网络错误，请稍后重试！" : e.cause);
+        const errMsg = e.cause === "Network Error" ? "网络错误，请稍后重试！" : e.cause;
+        this.notification(errMsg);
     };
 
     eventMsg = e => {

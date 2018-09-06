@@ -60,7 +60,7 @@ export default class EditDeviceGroup extends BaseComponent {
 
     constructor(props, context) {
         super(props, context);
-        setTitle("添加合作者分成组");
+        setTitle("添加代理商分成组");
         this.state = {
             salesUuid: getQueryString("salesUuid"),
             groupUuid: getQueryString("groupUuid"),

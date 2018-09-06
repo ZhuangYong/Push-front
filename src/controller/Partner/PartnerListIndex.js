@@ -46,7 +46,7 @@ const style = {
 export default class PartnerListIndex extends PullRefreshPage {
     constructor(props) {
         super(props);
-        setTitle("合作者");
+        setTitle("代理商");
     }
 
     pageAction = (data) => {
@@ -72,7 +72,7 @@ export default class PartnerListIndex extends PullRefreshPage {
 
     renderExt = () => {
         return <Button style={{...style.menuBottomButton, bottom: 56}} onClick={() => this.linkTo(Path.PATH_SALES_EDIT)}>
-            <AddIcon/> 添加合作者
+            <AddIcon/> 添加代理商
         </Button>;
     };
 

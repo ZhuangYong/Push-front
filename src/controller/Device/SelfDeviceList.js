@@ -86,8 +86,10 @@ export default class SelfDeviceList extends PullrefreshPage {
                         setState={this.stateFun}>
                         <CustomInput
                             labelText="设备别名"
+                            placeholder="长度不超过20"
                             name="nickname"
                             value={this.state.nickname}
+                            reg={v => v.length < 21}
                         />
                     </Form>
                 }

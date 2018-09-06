@@ -67,7 +67,7 @@ export default class Index extends BaseComponent {
 
     constructor(props) {
         super(props);
-        setTitle("合作者详情");
+        setTitle("代理商详情");
         this.state = {
             submiting: false,
             salesUuid: getQueryString("salesUuid")
@@ -223,7 +223,7 @@ export default class Index extends BaseComponent {
     };
 
     /**
-     * 获取合作者详情
+     * 获取代理商详情
      */
     getPartnerDetail = () => {
         const {salesUuid} = this.state;
@@ -231,7 +231,7 @@ export default class Index extends BaseComponent {
     };
 
     /**
-     * 合作者电子协议
+     * 代理商电子协议
      */
     partnerAgreement = () => {
         const {salesUuid} = this.state;

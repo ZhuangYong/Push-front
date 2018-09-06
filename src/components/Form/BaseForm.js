@@ -24,7 +24,9 @@ export default class BaseForm extends React.Component {
         this.initialState();
     }
     render() {
-        return this.autoState(this.props.children) || "";
+        return <div className="valid-form">
+            {this.autoState(this.props.children) || ""}
+        </div>;
     }
 
     autoState(node, key) {

@@ -3,6 +3,7 @@ import React from "react";
 // import {JSEncrypt} from 'jsencrypt';
 // import sysConfig from "./sysConfig";
 import navUtils from "./navUtils";
+import Const from "./const";
 
 /**
  * 返回特定格式时间字符串
@@ -397,7 +398,13 @@ export function dispatchCustomEvent(eventName, cause = "", target = document) {
     const event = document.createEvent('Event');
     event.initEvent(eventName, true, false);
     event.cause = cause;
-    target.dispatchEvent(event);
+
+    const loadingDiv = document.querySelector("#appLoading");
+    if (eventName === Const.EVENT.EVENT_API_ERR && loadingDiv) {
+        alert(cause);
+    } else {
+        target.dispatchEvent(event);
+    }
 }
 
 export function getScreenSize() {

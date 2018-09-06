@@ -115,7 +115,7 @@ export default class EditMarquee extends BaseComponent {
                         {/*required*/}
                     {/*/>*/}
                     <CustomInput
-                        labelText="滚动显示文字字体"
+                        labelText="滚动显示文字大小"
                         placeholder="请输入整数"
                         value={font}
                         name="font"

@@ -66,7 +66,7 @@ export default class EditPartner extends BaseComponent {
 
     constructor(props, context) {
         super(props, context);
-        setTitle("添加合作者");
+        setTitle("添加代理商");
         this.state = {
             name: "",
             alipayAccount: "",
@@ -190,12 +190,12 @@ export default class EditPartner extends BaseComponent {
                         labelPlacement="start"
                     />
 
-                    <CustomInput
+                    {/*<CustomInput
                         placeholder="http://......"
                         labelText="发送订单链接"
                         value={sendOrderUrl}
                         name="sendOrderUrl"
-                    />
+                    />*/}
 
                     <CustomInput
                         disabled
@@ -222,24 +222,26 @@ export default class EditPartner extends BaseComponent {
                     />
                 </Form>
 
-                <Picker
-                    title={"请选择合作伙伴区域"}
-                    visible={this.state.showCityPicker}
-                    onClose={() => this.setState({showCityPicker: false})}
-                    dataSource={district}
-                    value={(areaId || "").split(",")}
-                    onChange={(v, a) => {
-                        if (v) {
-                            const areaId = v.join(",");
-                            const region = a[0]['title'];
-                            const city = a[1]['title'];
-                            const area = a[2]['title'];
-                            this.setState({showCityPicker: false, areaId: areaId, region: region, city: city, area: area});
-                        } else {
-                            this.setState({showCityPicker: false, areaId: "", region: "", city: "", area: ""});
-                        }
-                    }}
-                />
+                {
+                    this.state.showCityPicker && <Picker
+                        title={"请选择合作伙伴区域"}
+                        visible={this.state.showCityPicker}
+                        onClose={() => this.setState({showCityPicker: false})}
+                        dataSource={district}
+                        value={(areaId || "").split(",")}
+                        onChange={(v, a) => {
+                            if (v) {
+                                const areaId = v.join(",");
+                                const region = a[0]['title'];
+                                const city = a[1]['title'];
+                                const area = a[2]['title'];
+                                this.setState({showCityPicker: false, areaId: areaId, region: region, city: city, area: area});
+                            } else {
+                                this.setState({showCityPicker: false, areaId: "", region: "", city: "", area: ""});
+                            }
+                        }}
+                    />
+                }
 
             </div>
 
@@ -267,7 +269,7 @@ export default class EditPartner extends BaseComponent {
                 method: 1,
                 parentProportions: parentProportions,
                 phone: phone,
-                sendOrderUrl: sendOrderUrl,
+                // sendOrderUrl: sendOrderUrl,
                 remark: remark,
                 areaId: areaId,
                 region: region,

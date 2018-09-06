@@ -8,7 +8,7 @@ export default {
     // 首页
     PATH_INDEX: "/index",
 
-    // 设备组列表(tab 页面，包含合作者)
+    // 设备组列表(tab 页面，包含代理商)
     PATH_DEVICE_GROUP_LIST: "/device/groupList",
 
     // 添加自营设备组
@@ -71,10 +71,10 @@ export default {
     // 修改销售方
     PATH_SALES_EDIT: "/sales/edit",
 
-    // 下级合作者列表
+    // 下级代理商列表
     PATH_PARTNER_LIST_INDEX: "/partner/list/index",
 
-    // 合作者设备组列表
+    // 代理商设备组列表
     PATH_PARTNER_DEVICE_GROUP_LIST: "/partner/group/list"
 
 };

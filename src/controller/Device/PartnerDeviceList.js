@@ -69,7 +69,7 @@ export default class PartnerDeviceList extends PullrefreshPage {
 
     constructor(props) {
         super(props);
-        setTitle("合作者设备列表");
+        setTitle("代理商设备列表");
         this.state.chooseDevices = [];
         this.state.openChooseDevicePage = false;
         this.state.partnerDeviceGroup = [];
@@ -216,16 +216,22 @@ export default class PartnerDeviceList extends PullrefreshPage {
         const {loginUserData} = this.props.userState;
         const {classes = ""} = this.props;
         // const showAction = !!groupUuid;
-        const showAction = true;
+        const showAction = item.disableUnbind === 2;
         return <ActionCustomItem
             key={item.deviceId}
             loading={!!delIng}
             showAction={((delIng && delIng === item.deviceUuid) || !delIng) && showAction}
             onActionClick={() => this.openDrawerMenu({drawerMenus: [
-                {label: '编辑别名', onClick: () => this.editDevice(item)},
+                // {label: '编辑别名', onClick: () => this.editDevice(item)},
                 {label: '解绑设备', onClick: () => this.unBindDevice(item)},
             ]})}>
             <div>
+                {
+                    // 1不能解绑  2能解绑
+                    item.disableUnbind === 1 ? <p className={classes.infoLine}>
+                        <font color="red">已经被代理商分配，不能进行其他操作</font>
+                    </p> : ""
+                }
                 {
                     loginUserData.type === Const.ROLE.SALES && <p className={classes.infoLine}>
                         <font className={classes.infoLabel}>别名：</font>{item.consumerName || "无"}

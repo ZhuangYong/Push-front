@@ -243,7 +243,8 @@ export default class Index extends BaseComponent {
                                     {indexStatisticsData.getAmount}
                                 </ListItemSecondaryAction>
                             </ListItem>
-                            <ListItem className={classes.item}>
+
+                            {/*<ListItem className={classes.item}>
                                 <ListItemIcon>
                                     <img src={percentIcon} className={classes.itemIcon}/>
                                 </ListItemIcon>
@@ -253,7 +254,7 @@ export default class Index extends BaseComponent {
                                 <ListItemSecondaryAction className={classes.secondary} style={{width: '60%', textOverflow: 'ellipsis', overflow: 'hidden', textAlign: 'right'}}>
                                     {indexStatisticsData.proportion && indexStatisticsData.proportion.join("%,") + "%"}
                                 </ListItemSecondaryAction>
-                            </ListItem>
+                            </ListItem>*/}
 
                             <ListItem className={classes.item} style={{borderBottom: '1px solid #cecece'}} onClick={() => this.linkTo(Path.PATH_DEVICE_GROUP_INDEX)}>
                                 <ListItemIcon>

@@ -86,6 +86,7 @@ export default class EditInfo extends BaseComponent {
                         labelText="详细地址"
                         value={address}
                         name="address"
+                        reg={v => v.length < 30}
                         required
                     />
                 </Form>

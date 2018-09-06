@@ -18,7 +18,7 @@ export default class DeviceGroupIndex extends PullrefreshPage {
 
     constructor(props) {
         super(props);
-        setTitle("合作者分成组");
+        setTitle("代理商分成组");
         this.state.delIng = "";
     }
 

@@ -163,7 +163,7 @@ export default class Index extends BaseComponent {
                             <ListItemText className={classes.ListItemText}
                                 primary="详细地址"
                             />
-                            <ListItemSecondaryAction className={classes.secondary}>
+                            <ListItemSecondaryAction className={classes.secondary} style={{maxWidth: '60%', height: '2.6rem', lineHeight: '1rem', display: 'flex', alignItems: 'center'}}>
                                 {loginUserData.address || "未填写"}
                             </ListItemSecondaryAction>
                         </ListItem>
@@ -198,7 +198,7 @@ export default class Index extends BaseComponent {
                                 {
                                     this.state.submiting ? <div style={{margin: '0 1.6rem'}}><CircularProgress color="secondary" size={14} /></div> : <div>
                                         {
-                                            configData.freeSing === FREE_SING_TYPE_CLOSE ? <font style={{padding: '0 1.6rem', fontSize: '1rem'}}>已关闭</font> : <Switch
+                                            configData.freeSing === FREE_SING_TYPE_CLOSE ? <font style={{padding: '0 1.2rem', fontSize: '1rem'}}>已关闭</font> : <Switch
                                                 checked={configData.freeSing === FREE_SING_TYPE_ON}
                                                 onChange={this.changeFreeSing}
                                             />
@@ -232,7 +232,7 @@ export default class Index extends BaseComponent {
                                           // agent 1是代理人 2不是代理人 3申请中 4  审核失败
                                           primary={"代理商"}
                             />
-                            <ListItemSecondaryAction>
+                            <ListItemSecondaryAction style={{margin: '0 1.2rem'}}>
                                 {
                                     this.getPartnerStatusStr()
                                 }
@@ -303,7 +303,7 @@ export default class Index extends BaseComponent {
 
     getPartnerStatusStr = () => {
         const {applyLing} = this.state;
-        if (applyLing) return <CircularProgress color="secondary" size={18} style={{margin: '12px 18px'}}/>;
+        if (applyLing) return <CircularProgress color="secondary" size={18}/>;
         // agent 1是代理人 2不是代理人 3申请中 4  审核失败
         const {configData} = this.props.userState;
         const {agent} = configData || {};

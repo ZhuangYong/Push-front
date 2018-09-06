@@ -83,7 +83,7 @@ export default class PricePage extends PullRefreshPage {
                         v-data={this.state}
                         setState={this.stateFun}>
                         <CustomInput
-                            labelText={`套餐价格${limitPrice ? `（价格不能低于${limitPrice}）` : ""}`}
+                            labelText={`套餐价格${limitPrice ? `（不能低于${limitPrice}）` : ""}`}
                             name="price"
                             value={(price || "") + ""}
                             reg={this.validPrice}

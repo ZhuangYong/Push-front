@@ -71,21 +71,25 @@ export default class Dashboard extends BaseComponent {
             return "";
         }
         return (
-            <div className={classes.wrapper}>
-                <div ref="mainPanel" style={{paddingBottom: '5.6rem'}}>
-                    {this.getRoute() ? (
-                        <div className={classes.content}>
-                            <div className={classes.container}>{switchRoutes}</div>
-                        </div>
-                    ) : (
-                        <div className={classes.map}>{switchRoutes}</div>
-                    )}
+            <div>
+                <div
+                    className={[classes.wrapper, "page-container"].join(" ")}
+                    style={{overflowY: 'auto', WebkitOverflowScrolling: 'touch', transition: 'all 0.3s ease 0s'}}>
+                    <div ref="mainPanel" style={{paddingBottom: '5.6rem'}}>
+                        {this.getRoute() ? (
+                            <div className={classes.content}>
+                                <div className={classes.container}>{switchRoutes}</div>
+                            </div>
+                        ) : (
+                            <div className={classes.map}>{switchRoutes}</div>
+                        )}
+                    </div>
                 </div>
                 {
                     loginUserData.type === Const.ROLE.SALES && <BottomNavs items={[
                         {label: "首页", icon: <HomeIcon/>, paths: [Path.PATH_INDEX, Path.PATH_USER_INCOME_INFO]},
                         {label: "设备", icon: <Device2Icon/>, paths: [Path.PATH_DEVICE_GROUP_INDEX, Path.PATH_DEVICE_INDEX, Path.PATH_DEVICE_GROUP_SELF_DETAIL, Path.PATH_PRICE_INDEX, Path.PATH_DEVICE_MARQUEE_LIST, Path.PATH_DEVICE_GROUP_EDIT]},
-                        {label: "合作者", icon: <PartnerIcon/>, iconSize: "1.8rem", paths: [Path.PATH_PARTNER_LIST_INDEX, Path.PATH_PARTNER_DETAIL, Path.PATH_DEVICE_PARTNER_INDEX, Path.PATH_PARTNER_DEVICE_GROUP_LIST]},
+                        {label: "代理商", icon: <PartnerIcon/>, iconSize: "1.8rem", paths: [Path.PATH_PARTNER_LIST_INDEX, Path.PATH_PARTNER_DETAIL, Path.PATH_DEVICE_PARTNER_INDEX, Path.PATH_PARTNER_DEVICE_GROUP_LIST]},
                         {label: "订单", icon: <OrderIcon/>, paths: [Path.PATH_ORDER_INDEX]},
                         {label: "我", icon: <UserIcon/>, paths: [Path.PATH_USER_INDEX, Path.PATH_USER_EDIT_INFO, Path.PATH_USER_FEEDBACK]},
                     ]}/>
