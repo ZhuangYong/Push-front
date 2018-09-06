@@ -146,7 +146,7 @@ export default class Index extends BaseComponent {
                             <ListItemText className={classes.ListItemText}
                                 primary="详细地址"
                             />
-                            <ListItemSecondaryAction className={classes.secondary}>
+                            <ListItemSecondaryAction className={classes.secondary} style={{maxWidth: '60%', height: '2.6rem', lineHeight: '1rem', display: 'flex', alignItems: 'center'}}>
                                 {partnerDetailData.address || "未填写"}
                             </ListItemSecondaryAction>
                         </ListItem>

@@ -18,6 +18,9 @@ export default class CustomDialog extends BaseComponent {
         const {title, open, actions, handleCancel, handleSure, content, loading} = this.props;
         return (<Dialog
             open={open}
+            PaperProps={{
+                style: {minWidth: 240}
+            }}
             onClose={this.handelClose}
             aria-labelledby="form-dialog-title"
         >

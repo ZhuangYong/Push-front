@@ -125,70 +125,77 @@ export default class EditPartner extends BaseComponent {
                         required
                     />
 
-                    <FormControlLabel
-                        label="结算方式"
-                        className="form-control-label"
-                        labelPlacement="start"
-                        style={{borderBottom: '1px solid #d2d2d2', marginBottom: 10}}
-                        control={<div>
-                            <FormControlLabel
-                                disabled
-                                checked
-                                value={'1'}
-                                control={<Radio/>}
-                                label="手动（暂时仅限）"
-                                labelPlacement="end"
-                            />
-                            <FormControlLabel
-                                disabled
-                                value={'2'}
-                                control={<Radio />}
-                                label="自动"
-                                labelPlacement="end"
-                            />
-                        </div>}
-                    />
+                    <div>
+                        <FormControlLabel
+                            label="结算方式"
+                            className="form-control-label"
+                            labelPlacement="start"
+                            control={<div>
+                                <FormControlLabel
+                                    disabled
+                                    checked
+                                    value={'1'}
+                                    control={<Radio/>}
+                                    label="手动（暂时仅限）"
+                                    labelPlacement="end"
+                                />
+                                <FormControlLabel
+                                    disabled
+                                    value={'2'}
+                                    control={<Radio />}
+                                    label="自动"
+                                    labelPlacement="end"
+                                />
+                            </div>}
+                        />
+                    </div>
 
-                    <FormControlLabel
-                        className="form-control-label"
-                        control={<div>
-                            <MultiPictureUpload
-                                ref="fileUpload"
-                                enableLabel={false}
-                                uploadSuccess={url => {
-                                    images.push(url);
-                                    this.setState({images: images});
-                                }}
-                                uploadAction={this.uploadUserAvatarAction}/>
-                        </div>}
-                        label="电子协议"
-                        labelPlacement="start"
-                    />
+                    <hr style={{margin: 0, borderBottom: '1px solid #d2d2d2', marginBottom: 10, borderTop: 'none'}}/>
 
-                    <FormControlLabel
-                        style={images && images.length > 0 ? {display: 'block'} : {}}
-                        className="form-control-label"
-                        control={<div>
-                            {
-                                images && images.length > 0 && <div className={classes.imagesContainer}>
-                                    {
-                                        images.map(url => <div key={url} className={classes.imgSpan}>
-                                            <div className={classes.delIcon}>
-                                                <DeleteIcon style={{fontSize: '1.4rem'}} onClick={() => {
-                                                    this.refs.fileUpload.refs.file.value = "";
-                                                    const _images = images.filter(u => u !== url);
-                                                    this.setState({images: _images});
-                                                }}/>
-                                            </div>
-                                            <img src={url} className={classes.img}/>
-                                        </div>)
-                                    }
-                                </div>
-                            }
-                        </div>}
-                        label=" "
-                        labelPlacement="start"
-                    />
+                    <div>
+                        <FormControlLabel
+                            className="form-control-label"
+                            control={<div>
+                                <MultiPictureUpload
+                                    ref="fileUpload"
+                                    enableLabel={false}
+                                    uploadSuccess={url => {
+                                        images.push(url);
+                                        this.setState({images: images});
+                                    }}
+                                    uploadAction={this.uploadUserAvatarAction}/>
+                            </div>}
+                            label="电子协议"
+                            labelPlacement="start"
+                        />
+
+                        <FormControlLabel
+                            style={images && images.length > 0 ? {display: 'block'} : {}}
+                            className="form-control-label"
+                            control={<div>
+                                {
+                                    images && images.length > 0 && <div className={classes.imagesContainer}>
+                                        {
+                                            images.map(url => <div key={url} className={classes.imgSpan}>
+                                                <div className={classes.delIcon}>
+                                                    <DeleteIcon style={{fontSize: '1.4rem'}} onClick={() => {
+                                                        this.refs.fileUpload.refs.file.value = "";
+                                                        const _images = images.filter(u => u !== url);
+                                                        this.setState({images: _images});
+                                                    }}/>
+                                                </div>
+                                                <img src={url} className={classes.img}/>
+                                            </div>)
+                                        }
+                                    </div>
+                                }
+                            </div>}
+                            label=" "
+                            labelPlacement="start"
+                        />
+                    </div>
+
+                    <hr style={{borderBottom: '1px solid #d2d2d2', margin: '10 0', borderTop: 'none'}}/>
 
                     {/*<CustomInput
                         placeholder="http://......"
