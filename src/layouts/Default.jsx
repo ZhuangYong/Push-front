@@ -73,8 +73,8 @@ export default class Dashboard extends BaseComponent {
         return (
             <div>
                 <div
-                    className={[classes.wrapper, "page-container"].join(" ")}
-                    style={{overflowY: 'auto', WebkitOverflowScrolling: 'touch', transition: 'all 0.3s ease 0s'}}>
+                    className={classes.wrapper}
+                    style={{height: '100%'}}>
                     <div ref="mainPanel" style={{paddingBottom: '5.6rem'}}>
                         {this.getRoute() ? (
                             <div className={classes.content}>
