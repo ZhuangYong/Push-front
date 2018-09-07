@@ -197,9 +197,9 @@ export default class Index extends BaseComponent {
                             }
                             title={<p className={classes.viewName}>{loginUserData.viewName}</p>}
                             subheader={<p className={classes.nickname}>{loginUserData.nickName}</p>}
-                            action={<p className={classes.deviceUserInfo} onClick={() => this.linkTo(Path.PATH_USER_INCOME_INFO)}>
-                                收入概况 ▷
-                            </p>}
+                            // action={<p className={classes.deviceUserInfo} onClick={() => this.linkTo(Path.PATH_USER_INCOME_INFO)}>
+                            //     收入概况 ▷
+                            // </p>}
                             className={classes.carHeader}
                         />
                         <div>
