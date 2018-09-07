@@ -109,7 +109,9 @@ const request = (config, success, error) =>
                 newError.msg = msg;
                 newError.data = data;
 
-                dispatchCustomEvent(Const.EVENT.EVENT_API_ERR, msg);
+                if (status !== 401) {
+                    dispatchCustomEvent(Const.EVENT.EVENT_API_ERR, msg);
+                }
 
                 handelErr(status);
 
