@@ -116,9 +116,12 @@ export default class Dashboard extends BaseComponent {
 
     initial() {
         NavUtils.setHistory(this.props.history);
-        const {loginUserData} = this.props.userState;
+        const {loginUserData, configData} = this.props.userState;
         if (!loginUserData) {
             this.refreshUserInfo();
+        }
+        if (!configData) {
+            this.getConfig();
         }
     }
 
@@ -129,4 +132,8 @@ export default class Dashboard extends BaseComponent {
                 this.appLoadingDone();
             });
     }
+
+    getConfig = () => {
+        this.props.userState.getConfigData();
+    };
 }
