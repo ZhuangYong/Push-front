@@ -267,9 +267,13 @@ export default class EditPartner extends BaseComponent {
     }
 
     submit = () => {
+        if (this.state.submiting) {
+            return;
+        }
         if (this.refs.form.valid()) {
             const {name, alipayAccount, method, parentProportions, phone, sendOrderUrl, remark, region, city, area, areaId, address, images} = this.state;
             this.setState({submiting: true});
+            this.state.submiting = true;
             this.props.salesState.editSalesData({
                 name: name,
                 alipayAccount: alipayAccount,
