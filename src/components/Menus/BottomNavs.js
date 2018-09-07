@@ -53,6 +53,10 @@ export default class BottomNavs extends BaseComponent {
     getItems = () => {
         const {items, activeColor, defaultColor} = this.props;
         return items.map((item, index) => {
+            const {disabled} = item;
+            if (disabled) {
+                return;
+            }
             const color = (item.paths || []).indexOf(this.props.history.location.pathname) >= 0 ? activeColor : defaultColor;
             return <BottomNavigationAction
                 key={index}
