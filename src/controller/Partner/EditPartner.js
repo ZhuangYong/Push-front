@@ -287,7 +287,7 @@ export default class EditPartner extends BaseComponent {
             })
                 .then(res => {
                     this.setState({submiting: false});
-                    this.alert("新建的合作伙伴，初始密码为：123456， 请尽快登陆修改！", "创建合作伙伴成功", () => this.back(), () => this.back());
+                    this.alert(res.password ? ("新创建的代理商初始密码为: " + res.password + " 请尽快登陆修改！") : "", "创建代理商成功", () => this.back(), () => this.back());
                 })
                 .catch(err => this.setState({submiting: false}));
         }
