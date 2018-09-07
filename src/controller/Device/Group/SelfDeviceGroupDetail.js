@@ -120,8 +120,8 @@ export default class Index extends BaseComponent {
                 />
                 <span className={classes.todayDetail}>
                     <p>今日  ￥{deviceGroupDetailData.dayAmount}</p>
-                    <p>昨日  ￥{deviceGroupDetailData.dayAmount}</p>
-                    <p>本周  ￥{deviceGroupDetailData.dayAmount}</p>
+                    <p>昨日  ￥{deviceGroupDetailData.yesterdayAmount}</p>
+                    <p>最近7天  ￥{deviceGroupDetailData.sevenAmount}</p>
                 </span>
                 <List className={classes.list}>
                     {/*<ListItem className={classes.item}>

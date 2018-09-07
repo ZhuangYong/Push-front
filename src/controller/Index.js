@@ -296,7 +296,7 @@ export default class Index extends BaseComponent {
                             </ListItem>
                             <ListItem className={classes.item}>
                                 <ListItemText
-                                    primary="本周收入"
+                                    primary="最近7天收入"
                                 />
                                 <ListItemSecondaryAction className={classes.secondary}>
                                     {indexStatisticsData.sevenAmount}

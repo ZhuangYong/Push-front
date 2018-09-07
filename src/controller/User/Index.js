@@ -224,7 +224,7 @@ export default class Index extends BaseComponent {
                         </ListItem>
                     }
                     {
-                        loginUserData.type === Const.ROLE.SALES && <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_ORDER_CASH_APPLY_INDEX)}>
+                        loginUserData.type === Const.ROLE.SALES && <ListItem className={classes.item}>
                             <ListItemIcon>
                                 <PartnerIcon size="1.6rem"/>
                             </ListItemIcon>
