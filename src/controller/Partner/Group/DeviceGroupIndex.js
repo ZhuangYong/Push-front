@@ -64,7 +64,7 @@ export default class DeviceGroupIndex extends PullrefreshPage {
     renderSearch = () => {
         const salesUuid = getQueryString("salesUuid");
         return <SearchInput
-            placeholder="请输入设备号 、SN号"
+            placeholder="请输入SN号、别名"
             handelSearch={v => this.linkTo(Path.PATH_DEVICE_PARTNER_INDEX, {salesUuid: salesUuid, sno: v})}
         />;
     };

@@ -17,7 +17,10 @@ import MultiPictureUpload from "../../components/CustomUpload/MultiPictureUpload
 import Picker from 'react-picker-address';
 import 'react-picker-address/dist/react-picker-address.css';
 import {district} from "../../utils/district";
-import {setTitle} from "../../utils/comUtils";
+import {getQueryString, setTitle} from "../../utils/comUtils";
+import _ from "lodash";
+import UserState from "../../stores/userState";
+import Const from "../../utils/const";
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -68,7 +71,11 @@ export default class EditPartner extends BaseComponent {
         super(props, context);
         setTitle("添加代理商");
         this.state = {
+            salesUuid: getQueryString("salesUuid"),
+            isAgent: UserState.AGENT_TYPE_NOT_AGENT,
+            isInit: Const.FORCE_CHANGE_PASSWORD_FIRST_LOGIN,
             name: "",
+            uuid: "",
             alipayAccount: "",
             method: '1',
             parentProportions: "",
@@ -83,11 +90,16 @@ export default class EditPartner extends BaseComponent {
         };
     }
 
+    componentDidMount() {
+        if (this.state.salesUuid) {
+            this.getPartnerDetail();
+        }
+    }
+
     render() {
         const {classes = ""} = this.props;
         const {loginUserData} = this.props.userState;
-        let {name, alipayAccount, method, parentProportions, phone, sendOrderUrl, remark, region, city, area, address, images, areaId} = this.state;
-
+        let {salesUuid, isAgent, isInit, password, name, alipayAccount, method, parentProportions, phone, sendOrderUrl, remark, region, city, area, address, images, areaId} = this.state;
         return <div>
             <div className={classes.card + " " + classes.formContainer}>
                 <Form
@@ -101,14 +113,81 @@ export default class EditPartner extends BaseComponent {
                         name="name"
                         required
                     />
-                    <CustomInput
-                        placeholder="合作伙伴电话号码"
-                        labelText="绑定电话（登陆账号）"
-                        value={phone}
-                        name="phone"
-                        reg={/^\d{11}$/}
-                        required
-                    />
+                    {
+                        !salesUuid && <CustomInput
+                            placeholder="合作伙伴电话号码"
+                            labelText="绑定电话（登陆账号）"
+                            value={phone}
+                            name="phone"
+                            reg={/^\d{11}$/}
+                            required
+                        />
+                    }
+
+                    {
+                        !salesUuid && <CustomInput
+                            placeholder="登录密码"
+                            labelText="代理商登录密码"
+                            value={password}
+                            name="password"
+                            required
+                        />
+                    }
+
+                    {
+                        !salesUuid && <div>
+                            <FormControlLabel
+                                label="首次登录强制修改密码"
+                                className="form-control-label"
+                                labelPlacement="start"
+                                onChange={v => this.setState({isInit: parseInt(v.target.value, 10)})}
+                                control={<div>
+                                    <FormControlLabel
+                                        checked={isInit === Const.FORCE_CHANGE_PASSWORD_FIRST_LOGIN}
+                                        value={Const.FORCE_CHANGE_PASSWORD_FIRST_LOGIN + ""}
+                                        control={<Radio/>}
+                                        label="是"
+                                        labelPlacement="end"
+                                    />
+                                    <FormControlLabel
+                                        checked={isInit === Const.FORCE_CHANGE_PASSWORD_FIRST_LOGIN_DISABLE}
+                                        value={Const.FORCE_CHANGE_PASSWORD_FIRST_LOGIN_DISABLE + ""}
+                                        control={<Radio />}
+                                        label="否"
+                                        labelPlacement="end"
+                                    />
+                                </div>}
+                            />
+                            <hr style={{margin: 0, borderBottom: '1px solid #d2d2d2', marginBottom: 10, borderTop: 'none'}}/>
+                        </div>
+                    }
+
+                    <div>
+                        <FormControlLabel
+                            label="代理商"
+                            className="form-control-label"
+                            labelPlacement="start"
+                            onChange={v => this.setState({isAgent: parseInt(v.target.value, 10)})}
+                            control={<div>
+                                <FormControlLabel
+                                    checked={isAgent === UserState.AGENT_TYPE_NOT_AGENT}
+                                    value={UserState.AGENT_TYPE_NOT_AGENT + ""}
+                                    control={<Radio/>}
+                                    label="否"
+                                    labelPlacement="end"
+                                />
+                                <FormControlLabel
+                                    checked={isAgent === UserState.AGENT_TYPE_AGENT}
+                                    value={UserState.AGENT_TYPE_AGENT + ""}
+                                    control={<Radio />}
+                                    label="是"
+                                    labelPlacement="end"
+                                />
+                            </div>}
+                        />
+                        <hr style={{margin: 0, borderBottom: '1px solid #d2d2d2', marginBottom: 10, borderTop: 'none'}}/>
+                    </div>
+
                     <CustomInput
                         labelText="支付宝账号"
                         placeholder="合作伙伴支付宝账号"
@@ -116,41 +195,44 @@ export default class EditPartner extends BaseComponent {
                         name="alipayAccount"
                     />
 
-                    <CustomInput
-                        placeholder="请输入0~100之间的数字"
-                        labelText="结算比例配置（%）"
-                        value={parentProportions}
-                        name="parentProportions"
-                        reg={/^\d{1,2}(\.\d{1,2})?$|^100$/}
-                        required
-                    />
-
-                    <div>
-                        <FormControlLabel
-                            label="结算方式"
-                            className="form-control-label"
-                            labelPlacement="start"
-                            control={<div>
-                                <FormControlLabel
-                                    disabled
-                                    checked
-                                    value={'1'}
-                                    control={<Radio/>}
-                                    label="手动（暂时仅限）"
-                                    labelPlacement="end"
-                                />
-                                <FormControlLabel
-                                    disabled
-                                    value={'2'}
-                                    control={<Radio />}
-                                    label="自动"
-                                    labelPlacement="end"
-                                />
-                            </div>}
+                    {
+                        !salesUuid && <CustomInput
+                            placeholder="请输入0~100之间的数字"
+                            labelText="结算比例配置（%）"
+                            value={parentProportions}
+                            name="parentProportions"
+                            reg={/^\d{1,2}(\.\d{1,2})?$|^100$/}
+                            required
                         />
-                    </div>
+                    }
 
-                    <hr style={{margin: 0, borderBottom: '1px solid #d2d2d2', marginBottom: 10, borderTop: 'none'}}/>
+                    {
+                        !salesUuid && <div>
+                            <FormControlLabel
+                                label="结算方式"
+                                className="form-control-label"
+                                labelPlacement="start"
+                                control={<div>
+                                    <FormControlLabel
+                                        disabled
+                                        checked
+                                        value={'1'}
+                                        control={<Radio/>}
+                                        label="手动（暂时仅限）"
+                                        labelPlacement="end"
+                                    />
+                                    <FormControlLabel
+                                        disabled
+                                        value={'2'}
+                                        control={<Radio />}
+                                        label="自动"
+                                        labelPlacement="end"
+                                    />
+                                </div>}
+                            />
+                            <hr style={{margin: 0, borderBottom: '1px solid #d2d2d2', marginBottom: 10, borderTop: 'none'}}/>
+                        </div>
+                    }
 
                     <div>
                         <FormControlLabel
@@ -193,9 +275,9 @@ export default class EditPartner extends BaseComponent {
                             label=" "
                             labelPlacement="start"
                         />
+                        <hr style={{borderBottom: '1px solid #d2d2d2', margin: '10 0', borderTop: 'none'}}/>
                     </div>
 
-                    <hr style={{borderBottom: '1px solid #d2d2d2', margin: '10 0', borderTop: 'none'}}/>
 
                     {/*<CustomInput
                         placeholder="http://......"
@@ -253,7 +335,7 @@ export default class EditPartner extends BaseComponent {
             </div>
 
             <div style={{marginTop: '1rem', backgroundColor: 'white'}}>
-                <ListItem className={classes.item} style={{borderBottom: '0.01rem solid #dadada'}} onClick={this.submit}>
+                <ListItem className={classes.item} style={{borderBottom: '0.01rem solid #dadada'}} onClick={salesUuid ? this.modify : this.submit}>
                     <ListItemText
                         primary={<div style={{margin: 0, padding: 0, textAlign: 'center'}}>
                             {
@@ -266,16 +348,22 @@ export default class EditPartner extends BaseComponent {
         </div>;
     }
 
+    /**
+     * 新建代理商信息
+     */
     submit = () => {
         if (this.state.submiting) {
             return;
         }
         if (this.refs.form.valid()) {
-            const {name, alipayAccount, method, parentProportions, phone, sendOrderUrl, remark, region, city, area, areaId, address, images} = this.state;
+            const {name, alipayAccount, method, password, parentProportions, phone, sendOrderUrl, remark, region, city, area, areaId, address, images, isAgent, isInit} = this.state;
             this.setState({submiting: true});
             this.state.submiting = true;
             this.props.salesState.editSalesData({
                 name: name,
+                password: password,
+                isAgent: isAgent,
+                isInit: isInit,
                 alipayAccount: alipayAccount,
                 method: 1,
                 parentProportions: parentProportions,
@@ -297,6 +385,37 @@ export default class EditPartner extends BaseComponent {
         }
     };
 
+    /**
+     * 修改代理商信息
+     */
+    modify = () => {
+        if (this.state.submiting) {
+            return;
+        }
+        if (this.refs.form.valid()) {
+            const {name, alipayAccount, remark, region, city, area, areaId, address, images, uuid, isAgent} = this.state;
+            this.setState({submiting: true});
+            this.state.submiting = true;
+            this.props.salesState.editSalesData({
+                uuid: uuid,
+                name: name,
+                alipayAccount: alipayAccount,
+                remark: remark,
+                areaId: areaId,
+                region: region,
+                city: city,
+                area: area,
+                address: address,
+                images: images
+            })
+                .then(res => {
+                    this.setState({submiting: false});
+                    this.alert("代理商信息修改成功！", "操作成功", () => this.back(), () => this.back());
+                })
+                .catch(err => this.setState({submiting: false}));
+        }
+    };
+
     refreshUserInfo = () => {
         this.props.userState.getUserInfo();
     };
@@ -304,6 +423,22 @@ export default class EditPartner extends BaseComponent {
     uploadUserAvatarAction = (data) => {
         return this.props.userState.uploadImage(data)
             .then(setTimeout(() => this.props.userState.getUserInfo(), 500));
+    };
+
+    /**
+     * 获取代理商详情
+     */
+    getPartnerDetail = () => {
+        const {salesUuid} = this.state;
+        this.setState({submiting: true});
+        this.props.salesState.getPartnerDetail(salesUuid)
+            .then(res => {
+                const cloneRes = _.clone(res);
+                cloneRes.name = res.viewName;
+                cloneRes.images = res.list;
+                this.setState({...cloneRes, submiting: false});
+            })
+            .catch(err => this.setState({submiting: false}));
     };
 
 }

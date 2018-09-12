@@ -8,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import svgBottom from "../../assets/svg/bottom-tear.svg";
 import PullRefreshPage from "../../components/CommonPage/PullrefreshPage";
 import {setTitle} from "../../utils/comUtils";
+import SearchInput from "../../components/CustomInput/SearchInput";
 
 const style = {
     ...customStyle,
@@ -56,6 +57,21 @@ export default class OrderIndex extends PullRefreshPage {
         return this.props.orderState.getOrderPage(data);
     };
 
+    /**
+     * 搜索头
+     * @returns {*}
+     */
+    renderSearch = () => {
+        const {searchIng, defaultSearchValue} = this.state;
+        return <SearchInput
+            placeholder="请输入订单号、SN号、设备别名"
+            defaultValue={defaultSearchValue}
+            handelSearch={this.handlerSearch}
+            handelClear={this.handlerClear}
+            searchIng={searchIng}
+        />;
+    };
+
     listItem = (item) => {
         const {classes = ""} = this.props;
         return <ListItem key={item.orderNo} className={classes.item + " " + classes.orderItem}>
@@ -72,8 +88,14 @@ export default class OrderIndex extends PullRefreshPage {
                 <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>订单号：</font>{item.orderNo}
                 </p>
-                <p className={classes.infoLine}>
+                {/*<p className={classes.infoLine}>
                     <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
+                </p>*/}
+                <p className={classes.infoLine}>
+                    <font className={classes.infoLabel}>设备别名：</font>{item.consumerName || "未设置"}
+                </p>
+                <p className={classes.infoLine}>
+                    <font className={classes.infoLabel}>设备SN号：</font>{item.sn}
                 </p>
             </div>
         </ListItem>;

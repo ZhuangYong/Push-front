@@ -59,15 +59,17 @@ export default class DeviceChooseList extends PullrefreshPage {
                     {
                         item.toSalesName ? <font color="red">已经被分配给：{item.toSalesName}<br/></font> : ""
                     }
-                    <font className={classes.infoLabel}>机型：</font>{item.channelName}
+                    <font className={classes.infoLabel}>别名：</font>{item.consumerName || "未设置"}
                 </span>}
                 secondary={
                     <span className={classes.infoLine}>
+                            <font className={classes.infoLabel}>机型：</font>{item.channelName}
+                        <br/>
                             <font className={classes.infoLabel}>分成比例：</font>{item.parentProportions} % {!canAdd && <font color="red">（ 比例不匹配 ）</font>}
                         <br/>
                             <font className={classes.infoLabel}>SN号：</font>{item.sn}
                         <br/>
-                            <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
+                            {/*<font className={classes.infoLabel}>设备号：</font>{item.deviceId}*/}
                         </span>
                 }
             />

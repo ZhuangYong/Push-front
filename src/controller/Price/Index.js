@@ -87,6 +87,7 @@ export default class PricePage extends PullRefreshPage {
                                 style: {whiteSpace: "nowrap"}
                             }}
                             labelText={`套餐价格${limitPrice ? `（不能低于${limitPrice}）` : ""}`}
+                            placeholder="最多保留两位小数"
                             name="price"
                             value={(price || "") + ""}
                             reg={this.validPrice}
@@ -112,10 +113,13 @@ export default class PricePage extends PullRefreshPage {
 
     validPrice = (v) => {
         const {limitPrice} = this.state;
+        if (!/^\d+(.\d{1,2})?$/g.test(v)) {
+            return false;
+        }
         if (limitPrice) {
-            return parseInt(v, 10) >= limitPrice;
+            return parseFloat(v).toFixed(2) >= limitPrice;
         } else {
-            return parseInt(v, 10) > 0;
+            return parseFloat(v).toFixed(2) > 0;
         }
     };
 

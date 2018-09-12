@@ -257,9 +257,9 @@ export default class PartnerDeviceList extends PullrefreshPage {
                 <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>位置：</font>{item.location}
                 </p>
-                <p className={classes.infoLine}>
+                {/*<p className={classes.infoLine}>
                     <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
-                </p>
+                </p>*/}
             </div>
         </ActionCustomItem>;
 

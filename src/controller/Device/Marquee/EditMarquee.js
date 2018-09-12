@@ -114,13 +114,13 @@ export default class EditMarquee extends BaseComponent {
                         {/*reg={/^\d{1}$/}*/}
                         {/*required*/}
                     {/*/>*/}
-                    <CustomInput
-                        labelText="滚动显示文字大小"
+                   {/* <CustomInput
+                        labelText="滚动显示文字大小(建议范围 60~72)"
                         placeholder="请输入整数"
                         value={font}
                         name="font"
                         reg={/^\d{1,6}$/}
-                    />
+                    />*/}
                     <CustomInput
                         labelText="颜色"
                         placeholder="滚动显示文字颜色"
@@ -128,7 +128,7 @@ export default class EditMarquee extends BaseComponent {
                         name="color"
                     />
 
-                    <FormControlLabel
+                    {/*<FormControlLabel
                         className="form-control-label"
                         control={<div>
                             <MultiPictureUpload
@@ -139,7 +139,7 @@ export default class EditMarquee extends BaseComponent {
                         </div>}
                         label="背景图片"
                         labelPlacement="start"
-                    />
+                    />*/}
 
                     <FormControlLabel
                         style={img ? {display: 'block'} : {}}

@@ -60,6 +60,13 @@ export default class Dashboard extends BaseComponent {
     componentDidMount() {
         this.initial();
     }
+    componentDidUpdate() {
+        const {configData} = this.props.userState;
+        const {isInit} = configData || {};
+        if (isInit === Const.FORCE_CHANGE_PASSWORD_FIRST_LOGIN) {
+            this.linkTo(Path.PATH_USER_EDIT_PASSWORD);
+        }
+    }
     getRoute() {
         return this.props.location.pathname !== "/some/condition/path";
     }
@@ -123,6 +130,9 @@ export default class Dashboard extends BaseComponent {
         }
     }
 
+    /**
+     * 刷新用户信息
+     */
     refreshUserInfo() {
         this.props.userState.getUserInfo()
             .then(res => {
@@ -131,6 +141,9 @@ export default class Dashboard extends BaseComponent {
             });
     }
 
+    /**
+     * 获取用户配置信息
+     */
     getConfig = () => {
         this.props.userState.getConfigData();
     };

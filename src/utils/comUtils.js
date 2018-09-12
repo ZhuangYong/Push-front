@@ -273,7 +273,7 @@ export function removeSession(key) {
 
 export function setCookie(name, value, expireDays) {
     let date = new Date();
-    date.setDate(date.getDate() + expireDays);
+    date.setDate(date.getDate() + (expireDays || 365));
     document.cookie = name + "=" + escape(value) + ((expireDays === null) ? "" : ";path=/;expires=" + date.toGMTString());
 }
 
@@ -416,4 +416,9 @@ export function getScreenSize() {
 
 export function setTitle(title) {
     document.title = title;
+}
+
+export function isWeiXin() {
+    const ua = window.navigator.userAgent.toLowerCase();
+    return (ua.match(/MicroMessenger/i) || []).indexOf("micromessenger") > -1;
 }

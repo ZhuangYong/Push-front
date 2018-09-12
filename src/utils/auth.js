@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import {getCookie, setCookie} from "./comUtils";
 
 // token 存储key
 const TokenKey = 'Login-Token';
@@ -9,7 +10,7 @@ const TokenKey = 'Login-Token';
  * @returns {*}
  */
 export function getToken() {
-    return Cookies.get(TokenKey);
+    return getCookie(TokenKey);
 }
 
 /**
@@ -18,7 +19,7 @@ export function getToken() {
  * @returns {*}
  */
 export function setToken(token) {
-    return Cookies.set(TokenKey, token, {expires: 365});
+    return setCookie(TokenKey, token);
 }
 
 /**

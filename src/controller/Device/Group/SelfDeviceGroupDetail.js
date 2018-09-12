@@ -110,7 +110,7 @@ export default class Index extends BaseComponent {
     render() {
         const {deviceGroupDetailData} = this.props.deviceState;
         const {classes = ""} = this.props;
-        const {submiting} = this.state;
+        const {submiting, groupUuid} = this.state;
         return <div>
             <Card className={classes.card} style={{borderRadius: 0}}>
                 <CardHeader
@@ -212,6 +212,15 @@ export default class Index extends BaseComponent {
 
             <Card className={classes.card} style={{marginTop: 16}}>
                 <List className={classes.list}>
+                    <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_DEVICE_GROUP_EDIT, {groupUuid: groupUuid})}>
+                        <ListItemText
+                            primary={<div style={{margin: 0, padding: 0, textAlign: 'center'}}>
+                                编辑
+                            </div>}
+                        />
+                    </ListItem>
+                </List>
+                <List className={classes.list}>
                     <ListItem className={classes.item} onClick={() => !submiting && this.deleteGroup()}>
                         <ListItemText
                             primary={<div style={{margin: 0, padding: 0, textAlign: 'center'}}>
@@ -244,10 +253,17 @@ export default class Index extends BaseComponent {
         this.linkTo(Path.PATH_PRICE_INDEX, {groupUuid: item.uuid || ""});
     };
 
+    /**
+     * 跑马灯列表
+     * @param item
+     */
     deviceMarqueeList = (item) => {
         item.uuid && this.linkTo(Path.PATH_DEVICE_MARQUEE_LIST, {groupUuid: item.uuid});
     };
 
+    /**
+     * 获取设备组详情
+     */
     getDeviceGroupDetail = () => {
         const {groupUuid} = this.state;
         this.props.deviceState.getDeviceGroupDetail(groupUuid);
@@ -265,7 +281,6 @@ export default class Index extends BaseComponent {
                 setTimeout(() => this.back(), 1500);
             }).catch(err => this.setState({submiting: false}));
         }, null, true);
-
     }
 
 

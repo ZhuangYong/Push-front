@@ -11,7 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import CircularProgress from "material-ui/Progress/CircularProgress";
 import 'react-picker-address/dist/react-picker-address.css';
-import {setTitle} from "../../../utils/comUtils";
+import {getQueryString, setTitle} from "../../../utils/comUtils";
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -62,6 +62,7 @@ export default class EditInfo extends BaseComponent {
         super(props, context);
         setTitle("添加设备组");
         this.state = {
+            groupUuid: getQueryString("groupUuid"),
             name: "",
             // 1: 直营 2: 加盟 3: 同步
             type: 2,
@@ -69,10 +70,16 @@ export default class EditInfo extends BaseComponent {
         };
     }
 
+    componentDidMount() {
+        if (this.state.groupUuid) {
+            this.getDeviceGroupDetail();
+        }
+    }
+
     render() {
         const {classes = ""} = this.props;
-        let {name, remark} = this.state;
-
+        let {name, remark, groupUuid} = this.state;
+        const {deviceGroupDetailData} = this.props.deviceState;
         return <div>
             <div className={classes.card + " " + classes.formContainer}>
                 <Form
@@ -105,7 +112,7 @@ export default class EditInfo extends BaseComponent {
                     <ListItemText
                         primary={<div style={{margin: 0, padding: 0, textAlign: 'center'}}>
                             {
-                                this.state.submiting ? <div style={{paddingTop: 4}}><CircularProgress color="secondary" size={16} /></div> : "提交"
+                                this.state.submiting ? <div style={{paddingTop: 4}}><CircularProgress color="secondary" size={16} /></div> : groupUuid ? "修改" : "提交"
                             }
                         </div>}
                     />
@@ -115,20 +122,37 @@ export default class EditInfo extends BaseComponent {
     }
 
     submit = () => {
+        const {deviceGroupDetailData} = this.props.deviceState;
+        const {name, remark, type, groupUuid} = this.state;
+        if (groupUuid && !deviceGroupDetailData) {
+            return;
+        }
         if (this.refs.form.valid()) {
-            const {name, remark, type} = this.state;
-            this.setState({submiting: true});
-            this.props.deviceState.saveDeviceGroup({
+            const param = {
                 name: name,
                 type: type,
                 remark: remark,
-            })
+            };
+            if (groupUuid) {
+                param.uuid = deviceGroupDetailData.uuid;
+            }
+            this.setState({submiting: true});
+            this.props.deviceState.saveDeviceGroup(param)
                 .then(res => {
                     this.setState({submiting: false});
-                    this.alert("创建分组成功！", "", () => this.back(), () => this.back());
+                    this.alert(groupUuid ? "修改分组成功！" : "创建分组成功！", "操作成功", () => this.back(), () => this.back());
                 })
                 .catch(err => this.setState({submiting: false}));
         }
+    };
+
+    /**
+     * 获取设备组详情
+     */
+    getDeviceGroupDetail = () => {
+        const {groupUuid} = this.state;
+        this.props.deviceState.getDeviceGroupDetail(groupUuid)
+            .then(res => this.setState({...res}));
     };
 
 }

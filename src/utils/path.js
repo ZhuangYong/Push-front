@@ -1,5 +1,3 @@
-import ElectronicAgreement from "../controller/User/ElectronicAgreement";
-
 export default {
 
     // 登陆

@@ -13,6 +13,7 @@ import Path from "../../utils/path";
 import md5 from "md5";
 import CircularProgress from "material-ui/Progress/CircularProgress";
 import {setTitle} from "../../utils/comUtils";
+import Const from "../../utils/const";
 
 @withRouter
 @withStyles({...customStyle, ...{
@@ -40,9 +41,15 @@ export default class EditPassword extends BaseComponent {
         const {classes = ""} = this.props;
         const {loginUserData} = this.props.userState;
         let {oldpwd, newpwd, newpwdAgain} = this.state;
-
+        const {configData} = this.props.userState;
+        const {isInit} = configData || {};
         return <div>
             <div className={classes.card + " " + classes.formContainer}>
+                {
+                    isInit === Const.FORCE_CHANGE_PASSWORD_FIRST_LOGIN && <div>
+                        <h5>为了安全，请修改默认密码！</h5>
+                    </div>
+                }
                 <Form
                     ref="form"
                     v-data={this.state}

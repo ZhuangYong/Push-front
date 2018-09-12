@@ -46,6 +46,12 @@ export default {
     MSG_TYPE_NOTIFICATION: 'notification',
 
     // 打开一个全屏页面
-    MSG_TYPE_OPEN_FULL_PAGE: 'fullPage'
+    MSG_TYPE_OPEN_FULL_PAGE: 'fullPage',
+
+    // isInit 1需要强制修改密码 2 不需要 password 密码
+    // 首次登录需要修改密码
+    FORCE_CHANGE_PASSWORD_FIRST_LOGIN: 1,
+
+    FORCE_CHANGE_PASSWORD_FIRST_LOGIN_DISABLE: 2,
 
 };

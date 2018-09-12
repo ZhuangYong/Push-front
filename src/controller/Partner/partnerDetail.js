@@ -5,7 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import withStyles from "material-ui/styles/withStyles";
-
+import CircularProgress from "material-ui/Progress/CircularProgress";
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
@@ -79,6 +79,7 @@ export default class Index extends BaseComponent {
     }
 
     render() {
+        const {salesUuid} = this.state;
         const {partnerDetailData} = this.props.salesState;
         const {classes = ""} = this.props;
         return <div>
@@ -95,7 +96,7 @@ export default class Index extends BaseComponent {
                         />}
                     />
                     <List className={classes.list} style={{paddingTop: 0}}>
-                        <ListItem>
+                        {/*<ListItem>
                             <ListItemIcon>
                                 <UserIcon size="1.6rem"/>
                             </ListItemIcon>
@@ -105,7 +106,7 @@ export default class Index extends BaseComponent {
                             <ListItemSecondaryAction className={classes.secondary}>
                                 {partnerDetailData.nickName || "未设置"}
                             </ListItemSecondaryAction>
-                        </ListItem>
+                        </ListItem>*/}
                         <ListItem className={classes.item}>
                             <ListItemIcon>
                                 <PhoneIcon size="1.6rem"/>
@@ -199,6 +200,18 @@ export default class Index extends BaseComponent {
                                 <ArrowForwardIcon/>
                             </IconButton>
                         </ListItemSecondaryAction>
+                    </ListItem>
+                </List>
+            </Card>
+
+            <Card className={classes.card} style={{marginTop: 16}}>
+                <List className={classes.list}>
+                    <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_SALES_EDIT, {salesUuid: salesUuid})}>
+                        <ListItemText
+                            primary={<div style={{margin: 0, padding: 0, textAlign: 'center'}}>
+                                编辑
+                            </div>}
+                        />
                     </ListItem>
                 </List>
             </Card>

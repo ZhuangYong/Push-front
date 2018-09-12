@@ -20,7 +20,7 @@ import Form from "../../components/Form/BaseForm";
 import md5 from "md5";
 import CircularProgress from "material-ui/Progress/CircularProgress";
 import Path from "../../utils/path";
-import {getSession, removeSession, setTitle} from "../../utils/comUtils";
+import {getCookie, getSession, removeSession, setCookie, setTitle} from "../../utils/comUtils";
 import loginBg from "../../assets/img/bg/login_bg.jpg";
 
 @inject("userState")
@@ -50,7 +50,7 @@ export default class LoginPage extends BaseComponent {
             cardAnimaton: "cardHidden",
             submiting: false,
             subInfo: "",
-            loginname: "",
+            loginname: getCookie("loginname") || "",
             password: ""
         };
         this.login = this.login.bind(this);
@@ -155,6 +155,7 @@ export default class LoginPage extends BaseComponent {
                     .then(res => {
                         this.setState({submiting: false});
                         removeSession("bindUuid");
+                        setCookie("loginname", loginname);
                         this.props.history.push(Path.PATH_INDEX);
                     })
                     .catch(err => this.setState({submiting: false, subInfo: err.msg}));

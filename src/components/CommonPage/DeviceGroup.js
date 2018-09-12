@@ -17,7 +17,8 @@ import ArrowForwardIcon from "@material-ui/icons/KeyboardArrowRight";
 import ListItemIcon from "material-ui/List/ListItemIcon";
 import Path from "../../utils/path";
 import SearchInput from "../CustomInput/SearchInput";
-import {DeviceIcon} from "../common/SvgIcons";
+import {DeviceIcon, PartnerIcon} from "../common/SvgIcons";
+
 
 const style = {
     ...customStyle,
@@ -47,6 +48,12 @@ const style = {
     }
 };
 export default class DeviceGroup extends BaseComponent {
+
+// 1 自建设备组 2未分组设备 3代理商设备
+    static GROUP_TYPE_DEFAULT = 2;
+    static GROUP_TYPE_PARTNER = 3;
+    static GROUP_TYPE_SELF = 1;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -63,7 +70,7 @@ export default class DeviceGroup extends BaseComponent {
         return <div>
             <div>
                 <SearchInput
-                    placeholder="请输入设备号 、SN号"
+                    placeholder="请输入SN号、别名"
                     handelSearch={this.handlerSearch}
                     handelClear={this.handlerClear}
                     searchIng={searchIng}
@@ -88,8 +95,13 @@ export default class DeviceGroup extends BaseComponent {
                             style={classes.item}
                             onClick={() => this.deviceGroupDetail(item)}>
                             {
-                                item.isDefault === 1 && <ListItemIcon>
+                                item.type === DeviceGroup.GROUP_TYPE_DEFAULT && <ListItemIcon>
                                     <DeviceIcon size="1.6rem"/>
+                                </ListItemIcon>
+                            }
+                            {
+                                item.type === DeviceGroup.GROUP_TYPE_PARTNER && <ListItemIcon>
+                                    <PartnerIcon size="1.6rem"/>
                                 </ListItemIcon>
                             }
                             <ListItemText style={classes.ListItemText}
@@ -97,7 +109,7 @@ export default class DeviceGroup extends BaseComponent {
                             />
                             <ListItemSecondaryAction>
                                 {
-                                    item.isDefault !== 1 && <font color="#808080">{item.allAmount || 0}元</font>
+                                    item.type !== DeviceGroup.GROUP_TYPE_DEFAULT && item.type !== DeviceGroup.GROUP_TYPE_PARTNER && <font color="#808080">{item.allAmount || 0}元</font>
                                 }
                                 <IconButton onClick={() => this.deviceGroupDetail(item)}>
                                     <ArrowForwardIcon color="disabled"/>
@@ -117,6 +129,9 @@ export default class DeviceGroup extends BaseComponent {
                         return <ListItem key={item.deviceId} style={classes.item}>
                             <div>
                                 <p style={classes.infoLine}>
+                                    <font style={classes.infoLabel}>别名：</font>{item.consumerName}
+                                </p>
+                                <p style={classes.infoLine}>
                                     <font style={classes.infoLabel}>机型：</font>{item.channelName}
                                 </p>
                                 <p style={classes.infoLine}>
@@ -128,9 +143,9 @@ export default class DeviceGroup extends BaseComponent {
                                 <p style={classes.infoLine}>
                                     <font style={classes.infoLabel}>SN号：</font>{item.sn}
                                 </p>
-                                <p style={classes.infoLine}>
+                                {/*<p style={classes.infoLine}>
                                     <font style={classes.infoLabel}>设备号：</font>{item.deviceId}
-                                </p>
+                                </p>*/}
                             </div>
                         </ListItem>;
                     }}

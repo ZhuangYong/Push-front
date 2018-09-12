@@ -223,7 +223,7 @@ export default class Index extends BaseComponent {
                             </ListItemSecondaryAction>
                         </ListItem>
                     }
-                    {
+                   {/* {
                         loginUserData.type === Const.ROLE.SALES && <ListItem className={classes.item}>
                             <ListItemIcon>
                                 <PartnerIcon size="1.6rem"/>
@@ -238,7 +238,7 @@ export default class Index extends BaseComponent {
                                 }
                             </ListItemSecondaryAction>
                         </ListItem>
-                    }
+                    }*/}
                     {
                         loginUserData.type === Const.ROLE.SALES && <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT)}>
                             <ListItemIcon>

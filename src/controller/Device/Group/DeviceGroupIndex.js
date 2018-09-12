@@ -13,9 +13,9 @@ export default class DeviceGroupIndex extends DeviceGroup {
     }
     // override
     deviceGroupDetail = (item) => {
-        const {isDefault} = item;
-        if (isDefault === 1) {
-            this.linkTo(Path.PATH_DEVICE_INDEX, {groupUuid: item.uuid || "", isDefault: isDefault});
+        const {type} = item;
+        if (type === DeviceGroup.GROUP_TYPE_DEFAULT || type === DeviceGroup.GROUP_TYPE_PARTNER) {
+            this.linkTo(Path.PATH_DEVICE_INDEX, {groupUuid: item.uuid || "", isDefault: true});
         } else {
             this.props.deviceState.setDeviceGroupDetailData(item);
             this.linkTo(Path.PATH_DEVICE_GROUP_SELF_DETAIL, {groupUuid: item.uuid || "", channelCode: item.channelCode || ""});

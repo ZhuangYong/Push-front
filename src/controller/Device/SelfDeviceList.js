@@ -126,16 +126,18 @@ export default class SelfDeviceList extends PullrefreshPage {
         const {loginUserData} = this.props.userState;
         const {classes = ""} = this.props;
         const {delIng, isDefault} = this.state;
-        const showAction = !isDefault;
+        const menuItems = [
+            {label: '修改别名', onClick: () => this.editDevice(item)},
+        ];
+        if (!isDefault) {
+            menuItems.push({label: '解绑设备', onClick: () => this.unBindDevice(item)});
+        }
         return <ActionCustomItem
             key={item.deviceId}
             loading={!!delIng}
             className={classes.item}
-            showAction={((delIng && delIng === item.uuid) || !delIng) && showAction}
-            onActionClick={() => this.openDrawerMenu({drawerMenus: [
-                    {label: '修改别名', onClick: () => this.editDevice(item)},
-                    {label: '解绑设备', onClick: () => this.unBindDevice(item)},
-                ]})}>
+            showAction={(delIng && delIng === item.uuid) || !delIng}
+            onActionClick={() => this.openDrawerMenu({drawerMenus: menuItems})}>
             <div>
                 {
                     item.toSalesName ? <font color="red">已经被分配给：{item.toSalesName}</font> : ""
@@ -155,19 +157,19 @@ export default class SelfDeviceList extends PullrefreshPage {
                     <font className={classes.infoLabel}>收入总额：</font><font color="red">￥{item.total}</font>
                 </p>
                 {
-                    loginUserData.type === Const.ROLE.SALES && <p className={classes.infoLine}>
+                    loginUserData.type === Const.ROLE.SALES && !isDefault && <p className={classes.infoLine}>
                         <font className={classes.infoLabel}>投放时间：</font>{item.putTime}
                     </p>
                 }
-                <p className={classes.infoLine}>
+               {/* <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>位置：</font>{item.location}
-                </p>
+                </p>*/}
                 <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>SN号：</font>{item.sn}
                 </p>
-                <p className={classes.infoLine}>
+               {/* <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>设备号：</font>{item.deviceId}
-                </p>
+                </p>*/}
             </div>
         </ActionCustomItem>;
     };

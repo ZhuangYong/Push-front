@@ -256,19 +256,43 @@ export default class Index extends BaseComponent {
                                 </ListItemSecondaryAction>
                             </ListItem>*/}
 
-                            <ListItem className={classes.item} style={{borderBottom: '1px solid #cecece'}} onClick={() => this.linkTo(Path.PATH_DEVICE_GROUP_INDEX)}>
-                                <ListItemIcon>
-                                    <img src={ktvIcon} className={classes.itemIcon}/>
-                                </ListItemIcon>
+                            <ListItem className={classes.item}>
                                 <ListItemText
-                                    primary="设备数"
+                                    primary="总设备数"
                                 />
 
-                                <ListItemSecondaryAction>
+                                <ListItemSecondaryAction className={classes.secondary}>
                                     {indexStatisticsData.deviceCount}
-                                    <IconButton onClick={() => this.linkTo(Path.PATH_DEVICE_GROUP_INDEX)}>
-                                        <ArrowForwardIcon/>
-                                    </IconButton>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+
+                            <ListItem className={classes.item}>
+                                <ListItemText
+                                    primary="未分配设备数"
+                                />
+
+                                <ListItemSecondaryAction className={classes.secondary}>
+                                    {indexStatisticsData.ungroupedCount}
+                                </ListItemSecondaryAction>
+                            </ListItem>
+
+                            <ListItem className={classes.item}>
+                                <ListItemText
+                                    primary="已分组/自营店设备数"
+                                />
+
+                                <ListItemSecondaryAction className={classes.secondary}>
+                                    {indexStatisticsData.selfCount}
+                                </ListItemSecondaryAction>
+                            </ListItem>
+
+                            <ListItem className={classes.item} style={{borderBottom: '1px solid #cecece'}}>
+                                <ListItemText
+                                    primary="分配给代理商设备数"
+                                />
+
+                                <ListItemSecondaryAction className={classes.secondary}>
+                                    {indexStatisticsData.bindedCount}
                                 </ListItemSecondaryAction>
                             </ListItem>
 

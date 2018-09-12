@@ -95,7 +95,7 @@ export default class PullRefreshPage extends BaseComponent {
     renderSearch = () => {
         const {searchIng, defaultSearchValue} = this.state;
         return <SearchInput
-            placeholder="请输入设备号 、SN号"
+            placeholder="请输入SN号、别名"
             defaultValue={defaultSearchValue}
             handelSearch={this.handlerSearch}
             handelClear={this.handlerClear}
