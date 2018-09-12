@@ -232,7 +232,7 @@ export default class Index extends BaseComponent {
                                     {indexStatisticsData.allAmount}
                                 </ListItemSecondaryAction>
                             </ListItem>
-                            <ListItem className={classes.item}>
+                            <ListItem className={classes.item} style={{borderBottom: '1px solid #cecece'}}>
                                 <ListItemIcon>
                                     <img src={totalIncomeIcon} className={classes.itemIcon}/>
                                 </ListItemIcon>
@@ -255,6 +255,12 @@ export default class Index extends BaseComponent {
                                     {indexStatisticsData.proportion && indexStatisticsData.proportion.join("%,") + "%"}
                                 </ListItemSecondaryAction>
                             </ListItem>*/}
+
+                            <div>
+                                <p className={classes.staticsTitle}>
+                                    我的设备
+                                </p>
+                            </div>
 
                             <ListItem className={classes.item}>
                                 <ListItemText
