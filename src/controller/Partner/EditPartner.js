@@ -164,7 +164,7 @@ export default class EditPartner extends BaseComponent {
 
                     <div>
                         <FormControlLabel
-                            label="代理商"
+                            label="是否为代理商"
                             className="form-control-label"
                             labelPlacement="start"
                             onChange={v => this.setState({isAgent: parseInt(v.target.value, 10)})}

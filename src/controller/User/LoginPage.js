@@ -99,14 +99,7 @@ export default class LoginPage extends BaseComponent {
                                                 setState={this.stateFun}>
                                                 <CustomInput
                                                     labelText="登录名"
-                                                    inputProps={{
-                                                        // endAdornment: (
-                                                        //     <InputAdornment position="end">
-                                                        //         <Face className={classes.inputAdornmentIcon}/>
-                                                        //     </InputAdornment>
-                                                        // ),
-                                                        value: this.state.loginname
-                                                    }}
+                                                    value={this.state.loginname}
                                                     name="loginname"
                                                     required
                                                 />
@@ -114,15 +107,8 @@ export default class LoginPage extends BaseComponent {
                                                     labelText="密码"
                                                     inputProps={{
                                                         type: "password",
-                                                        // endAdornment: (
-                                                        //     <InputAdornment position="end">
-                                                        //         <LockOutline
-                                                        //             className={classes.inputAdornmentIcon}
-                                                        //         />
-                                                        //     </InputAdornment>
-                                                        // ),
-                                                        value: this.state.password
                                                     }}
+                                                    value={this.state.password}
                                                     name="password"
                                                     required
                                                 />

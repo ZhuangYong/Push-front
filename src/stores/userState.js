@@ -38,6 +38,7 @@ export default class userState extends BaseState {
         this.loginUserData = "";
         removeToken();
         removeCachedUserInfo();
+        this.setConfigData("");
     }
 
     @action
