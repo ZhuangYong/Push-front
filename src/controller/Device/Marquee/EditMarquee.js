@@ -75,7 +75,7 @@ export default class EditMarquee extends BaseComponent {
             contentUuid: "",
             lineNum: "1",
             font: "",
-            color: "",
+            color: "#ffffff",
             img: "",
             isEnabled: '1',
         };

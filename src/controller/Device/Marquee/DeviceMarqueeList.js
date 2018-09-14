@@ -113,7 +113,7 @@ export default class DeviceMarquee extends PullRefreshPage {
     delDeviceMarquee = (item) => {
         this.alert("确认删除吗？", "", () => {
             this.setState({delIng: item.id});
-            this.props.deviceState.deleteDeviceMarquee({ids: item.id})
+            this.props.deviceState.deleteDeviceMarquee({ids: [item.id]})
                 .then(res => {
                     this.setState({delIng: ""});
                     this.handelPageRefresh();
