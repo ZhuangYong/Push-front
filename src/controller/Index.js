@@ -30,6 +30,7 @@ import Const from "../utils/const";
 import {Service, Use} from "../utils/annotation";
 import {setTitle} from "../utils/comUtils";
 import IconButton from "material-ui/IconButton";
+import UserState from "../stores/userState";
 
 @withStyles({
     ...customStyle,
@@ -104,8 +105,9 @@ export default class Index extends BaseComponent {
         this.refreshStatistics();
     }
     render() {
-        const {loginUserData} = this.props.userState;
+        const {loginUserData, configData} = this.props.userState;
         const {indexStatisticsData} = this.props.statisticsState;
+        const {agent} = configData || {};
         const {classes = ""} = this.props;
         return <div>
                 {
@@ -292,6 +294,9 @@ export default class Index extends BaseComponent {
                                 </ListItemSecondaryAction>
                             </ListItem>
 
+                            {
+                                agent !== UserState.AGENT_TYPE_AGENT
+                            }
                             <ListItem className={classes.item} style={{borderBottom: '1px solid #cecece'}}>
                                 <ListItemText
                                     primary="分配给代理商设备数"

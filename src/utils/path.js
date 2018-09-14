@@ -45,6 +45,9 @@ export default {
     // 提现记录
     PATH_ORDER_CASH_APPLY_INDEX: "/order/cash/apply/index",
 
+    // 提现详情
+    PATH_CASH_ORDER_DETAIL: "/order/cash/order/detail",
+
     // 价格首页
     PATH_PRICE_INDEX: "/price/index",
 

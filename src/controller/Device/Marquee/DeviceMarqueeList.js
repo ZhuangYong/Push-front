@@ -58,9 +58,9 @@ export default class DeviceMarquee extends PullRefreshPage {
                 {/*<p className={classes.infoLine}>*/}
                     {/*<font className={classes.infoLabel}>行数：</font>{item.lineNum}*/}
                 {/*</p>*/}
-                <p className={classes.infoLine}>
+               {/* <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>字体：</font>{item.font || "未设置"}
-                </p>
+                </p>*/}
                 <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>颜色：</font>{item.color || "未设置"}
                 </p>
@@ -70,9 +70,9 @@ export default class DeviceMarquee extends PullRefreshPage {
                 <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>内容：</font><font style={{maxWidth: '20rem'}}>{item.content}</font>
                 </p>
-                <p className={classes.infoLine}>
+               {/* <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>背景：</font>{item.img ? <img src={item.img} style={{maxWidth: '20rem'}}/> : "未设置"}
-                </p>
+                </p>*/}
             </div>
 
             {

@@ -51,4 +51,16 @@ export default class orderState extends BaseState {
             data: data
         });
     }
+
+    /**
+     * 提现订单详情
+     * @param data
+     * @returns {*}
+     */
+    orderCashList(data) {
+        return this.fetch({
+            url: Api.API_ORDER_CASH_ORDER_LIST,
+            data: data
+        });
+    }
 }

@@ -9,6 +9,7 @@ import svgBottom from "../../assets/svg/bottom-tear.svg";
 import PullRefreshPage from "../../components/CommonPage/PullrefreshPage";
 import CircularProgress from "material-ui/Progress/CircularProgress";
 import {setTitle} from "../../utils/comUtils";
+import Path from "../../utils/path";
 
 const style = {
     ...customStyle,
@@ -111,7 +112,9 @@ export default class CashApplyList extends PullRefreshPage {
 
     listItem = (item) => {
         const {classes = ""} = this.props;
-        return <ListItem key={item.id} className={classes.item + " " + classes.orderItem}>
+        return <ListItem
+            key={item.id} className={classes.item + " " + classes.orderItem}
+            onClick={() => this.linkTo(Path.PATH_CASH_ORDER_DETAIL, {settlementUuid: item.uuid})}>
             <div>
                 <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>提现金额：</font><font color="red">￥{item.amount}</font>

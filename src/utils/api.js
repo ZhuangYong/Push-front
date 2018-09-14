@@ -53,6 +53,9 @@ export default {
     // 提现申请
     API_ORDER_CASH_APPLY: "/wxback/order/cashApply",
 
+    // 提现订单列表
+    API_ORDER_CASH_ORDER_LIST: "/wxback/order/cashOrderList",
+
     // 提现记录
     API_ORDER_CASH_LIST: "/wxback/order/cashList",
 
