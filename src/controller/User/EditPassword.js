@@ -66,10 +66,10 @@ export default class EditPassword extends BaseComponent {
                     />
                     <CustomInput
                         labelText="新密码"
-                        placeholder="请输入6~18位任意字符"
+                        placeholder="长度8~20,必须包含大小写字母与数字"
                         value={newpwd}
                         name="newpwd"
-                        reg={v => v.length > 5 && v.length < 19}
+                        reg={v => Const.VALID_PASSWORD.test(v)}
                         required
                         inputProps={{
                             type: "password",

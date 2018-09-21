@@ -23,6 +23,8 @@ import ManufactureDeviceGroupIndex from "../controller/Manufacture/Device/Group/
 import PartnerDeviceGroupIndex from "../controller/Partner/Group/DeviceGroupIndex";
 import PartnerEditDeviceGroup from "../controller/Partner/Group/EditDeviceGroup";
 import CashOrderList from "../controller/Order/CashOrderList";
+import RetrieveOrder from "../controller/Order/RetrieveOrder";
+import AccountManager from "../controller/User/AccountManager";
 
 const dashRoutes = [
     {path: Path.PATH_INDEX, name: "index", component: Index, needLogin: true},
@@ -33,6 +35,8 @@ const dashRoutes = [
     {path: Path.PATH_DEVICE_MARQUEE_LIST, name: "device marquee", component: DeviceMarquee, needLogin: true},
     {path: Path.PATH_DEVICE_MARQUEE_EDIT, name: "edit marquee", component: EditMarquee, needLogin: true},
     {path: Path.PATH_ORDER_INDEX, name: "order", component: OrderIndex, needLogin: true},
+    {path: Path.PATH_ORDER_RETRIEVE_INDEX, name: "retrieve order", component: RetrieveOrder, needLogin: true},
+    {path: Path.PATH_USER_ACCOUNT_MANAGER_LIST, name: "account manager", component: AccountManager, needLogin: true},
     {path: Path.PATH_CASH_ORDER_DETAIL, name: "cash order list", component: CashOrderList, needLogin: true},
     {path: Path.PATH_ORDER_CASH_APPLY_INDEX, name: "cash apply list", component: CashApplyList, needLogin: true},
     {path: Path.PATH_PRICE_INDEX, name: "price", component: PriceIndex, needLogin: true},

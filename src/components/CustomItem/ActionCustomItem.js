@@ -16,9 +16,9 @@ import {MenuDotIcon} from "../common/SvgIcons";
 export default class ActionCustomItem extends React.Component {
 
     render() {
-        const {classes, loading, loadingColor, showAction, onActionClick, ...res} = this.props;
+        const {classes, className, loading, loadingColor, showAction, onActionClick, ...res} = this.props;
         const Child = this.props.children;
-        return <ListItem className={classes.item} {...res}>
+        return <ListItem className={[classes.item, className].join(" ")} {...res}>
             {Child}
             {
                 showAction && <ListItemSecondaryAction className={classes.editIcon}>
@@ -36,6 +36,7 @@ export default class ActionCustomItem extends React.Component {
 
 ActionCustomItem.propTypes = {
     loading: PropTypes.bool,
+    className: PropTypes.string,
     loadingColor: PropTypes.string,
     showAction: PropTypes.bool,
     onActionClick: PropTypes.func,
@@ -44,6 +45,7 @@ ActionCustomItem.propTypes = {
 
 ActionCustomItem.defaultProps = {
     loading: false,
+    className: "",
     loadingColor: "gray",
     showAction: true,
     onActionClick: f => f,

@@ -75,6 +75,7 @@ export default class EditPartner extends BaseComponent {
             isAgent: UserState.AGENT_TYPE_NOT_AGENT,
             isInit: Const.FORCE_CHANGE_PASSWORD_FIRST_LOGIN,
             name: "",
+            password: "",
             uuid: "",
             alipayAccount: "",
             method: '1',
@@ -126,11 +127,12 @@ export default class EditPartner extends BaseComponent {
 
                     {
                         !salesUuid && <CustomInput
-                            placeholder="登录密码"
-                            labelText="代理商登录密码"
+                            labelText="登录密码"
+                            placeholder="8~20位，大小写字母与数字组合"
                             value={password}
                             name="password"
                             required
+                            reg={v => Const.VALID_PASSWORD.test(v)}
                         />
                     }
 
@@ -399,6 +401,7 @@ export default class EditPartner extends BaseComponent {
             this.props.salesState.editSalesData({
                 uuid: uuid,
                 name: name,
+                isAgent: isAgent,
                 alipayAccount: alipayAccount,
                 remark: remark,
                 areaId: areaId,

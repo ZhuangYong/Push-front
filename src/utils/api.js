@@ -23,6 +23,9 @@ export default {
     // 1元试唱开启或关闭
     API_CONFIG_CHANGE_FREE_SING: "/wxback/config/onOffFreeSing",
 
+    // 开启或关闭推送
+    API_CONFIG_CHANGE_NOTICE_SING: "/wxback/config/onOffNotice",
+
     // 申请成为代理商
     API_CONFIG_APPLY_AGENT: "/wxback/config/applyAgent",
 
@@ -33,10 +36,16 @@ export default {
     API_STATIS_CHANNEL_LIST: "/wxback/statis/channelList",
 
     // 查看用户信息接口
+    API_STATIS_MANAGER_PAGE: "/wxback/user/list",
+
+    // 查看用户信息接口
     API_STATIS_USER_INFO: "/wxback/user/index",
 
     // 修改用户信息接口
     API_USER_SAVE: "/wxback/user/save",
+
+    // 修改管理账号信息
+    API_USER_MANAGER_ACCOUNT_SAVE: "/wxback/user/saveMember",
 
     // 修改用户密码
     API_USER_CHANGE_PASSWORD: "/wxback/user/modifyPass",
@@ -49,6 +58,12 @@ export default {
 
     // 订单列表
     API_STATIS_ORDER_PAGE: "/wxback/order/index",
+
+    // 找回订单列表
+    API_STATIS_ORDER_RETRIEVE_PAGE: "/wxback/order/retrieveList",
+
+    // 找回订单
+    API_STATIS_ORDER_RETRIEVE: "/wxback/order/retrieve",
 
     // 提现申请
     API_ORDER_CASH_APPLY: "/wxback/order/cashApply",

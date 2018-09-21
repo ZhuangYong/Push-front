@@ -163,7 +163,7 @@ export default class PullRefresh extends BaseComponent {
             action: STATS.refreshing
         });
         return pageAction(nextPageParam).then(res => {
-            const {totalRow, totalPage, data} = res;
+            const {totalRow, totalPage, data} = this.pageBean(res);
             this.setState({
                 data: [...data],
                 action: STATS.reset,
@@ -207,7 +207,7 @@ export default class PullRefresh extends BaseComponent {
             action: STATS.loading
         });
         return pageAction(nextPageParam).then(res => {
-            const {totalRow, totalPage, data} = res;
+            const {totalRow, totalPage, data} = this.pageBean(res);
             this.setState({
                 data: [...this.state.data, ...data],
                 action: STATS.reset,
@@ -233,7 +233,20 @@ export default class PullRefresh extends BaseComponent {
 
     resize = () => {
         this.setState({screenSize: getScreenSize()});
-    }
+    };
+
+    pageBean = (data) => {
+        if (data.hasOwnProperty("length")) {
+            return {
+                currentPage: 1,
+                data: data,
+                pageSize: 20,
+                totalPage: 1,
+                totalRow: data.length
+            };
+        }
+        return data;
+    };
 
 }
 

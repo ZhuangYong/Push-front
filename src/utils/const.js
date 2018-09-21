@@ -54,4 +54,13 @@ export default {
 
     FORCE_CHANGE_PASSWORD_FIRST_LOGIN_DISABLE: 2,
 
+    // 验证密码，必须有一个大写字母and必须有一个小写字母and必须有一个数字and必须大于或等于8位
+    VALID_PASSWORD: /^(?:(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]))[A-Za-z0-9!@#$].{7,20}$/,
+    // 判断用户名的email格式
+    VALID_USERNAME_EMAIL: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+
+    // 销售方超级管理员
+    SALES_ROLE_ADMIN: 1,
+    // 销售方管理账号
+    SALES_ROLE_MANAGER: 2,
 };

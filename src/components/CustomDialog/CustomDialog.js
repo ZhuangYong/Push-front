@@ -15,11 +15,11 @@ export default class CustomDialog extends BaseComponent {
         this.state = {};
     }
     render () {
-        const {title, open, actions, handleCancel, handleSure, content, loading} = this.props;
+        const {title, open, actions, handleCancel, handleSure, content, loading, style} = this.props;
         return (<Dialog
             open={open}
             PaperProps={{
-                style: {minWidth: 240}
+                style: {minWidth: 240, ...style}
             }}
             onClose={this.handelClose}
             aria-labelledby="form-dialog-title"
@@ -63,6 +63,7 @@ CustomDialog.propTypes = {
     title: PropTypes.string,
     loading: PropTypes.bool,
     open: PropTypes.bool,
+    style: PropTypes.object,
     actions: PropTypes.any,
     handleCancel: PropTypes.func,
     handleSure: PropTypes.func,
@@ -71,6 +72,7 @@ CustomDialog.propTypes = {
 };
 CustomDialog.defaultProps = {
     title: "",
+    style: {},
     open: false,
     loading: false,
     actions: "",

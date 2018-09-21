@@ -86,6 +86,9 @@ export default class OrderIndex extends PullRefreshPage {
                     <font className={classes.infoLabel}>订单时间：</font>{item.time}
                 </p>
                 <p className={classes.infoLine}>
+                    <font className={classes.infoLabel}>分成比例：</font>{item.proportion}%
+                </p>
+                <p className={classes.infoLine}>
                     <font className={classes.infoLabel}>订单号：</font>{item.orderNo}
                 </p>
                 {/*<p className={classes.infoLine}>

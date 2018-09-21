@@ -13,6 +13,8 @@ export default class userState extends BaseState {
 
     // 用户登陆信息（主要是token类数据）
     @observable loginData = "";
+    // 账户管理员列表
+    @observable managerData = "";
     // 登陆用户的用户信息（用户详情）
     @observable loginUserData = "";
     // 用户收入概况
@@ -25,6 +27,17 @@ export default class userState extends BaseState {
         this.loginData = data;
         const {token} = data || {};
         setToken(token);
+    }
+
+    @action
+    setManagerData(data = []) {
+        this.managerData = {
+            currentPage: 1,
+            data: data,
+            pageSize: 20,
+            totalPage: 1,
+            totalRow: data.length
+        };
     }
 
     @action
@@ -105,6 +118,18 @@ export default class userState extends BaseState {
     }
 
     /**
+     * 获取账户管理员列表
+     * @returns {*}
+     */
+    getManagePage(data) {
+        return this.fetch({
+            url: Api.API_STATIS_MANAGER_PAGE,
+            setState: "setManagerData",
+            data: data
+        });
+    }
+
+    /**
      * 上传登陆用户头像并直接保存
      * @param data
      * @returns {*}
@@ -136,6 +161,18 @@ export default class userState extends BaseState {
     saveUserInfo(data) {
         return this.fetch({
             url: Api.API_USER_SAVE,
+            data: data
+        });
+    }
+
+    /**
+     * 保存用户信息
+     * @param data
+     * @returns {*}
+     */
+    saveUserManagerAccountInfo(data) {
+        return this.fetch({
+            url: Api.API_USER_MANAGER_ACCOUNT_SAVE,
             data: data
         });
     }
@@ -195,6 +232,16 @@ export default class userState extends BaseState {
     onOffFreeSing() {
         return this.fetch({
             url: Api.API_CONFIG_CHANGE_FREE_SING,
+        });
+    }
+
+    /**
+     * 开启或关闭微信推送
+     * @returns {*}
+     */
+    onOffNotice() {
+        return this.fetch({
+            url: Api.API_CONFIG_CHANGE_NOTICE_SING,
         });
     }
 

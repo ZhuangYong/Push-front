@@ -40,6 +40,9 @@ const FREE_SING_TYPE_OFF = 0;
 const FREE_SING_TYPE_ON = 1;
 const FREE_SING_TYPE_CLOSE = 2;
 
+const PUSH_MSG_ON = 1;
+const PUSH_MSG_OFF = 2;
+
 const style = {...customStyle, ...{
         editButton: {
             height: '1.6rem',
@@ -196,7 +199,7 @@ export default class Index extends BaseComponent {
                             />
                             <ListItemSecondaryAction>
                                 {
-                                    this.state.submiting ? <div style={{margin: '0 1.6rem'}}><CircularProgress color="secondary" size={14} /></div> : <div>
+                                    this.state.submiting === "freeSign" ? <div style={{margin: '0 1.6rem'}}><CircularProgress color="secondary" size={14} /></div> : <div>
                                         {
                                             configData.freeSing === FREE_SING_TYPE_CLOSE ? <font style={{padding: '0 1.2rem', fontSize: '1rem'}}>已关闭</font> : <Switch
                                                 checked={configData.freeSing === FREE_SING_TYPE_ON}
@@ -239,6 +242,45 @@ export default class Index extends BaseComponent {
                             </ListItemSecondaryAction>
                         </ListItem>
                     }*/}
+
+                     {
+                        loginUserData.type === Const.ROLE.SALES && configData.admin === Const.SALES_ROLE_ADMIN && <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_USER_ACCOUNT_MANAGER_LIST)}>
+                            <ListItemIcon>
+                                <UserIcon size="1.6rem"/>
+                            </ListItemIcon>
+                            <ListItemText className={classes.ListItemText}
+                                          primary={"管理者账号"}
+                            />
+                            <ListItemSecondaryAction>
+                                <IconButton onClick={() => this.linkTo(Path.PATH_USER_ACCOUNT_MANAGER_LIST)}>
+                                    <ArrowForwardIcon/>
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    }
+
+                    {
+                        loginUserData.type === Const.ROLE.SALES && <ListItem className={classes.item}>
+                            <ListItemIcon>
+                                <PartnerIcon size="1.6rem"/>
+                            </ListItemIcon>
+                            <ListItemText className={classes.ListItemText}
+                                // notice 1： 推送 2： 不推送
+                                          primary={"推送收益"}
+                            />
+                            <ListItemSecondaryAction>
+                                {
+                                    this.state.submiting === "pushMsg" ? <div style={{margin: '0 1.6rem'}}><CircularProgress color="secondary" size={14} /></div> : <div>
+                                        <Switch
+                                            checked={configData.notice === PUSH_MSG_ON}
+                                            onChange={this.changePushMsg}
+                                        />
+                                    </div>
+                                }
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    }
+
                     {
                         loginUserData.type === Const.ROLE.SALES && <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_USER_ELECTRONIC_AGREEMENT)}>
                             <ListItemIcon>
@@ -290,7 +332,7 @@ export default class Index extends BaseComponent {
                         <ListItemText
                             primary={<div style={{margin: 0, padding: 0, textAlign: 'center'}}>
                                 {
-                                    this.state.submiting && <CircularProgress color="secondary" size={14} />
+                                    this.state.submiting === "logout" && <CircularProgress color="secondary" size={14} />
                                 }
                                 退出登录
                             </div>}
@@ -356,7 +398,7 @@ export default class Index extends BaseComponent {
     }
 
     logout() {
-        this.setState({submiting: true});
+        this.setState({submiting: "logout"});
         this.props.userState.logout().then(res => {
             this.setState({submiting: false});
             this.linkTo(Path.PATH_LOGIN);
@@ -372,8 +414,18 @@ export default class Index extends BaseComponent {
         if (freeSing === FREE_SING_TYPE_CLOSE) {
             return;
         }
-        this.setState({submiting: true});
+        this.setState({submiting: "freeSign"});
         this.props.userState.onOffFreeSing()
+            .then(res => {
+                this.getConfig();
+                this.setState({submiting: false});
+            })
+            .catch(err => this.setState({submiting: false}));
+    };
+
+    changePushMsg = () => {
+        this.setState({submiting: "pushMsg"});
+        this.props.userState.onOffNotice()
             .then(res => {
                 this.getConfig();
                 this.setState({submiting: false});

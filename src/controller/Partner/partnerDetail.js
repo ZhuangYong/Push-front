@@ -23,12 +23,13 @@ import {
     AliPayIcon,
     DeviceIcon,
     GroupIcon,
-    LocationIcon,
+    LocationIcon, OrderIcon,
     PhoneIcon,
     UserIcon
 } from "../../components/common/SvgIcons";
 import headBg from "../../assets/img/bg/headbg.jpg";
 import {getQueryString, setTitle} from "../../utils/comUtils";
+import Const from "../../utils/const";
 
 const style = {...customStyle, ...{
         partnerCarHead: {
@@ -187,7 +188,19 @@ export default class Index extends BaseComponent {
                             </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>
-
+                    <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_ORDER_RETRIEVE_INDEX, {salesUuid})}>
+                        <ListItemIcon>
+                            <OrderIcon size="1.6rem"/>
+                        </ListItemIcon>
+                        <ListItemText className={classes.ListItemText}
+                                      primary="找回订单"
+                        />
+                        <ListItemSecondaryAction>
+                            <IconButton onClick={() => this.linkTo(Path.PATH_ORDER_RETRIEVE_INDEX, {salesUuid})}>
+                                <ArrowForwardIcon/>
+                            </IconButton>
+                        </ListItemSecondaryAction>
+                    </ListItem>
                     <ListItem className={classes.item} onClick={this.partnerAgreement}>
                         <ListItemIcon>
                             <AgreementIcon size="1.6rem"/>

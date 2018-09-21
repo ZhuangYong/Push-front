@@ -42,6 +42,9 @@ export default {
     // 定单首页
     PATH_ORDER_INDEX: "/order/index",
 
+    // 找回定单首页
+    PATH_ORDER_RETRIEVE_INDEX: "/order/retrieve/index",
+
     // 提现记录
     PATH_ORDER_CASH_APPLY_INDEX: "/order/cash/apply/index",
 
@@ -62,6 +65,9 @@ export default {
 
     // 收入概况
     PATH_USER_INCOME_INFO: "/user/income",
+
+    // 管理账户列表
+    PATH_USER_ACCOUNT_MANAGER_LIST: "/user/account/list",
 
     // 电子协议
     PATH_USER_ELECTRONIC_AGREEMENT: "/user/electronicAgreement",
