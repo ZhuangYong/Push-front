@@ -390,7 +390,7 @@ export default class Index extends BaseComponent {
 
     uploadUserAvatarAction = (data) => {
         return this.props.userState.uploadUserAvatar(data)
-            .then(setTimeout(() => this.props.userState.getUserInfo(), 500));
+            .then(res => this.props.userState.getUserInfo());
     };
 
     refreshStatistics() {

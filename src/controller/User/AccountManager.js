@@ -268,9 +268,6 @@ export default class AccountManager extends PullRefreshPage {
      */
     handelSaveAccount = () => {
         const {editItem, loginName, password, phone, realName, isInit} = this.state;
-        if (!editItem) {
-            return;
-        }
         if (this.refs.form.valid()) {
             const form = {};
             form.realName = realName;
