@@ -203,7 +203,7 @@ export default class EditPartner extends BaseComponent {
                             labelText="结算比例配置（%）"
                             value={parentProportions}
                             name="parentProportions"
-                            reg={/^\d{1,2}(\.\d{1,2})?$|^100$/}
+                            reg={Const.VALID_PROPORTION_100}
                             required
                         />
                     }

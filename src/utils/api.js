@@ -117,6 +117,12 @@ export default {
     // 合作伙伴详情
     API_PARTNER_DETAIL: "/wxback/user/child/",
 
+    // 代理商分成详情
+    API_PARTNER_PROPORTION_DETAIL: "/wxback/device/resetDetail/",
+
+    // 修改代理商设备分成比例
+    API_PARTNER_PROPORTION_RESET: "/wxback/device/reset/",
+
     // 保存销售方
     API_SALES_EDIT: "/wxback/sales/save",
 

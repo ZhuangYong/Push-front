@@ -26,6 +26,7 @@ function CustomInput({...props}) {
         labelProps,
         inputProps,
         error,
+        errorTxt,
         success,
         helpText,
         rtlActive,
@@ -125,6 +126,11 @@ function CustomInput({...props}) {
             ) : success ? (
                 <Check className={successClasses}/>
             ) : null}
+            {
+                error && errorTxt && <InputLabel style={{position: "static", transform: "none", color: "red", paddingTop: 2}}>
+                    {errorTxt}
+                </InputLabel>
+            }
             {helpText !== undefined ? (
                 <FormHelperText id={id + "-text"}>{helpText}</FormHelperText>
             ) : null}
@@ -144,6 +150,7 @@ CustomInput.propTypes = {
     formControlProps: PropTypes.object,
     error: PropTypes.bool,
     success: PropTypes.bool,
+    errorTxt: PropTypes.string,
     helpText: PropTypes.string,
     rtlActive: PropTypes.bool,
     onClick: PropTypes.func
@@ -153,6 +160,7 @@ CustomInput.defaultProps = {
     formControlProps: {fullWidth: true},
     disabled: false,
     placeholder: "",
+    errorTxt: "",
     onClick: f => f
 };
 

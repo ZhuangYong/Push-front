@@ -23,6 +23,7 @@ import AppHeader from "../../components/Header/AppHeader";
 import Dialog from '@material-ui/core/Dialog';
 import _ from "lodash";
 import ActionCustomItem from "../../components/CustomItem/ActionCustomItem";
+import Path from "../../utils/path";
 
 const style = {
     ...customStyle,
@@ -216,20 +217,23 @@ export default class PartnerDeviceList extends PullrefreshPage {
         const {loginUserData} = this.props.userState;
         const {classes = ""} = this.props;
         // const showAction = !!groupUuid;
-        const showAction = item.disableUnbind === 2;
+        const menuItems = [
+            // {label: '编辑别名', onClick: () => this.editDevice(item)},
+            {label: '修改分成比例', onClick: () => this.linkTo(Path.PATH_DEVICE_PARTNER_PROPORTION_EDIT, {deviceUuid: item.deviceUuid})},
+        ];
+        if (item.disableUnbind === 2) {
+            menuItems.push({label: '解绑设备', onClick: () => this.unBindDevice(item)});
+        }
         return <ActionCustomItem
             key={item.deviceId}
             loading={!!delIng}
-            showAction={((delIng && delIng === item.deviceUuid) || !delIng) && showAction}
-            onActionClick={() => this.openDrawerMenu({drawerMenus: [
-                // {label: '编辑别名', onClick: () => this.editDevice(item)},
-                {label: '解绑设备', onClick: () => this.unBindDevice(item)},
-            ]})}>
+            showAction={(delIng && delIng === item.deviceUuid) || !delIng}
+            onActionClick={() => this.openDrawerMenu({drawerMenus: menuItems})}>
             <div>
                 {
                     // 1不能解绑  2能解绑
                     item.disableUnbind === 1 ? <p className={classes.infoLine}>
-                        <font color="red">已经被代理商分配，不能进行其他操作</font>
+                        <font color="red">已经被代理商分配，不能进解绑操作</font>
                     </p> : ""
                 }
                 {

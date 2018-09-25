@@ -25,6 +25,7 @@ import PartnerEditDeviceGroup from "../controller/Partner/Group/EditDeviceGroup"
 import CashOrderList from "../controller/Order/CashOrderList";
 import RetrieveOrder from "../controller/Order/RetrieveOrder";
 import AccountManager from "../controller/User/AccountManager";
+import EditPartnerProportion from "../controller/Partner/EditPartnerProportion";
 
 const dashRoutes = [
     {path: Path.PATH_INDEX, name: "index", component: Index, needLogin: true},
@@ -57,6 +58,7 @@ const dashRoutes = [
     {path: Path.PATH_SALES_EDIT, name: "edit partner", component: EditSales, needLogin: true},
     {path: Path.PATH_DEVICE_PARTNER_INDEX, name: "partner device list", component: PartnerDeviceList, needLogin: true},
     {path: Path.PATH_DEVICE_PARTNER_GROUP_EDIT, name: "partner edit group", component: PartnerEditDeviceGroup, needLogin: true},
+    {path: Path.PATH_DEVICE_PARTNER_PROPORTION_EDIT, name: "edit partner proportion", component: EditPartnerProportion, needLogin: true},
 
     {redirect: true, path: "/", pathTo: Path.PATH_INDEX, name: "index", needLogin: true}
 ];

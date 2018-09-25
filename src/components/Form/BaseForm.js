@@ -30,7 +30,7 @@ export default class BaseForm extends React.Component {
     }
 
     autoState(node, key) {
-        if (node.length) {
+        if (node && node.length) {
             const nodes = [];
             node.forEach((n, index) => nodes.push(this.autoState(n, 'form-auto-index' + index)));
             return nodes;

@@ -105,6 +105,19 @@ export default class priceState extends BaseState {
     }
 
     /**
+     * 合作伙伴详情
+     * @param deviceUuid
+     * @returns {*}
+     */
+    getPartnerProportionDetail(deviceUuid) {
+        return this.fetch({
+            method: "get",
+            url: Api.API_PARTNER_PROPORTION_DETAIL + deviceUuid,
+            setState: "setPartnerDetailData",
+        });
+    }
+
+    /**
      * 为子销售方添加设备
      * @param data
      * @returns {*}
@@ -125,6 +138,18 @@ export default class priceState extends BaseState {
     saveDeviceGroup(data) {
         return this.fetch({
             url: Api.API_SALES_GROUP_EDIT,
+            data: data
+        });
+    }
+
+    /**
+     * 修改代理商设备分成比例
+     * @param data
+     * @returns {*}
+     */
+    savePartnerDeviceProportion(deviceUuid, data) {
+        return this.fetch({
+            url: Api.API_PARTNER_PROPORTION_RESET + deviceUuid,
             data: data
         });
     }

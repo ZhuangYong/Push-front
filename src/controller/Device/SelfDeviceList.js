@@ -132,6 +132,9 @@ export default class SelfDeviceList extends PullrefreshPage {
         if (!isDefault) {
             menuItems.push({label: '解绑设备', onClick: () => this.unBindDevice(item)});
         }
+        if (isDefault === "partner") {
+            menuItems.push({label: '修改分成比例', onClick: () => this.linkTo(Path.PATH_DEVICE_PARTNER_PROPORTION_EDIT, {deviceUuid: item.deviceUuid})});
+        }
         return <ActionCustomItem
             key={item.deviceId}
             loading={!!delIng}
@@ -140,7 +143,7 @@ export default class SelfDeviceList extends PullrefreshPage {
             onActionClick={() => this.openDrawerMenu({drawerMenus: menuItems})}>
             <div>
                 {
-                    item.toSalesName ? <font color="red">已经被分配给：{item.toSalesName}</font> : ""
+                    item.toSalesName ? <font color="red">已分配：{item.toSalesName}</font> : ""
                 }
                 {
                     loginUserData.type === Const.ROLE.SALES && <p className={classes.infoLine}>

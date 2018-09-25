@@ -39,6 +39,9 @@ export default {
     // 为合作方添加价格组
     PATH_DEVICE_PARTNER_GROUP_EDIT: "/device/partner/group/edit",
 
+    // 修改代理商设备分成比例
+    PATH_DEVICE_PARTNER_PROPORTION_EDIT: "/device/partner/proportion/edit",
+
     // 定单首页
     PATH_ORDER_INDEX: "/order/index",
 
