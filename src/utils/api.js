@@ -9,7 +9,35 @@
 
 export default {
     // 登录
-    API_USER_LOGIN: "/wxback/login",
+    API_USER_LOGIN: "/admin/login",
+
+    // 查看用户信息接口
+    API_USER_INFO: "/admin/user/info",
+
+    // 首页统计
+    API_STATISTICS_INDEX: "/admin/push/statistics/index",
+
+    // ------------- 服务器 -------------
+    // 推送服务器列表
+    API_PUSH_NODE_PAGE: "/admin/push/node/list",
+
+    // 所有推送服务器
+    API_PUSH_NODE_LIST: "/admin/push/node/list",
+
+    // 推送服务器节点上用户
+    API_PUSH_NODE_USER: "/admin/push/node/user",
+
+    // 跟踪用户/设备
+    API_PUSH_NODE_USER_TRACK: "/admin/push/node/user/track",
+
+    // 取消跟踪用户/设备
+    API_PUSH_NODE_USER_TRACK_DELETE: "/admin/push/node/user/track/delete",
+
+    // 清除跟踪用户/设备
+    API_PUSH_NODE_USER_TRACK_CLEAR: "/admin/push/node/user/track/clear",
+
+    // ----------------------------------------------------------------
+
 
     // 退出
     API_USER_LOGOUT: "/wxback/logout",
@@ -37,9 +65,6 @@ export default {
 
     // 查看用户信息接口
     API_STATIS_MANAGER_PAGE: "/wxback/user/list",
-
-    // 查看用户信息接口
-    API_STATIS_USER_INFO: "/wxback/user/index",
 
     // 修改用户信息接口
     API_USER_SAVE: "/wxback/user/save",

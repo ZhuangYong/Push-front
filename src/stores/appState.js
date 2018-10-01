@@ -1,5 +1,6 @@
 import {action, observable} from "mobx";
 import BaseState from "./baseState";
+import {conn} from "../utils/wsUtils";
 
 export default class appState extends BaseState {
 
@@ -16,6 +17,11 @@ export default class appState extends BaseState {
     @action
     setAppLoaded(data) {
         this.appLoaded = data;
+    }
+
+    @action
+    linkInWs(url, userId, deviceId, onReceive, onOpen, onClose, onError) {
+        conn(url, userId, deviceId, onReceive, onOpen, onClose, onError);
     }
 
 }

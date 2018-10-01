@@ -6,6 +6,14 @@ export default {
     // 首页
     PATH_INDEX: "/index",
 
+    // 推送服务器列表
+    PATH_NODE_LIST: "/node/list",
+
+    // 推送服务器列表
+    PATH_NODE_USER_LIST: "/node/user/list",
+
+    // -----------------------------------------------
+
     // 设备组列表(tab 页面，包含代理商)
     PATH_DEVICE_GROUP_LIST: "/device/groupList",
 

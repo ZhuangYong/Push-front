@@ -206,7 +206,7 @@ module.exports = {
 
         // 打开浏览器
         new OpenBrowserPlugin({
-            url: 'http://test.merchant.j-make.com.cn'
+            url: 'http://push.invnk.com'
         })
     ]
 };

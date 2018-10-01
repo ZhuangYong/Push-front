@@ -1,37 +1,191 @@
 import React from "react";
 import BaseComponent from "../components/common/BaseComponent";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import withStyles from "material-ui/styles/withStyles";
-import ArrowForwardIcon from "@material-ui/icons/KeyboardArrowRight";
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import Avatar from '@material-ui/core/Avatar';
 import customStyle from "../assets/jss/view/custom";
 import {observer} from "mobx-react";
 import {inject} from "mobx-react/index";
-import Path from "../utils/path";
-import ktvIcon from "../assets/img/icon/ktv.png";
-import percentIcon from "../assets/img/icon/percent.png";
-import incomeIcon from "../assets/img/icon/income.png";
-import totalIncomeIcon from "../assets/img/icon/totalIncome.png";
-import vipTotalIncomeIcon from "../assets/img/icon/vip_total_income.png";
-import vipTotalDeviceIcon from "../assets/img/icon/vip_total_device.png";
-import vipExpiredIcon from "../assets/img/icon/vip_expired.png";
-import totalDeviceIcon from "../assets/img/icon/total_device.png";
-import activationDeviceIcon from "../assets/img/icon/activation_device.png";
-import registerDeviceIcon from "../assets/img/icon/register_device.png";
-import activeIcon from "../assets/img/icon/active.png";
-import defaultImage from "../assets/img/default-avatar.png";
-import Const from "../utils/const";
-import {Service, Use} from "../utils/annotation";
+import {Use} from "../utils/annotation";
 import {setTitle} from "../utils/comUtils";
-import IconButton from "material-ui/IconButton";
-import UserState from "../stores/userState";
+// import Tooltip from "material-ui/Tooltip";
+import ChartistGraph from "react-chartist";
+import GridContainer from "../components/Grid/GridContainer.jsx";
+import ItemGrid from "../components/Grid/ItemGrid.jsx";
+import Button from "../components/CustomButtons/Button.jsx";
+import ChartCard from "../components/Cards/ChartCard.jsx";
+import StatsCard from "../components/Cards/StatsCard.jsx";
+import ArrowUpward from "@material-ui/icons/ArrowUpward";
+import AccessTime from "@material-ui/icons/AccessTime";
+import Refresh from "@material-ui/icons/Refresh";
+import Edit from "@material-ui/icons/Edit";
+import Chartist from "chartist";
+import {DeviceIcon, UserIcon} from "../components/common/SvgIcons";
+import Path from "../utils/path";
 
+const delays = 80;
+const durations = 500;
+const delays2 = 80;
+const durations2 = 500;
+
+const dailySalesChart = {
+    data: {
+        labels: ["M", "T", "W", "T", "F", "S", "S"],
+        series: [[12, 17, 7, 17, 23, 18, 38]]
+    },
+    options: {
+        lineSmooth: Chartist.Interpolation.cardinal({
+            tension: 0
+        }),
+        low: 0,
+        high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        chartPadding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+        }
+    },
+    // for animation
+    animation: {
+        draw: function (data) {
+            if (data.type === "line" || data.type === "area") {
+                data.element.animate({
+                    d: {
+                        begin: 600,
+                        dur: 700,
+                        from: data.path
+                            .clone()
+                            .scale(1, 0)
+                            .translate(0, data.chartRect.height())
+                            .stringify(),
+                        to: data.path.clone().stringify(),
+                        easing: Chartist.Svg.Easing.easeOutQuint
+                    }
+                });
+            } else if (data.type === "point") {
+                data.element.animate({
+                    opacity: {
+                        begin: (data.index + 1) * delays,
+                        dur: durations,
+                        from: 0,
+                        to: 1,
+                        easing: "ease"
+                    }
+                });
+            }
+        }
+    }
+};
+
+const emailsSubscriptionChart = {
+    data: {
+        labels: [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Mai",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+        ],
+        series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
+    },
+    options: {
+        axisX: {
+            showGrid: false
+        },
+        low: 0,
+        high: 1000,
+        chartPadding: {
+            top: 0,
+            right: 5,
+            bottom: 0,
+            left: 0
+        }
+    },
+    responsiveOptions: [
+        [
+            "screen and (max-width: 640px)",
+            {
+                seriesBarDistance: 5,
+                axisX: {
+                    labelInterpolationFnc: function (value) {
+                        return value[0];
+                    }
+                }
+            }
+        ]
+    ],
+    animation: {
+        draw: function (data) {
+            if (data.type === "bar") {
+                data.element.animate({
+                    opacity: {
+                        begin: (data.index + 1) * delays2,
+                        dur: durations2,
+                        from: 0,
+                        to: 1,
+                        easing: "ease"
+                    }
+                });
+            }
+        }
+    }
+};
+
+
+const completedTasksChart = {
+    data: {
+        labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],
+        series: [[230, 750, 450, 300, 280, 240, 200, 190]]
+    },
+    options: {
+        lineSmooth: Chartist.Interpolation.cardinal({
+            tension: 0
+        }),
+        low: 0,
+        high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        chartPadding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+        }
+    },
+    animation: {
+        draw: function (data) {
+            if (data.type === "line" || data.type === "area") {
+                data.element.animate({
+                    d: {
+                        begin: 600,
+                        dur: 700,
+                        from: data.path
+                            .clone()
+                            .scale(1, 0)
+                            .translate(0, data.chartRect.height())
+                            .stringify(),
+                        to: data.path.clone().stringify(),
+                        easing: Chartist.Svg.Easing.easeOutQuint
+                    }
+                });
+            } else if (data.type === "point") {
+                data.element.animate({
+                    opacity: {
+                        begin: (data.index + 1) * delays,
+                        dur: durations,
+                        from: 0,
+                        to: 1,
+                        easing: "ease"
+                    }
+                });
+            }
+        }
+    }
+};
 @withStyles({
     ...customStyle,
     ...{
@@ -97,270 +251,165 @@ export default class Index extends BaseComponent {
 
     constructor(props) {
         super(props);
-        setTitle("金麦客商户通");
+        setTitle("推送管理平台");
         this.state = {};
-        this.refreshStatistics = this.refreshStatistics.bind(this);
     }
+
     componentDidMount() {
         this.refreshStatistics();
     }
+
     render() {
         const {loginUserData, configData} = this.props.userState;
         const {indexStatisticsData} = this.props.statisticsState;
         const {agent} = configData || {};
         const {classes = ""} = this.props;
         return <div>
-                {
-                    loginUserData.type === Const.ROLE.MANUFACTURE && <div>
-                        <Card className={classes.card} style={{border: 'none'}}>
-                            <CardHeader
-                                avatar={
-                                    <Avatar aria-label="Recipe" className={classes.avatar}>
-                                        <div className={classes.picture} style={{backgroundImage: `url(${loginUserData.headImg || defaultImage})`}}>
-                                        </div>
-                                    </Avatar>
-                                }
-                                title={<p className={classes.nickname}>{loginUserData.viewName}</p>}
-                                action={<p className={classes.deviceUserInfo} onClick={() => this.linkTo(Path.PATH_USER_INCOME_INFO)}>
-                                    设备使用数据 ▷
-                                </p>}
-                                className={classes.carHeader}
+            <GridContainer>
+                <ItemGrid xs={12} sm={6} md={6} lg={3} onClick={() => this.linkTo(Path.PATH_NODE_LIST)}>
+                    <StatsCard
+                        icon={DeviceIcon}
+                        iconColor="orange"
+                        title="推送服务器"
+                        description={indexStatisticsData.nodeNum || 0}
+                        small="台"
+                        statIcon={UserIcon}
+                        statIconColor="danger"
+                        statLink={{text: "总人设备数：" + indexStatisticsData.onLineUserNum}}
+                    />
+                </ItemGrid>
+            </GridContainer>
+
+            <GridContainer>
+                <ItemGrid xs={12} sm={12} md={4}>
+                    <ChartCard
+                        chart={
+                            <ChartistGraph
+                                className="ct-chart-white-colors"
+                                data={dailySalesChart.data}
+                                type="Line"
+                                options={dailySalesChart.options}
+                                listener={dailySalesChart.animation}
                             />
-                        </Card>
-                        <div>
-                           <div className={classes.gradeItem} style={{backgroundImage: `url(${vipTotalIncomeIcon})`}}>
-                               <p className={classes.gradeItemPrimary}>
-                                   VIP收入总额 <font className={classes.gradeItemPrimaryRight}>{indexStatisticsData.amount}元</font>
-                               </p>
-                               <p className={classes.gradeItemSecond}>
-                                   今日增长 {indexStatisticsData.dayAmount} 元
-                               </p>
-                           </div>
-                            <div className={classes.gradeItem} style={{backgroundImage: `url(${vipTotalDeviceIcon})`}}>
-                                <p className={classes.gradeItemPrimary}>
-                                    vip设备数量 <font className={classes.gradeItemPrimaryRight}>{indexStatisticsData.vipDeviceCount}</font>
-                                </p>
-                                <p className={classes.gradeItemSecond}>
-                                    今日增长 {indexStatisticsData.dayVipDeviceCount} 台
-                                </p>
-                            </div>
-                            <div className={classes.gradeItem} style={{backgroundImage: `url(${vipExpiredIcon})`}}>
-                                <p className={classes.gradeItemPrimary}>
-                                    vip过期设备数量 <font className={classes.gradeItemPrimaryRight}>{indexStatisticsData.expireCount}</font>
-                                </p>
-                                <p className={classes.gradeItemSecond}>
-                                    今日增长 {indexStatisticsData.dayExpireCount} 台
-                                </p>
-                            </div>
-                            <div className={classes.gradeItem} style={{backgroundImage: `url(${totalDeviceIcon})`}}>
-                                <p className={classes.gradeItemPrimary}>
-                                    设备总数 <font className={classes.gradeItemPrimaryRight}>{indexStatisticsData.deviceCount}</font>
-                                </p>
-                                <p className={classes.gradeItemSecond}>
-                                    今日增长 {indexStatisticsData.dayDeviceCount} 台
-                                </p>
-                            </div>
-                            <div className={classes.gradeItem} style={{backgroundImage: `url(${activationDeviceIcon})`}}>
-                                <p className={classes.gradeItemPrimary}>
-                                    激活设备数 <font className={classes.gradeItemPrimaryRight}>{indexStatisticsData.activeCount}</font>
-                                </p>
-                                <p className={classes.gradeItemSecond}>
-                                    今日增长 {indexStatisticsData.dayActiveCount} 台
-                                </p>
-                            </div>
-                            <div className={classes.gradeItem} style={{backgroundImage: `url(${registerDeviceIcon})`}}>
-                                <p className={classes.gradeItemPrimary}>
-                                    注册设备数 <font className={classes.gradeItemPrimaryRight}>{indexStatisticsData.registerCount}</font>
-                                </p>
-                                <p className={classes.gradeItemSecond}>
-                                    今日增长 {indexStatisticsData.dayRegisterCount} 台
-                                </p>
-                            </div>
-                            <div className={classes.gradeItem} style={{backgroundImage: `url(${activeIcon})`}}>
-                                <p className={classes.gradeItemPrimary}>
-                                    本月活跃量 <font className={classes.gradeItemPrimaryRight}>{indexStatisticsData.runCount}</font>
-                                </p>
-                                <p className={classes.gradeItemSecond}>
-                                    今日增长 {indexStatisticsData.dayRunCount} 台
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                }
-
-                {
-                    loginUserData.type === Const.ROLE.SALES && <Card className={classes.card} style={{borderRadius: 0}}>
-                        <CardHeader
-                            avatar={
-                                <Avatar aria-label="Recipe" className={classes.avatar}>
-                                    <div className={classes.picture} style={{backgroundImage: `url(${loginUserData.headImg || defaultImage})`}}>
-                                    </div>
-                                </Avatar>
-                            }
-                            title={<p className={classes.viewName}>{loginUserData.viewName}</p>}
-                            subheader={<p className={classes.nickname}>{loginUserData.nickName}</p>}
-                            // action={<p className={classes.deviceUserInfo} onClick={() => this.linkTo(Path.PATH_USER_INCOME_INFO)}>
-                            //     收入概况 ▷
-                            // </p>}
-                            className={classes.carHeader}
-                        />
-                        <div>
-                            <p className={classes.staticsTitle}>
-                                统计概要
-                            </p>
-                        </div>
-
-                        <List className={classes.list}>
-                            <ListItem className={classes.item} onClick={() => this.linkTo(Path.PATH_ORDER_CASH_APPLY_INDEX)}>
-                                <ListItemIcon>
-                                    <img src={totalIncomeIcon} className={classes.itemIcon}/>
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary="可提现金额"
-                                />
-                                <ListItemSecondaryAction className={classes.secondary}>
-                                    {indexStatisticsData.cashAmount}
-                                </ListItemSecondaryAction>
-                            </ListItem>
-
-                            <ListItem className={classes.item}>
-                                <ListItemIcon>
-                                    <img src={incomeIcon} className={classes.itemIcon}/>
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary="收入总金额"
-                                />
-                                <ListItemSecondaryAction className={classes.secondary}>
-                                    {indexStatisticsData.allAmount}
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                            <ListItem className={classes.item} style={{borderBottom: '1px solid #cecece'}}>
-                                <ListItemIcon>
-                                    <img src={totalIncomeIcon} className={classes.itemIcon}/>
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary="累计分红"
-                                />
-                                <ListItemSecondaryAction className={classes.secondary}>
-                                    {indexStatisticsData.getAmount}
-                                </ListItemSecondaryAction>
-                            </ListItem>
-
-                            {/*<ListItem className={classes.item}>
-                                <ListItemIcon>
-                                    <img src={percentIcon} className={classes.itemIcon}/>
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary="分成比例"
-                                />
-                                <ListItemSecondaryAction className={classes.secondary} style={{width: '60%', textOverflow: 'ellipsis', overflow: 'hidden', textAlign: 'right'}}>
-                                    {indexStatisticsData.proportion && indexStatisticsData.proportion.join("%,") + "%"}
-                                </ListItemSecondaryAction>
-                            </ListItem>*/}
-
+                        }
+                        underChart={
                             <div>
-                                <p className={classes.staticsTitle}>
-                                    我的设备
-                                </p>
+                                <Button color="infoNoBackground" justIcon>
+                                    <Refresh className={classes.underChartIcons}/>
+                                </Button>
+                                <Button color="defaultNoBackground" justIcon>
+                                    <Edit className={classes.underChartIcons}/>
+                                </Button>
                             </div>
-
-                            <ListItem className={classes.item}>
-                                <ListItemText
-                                    primary="总设备数"
-                                />
-
-                                <ListItemSecondaryAction className={classes.secondary}>
-                                    {indexStatisticsData.deviceCount}
-                                </ListItemSecondaryAction>
-                            </ListItem>
-
-                            <ListItem className={classes.item}>
-                                <ListItemText
-                                    primary="未分配设备数"
-                                />
-
-                                <ListItemSecondaryAction className={classes.secondary}>
-                                    {indexStatisticsData.ungroupedCount}
-                                </ListItemSecondaryAction>
-                            </ListItem>
-
-                            <ListItem className={classes.item}>
-                                <ListItemText
-                                    primary="已分组/自营店设备数"
-                                />
-
-                                <ListItemSecondaryAction className={classes.secondary}>
-                                    {indexStatisticsData.selfCount}
-                                </ListItemSecondaryAction>
-                            </ListItem>
-
-                            {
-                                agent !== UserState.AGENT_TYPE_AGENT
-                            }
-                            <ListItem className={classes.item} style={{borderBottom: '1px solid #cecece'}}>
-                                <ListItemText
-                                    primary="分配给代理商设备数"
-                                />
-
-                                <ListItemSecondaryAction className={classes.secondary}>
-                                    {indexStatisticsData.bindedCount}
-                                </ListItemSecondaryAction>
-                            </ListItem>
-
-                            <div>
-                                <p className={classes.staticsTitle}>
-                                    最近收入
-                                </p>
-                            </div>
-
-                            <ListItem className={classes.item}>
-                                <ListItemText
-                                    primary="今日收入"
-                                />
-                                <ListItemSecondaryAction className={classes.secondary}>
-                                    {indexStatisticsData.dayAmount}
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                            <ListItem className={classes.item}>
-                                <ListItemText
-                                    primary="昨日收入"
-                                />
-                                <ListItemSecondaryAction className={classes.secondary}>
-                                    {indexStatisticsData.yesterdayAmount}
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                            <ListItem className={classes.item}>
-                                <ListItemText
-                                    primary="最近7天收入"
-                                />
-                                <ListItemSecondaryAction className={classes.secondary}>
-                                    {indexStatisticsData.sevenAmount}
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        </List>
-                    </Card>
-                }
-
-            {/*{
-                loginUserData.type === Const.ROLE.SALES && <Card style={{marginTop: 10, borderRadius: 0, boxShadow: 'none', borderTop: '1px solid #dedede', borderBottom: '1px solid #dedede'}}>
-                    <List className={classes.list}>
-                        <ListItem onClick={() => this.linkTo(Path.PATH_USER_INCOME_INFO)}>
-                            <ListItemText
-                                primary="收入概况"
+                        }
+                        hover
+                        chartColor="blue"
+                        title="连接总设备"
+                        text={
+                            <span>
+                                <span className={classes.successText}>
+                                    <ArrowUpward className={classes.upArrowCardCategory}/> 55%
+                                </span>
+                                {" "}
+                                increase in today sales.
+                            </span>
+                        }
+                        statIcon={AccessTime}
+                        statText="updated 4 minutes ago"
+                    />
+                </ItemGrid>
+                <ItemGrid xs={12} sm={12} md={4}>
+                    <ChartCard
+                        chart={
+                            <ChartistGraph
+                                className="ct-chart-white-colors"
+                                data={emailsSubscriptionChart.data}
+                                type="Bar"
+                                options={emailsSubscriptionChart.options}
+                                responsiveOptions={emailsSubscriptionChart.responsiveOptions}
+                                listener={emailsSubscriptionChart.animation}
                             />
-                            <ListItemSecondaryAction onClick={() => this.linkTo(Path.PATH_USER_INCOME_INFO)}>
-                                <IconButton>
-                                    <ArrowForwardIcon/>
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    </List>
-                </Card>
-            }*/}
+                        }
+                        underChart={
+                            <div>
+                                {/*<Tooltip
+                                    id="tooltip-top"
+                                    title="Refresh"
+                                    placement="bottom"
+                                    classes={{tooltip: classes.tooltip}}
+                                >
+                                    <Button color="infoNoBackground" justIcon>
+                                        <Refresh className={classes.underChartIcons}/>
+                                    </Button>
+                                </Tooltip>
+                                <Tooltip
+                                    id="tooltip-top"
+                                    title="Change Date"
+                                    placement="bottom"
+                                    classes={{tooltip: classes.tooltip}}
+                                >
+                                    <Button color="defaultNoBackground" justIcon>
+                                        <Edit className={classes.underChartIcons}/>
+                                    </Button>
+                                </Tooltip>*/}
+                            </div>
+                        }
+                        hover
+                        chartColor="orange"
+                        title="Email Subscriptions"
+                        text="Last Campaign Performance"
+                        statIcon={AccessTime}
+                        statText="campaign sent 2 days ago"
+                    />
+                </ItemGrid>
+                <ItemGrid xs={12} sm={12} md={4}>
+                    <ChartCard
+                        chart={
+                            <ChartistGraph
+                                className="ct-chart-white-colors"
+                                data={completedTasksChart.data}
+                                type="Line"
+                                options={completedTasksChart.options}
+                                listener={completedTasksChart.animation}
+                            />
+                        }
+                        underChart={
+                            <div>
+                                {/*<Tooltip
+                                    id="tooltip-top"
+                                    title="Refresh"
+                                    placement="bottom"
+                                    classes={{tooltip: classes.tooltip}}
+                                >
+                                    <Button color="infoNoBackground" justIcon>
+                                        <Refresh className={classes.underChartIcons}/>
+                                    </Button>
+                                </Tooltip>
+                                <Tooltip
+                                    id="tooltip-top"
+                                    title="Change Date"
+                                    placement="bottom"
+                                    classes={{tooltip: classes.tooltip}}
+                                >
+                                    <Button color="defaultNoBackground" justIcon>
+                                        <Edit className={classes.underChartIcons}/>
+                                    </Button>
+                                </Tooltip>*/}
+                            </div>
+                        }
+                        hover
+                        chartColor="red"
+                        title="Completed Tasks"
+                        text="Last Campaign Performance"
+                        statIcon={AccessTime}
+                        statText="campaign sent 2 days ago"
+                    />
+                </ItemGrid>
+            </GridContainer>
         </div>;
     }
 
-    refreshStatistics() {
+    refreshStatistics = () => {
         this.props.statisticsState.getIndexStatisticsData();
     }
 }

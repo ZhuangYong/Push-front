@@ -6,7 +6,8 @@ export default {
         APP_LOADING_DONE: "appLoadingDone",
         EVENT_API_ERR: "EVENT_API_ERR",
         EVENT_MSG: "EVENT_MSG",
-        EVENT_DRAWER_MENU: "EVENT_DRAWER_MENU"
+        EVENT_DRAWER_MENU: "EVENT_DRAWER_MENU",
+        EVENT_CHANGE_TITLE: "EVENT_CHANGE_TITLE"
     },
 
     // 状态

@@ -400,11 +400,11 @@ export function dispatchCustomEvent(eventName, cause = "", target = document) {
     event.cause = cause;
 
     const loadingDiv = document.querySelector("#appLoading");
-    if (eventName === Const.EVENT.EVENT_API_ERR && loadingDiv) {
-        alert(cause);
-    } else {
+    // if (eventName === Const.EVENT.EVENT_API_ERR && loadingDiv) {
+    //     alert(cause);
+    // } else {
         target.dispatchEvent(event);
-    }
+    // }
 }
 
 export function getScreenSize() {
@@ -416,6 +416,7 @@ export function getScreenSize() {
 
 export function setTitle(title) {
     document.title = title;
+    dispatchCustomEvent(Const.EVENT.EVENT_CHANGE_TITLE, {title});
 }
 
 export function isWeiXin() {

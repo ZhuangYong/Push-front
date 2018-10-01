@@ -50,7 +50,7 @@ export default class LoginPage extends BaseComponent {
             cardAnimaton: "cardHidden",
             submiting: false,
             subInfo: "",
-            loginname: getCookie("loginname") || "",
+            loginName: getCookie("loginName") || "",
             password: ""
         };
         this.login = this.login.bind(this);
@@ -78,7 +78,7 @@ export default class LoginPage extends BaseComponent {
                                 <LoginCard
                                     customCardClass={classes[this.state.cardAnimaton]}
                                     headerColor="black"
-                                    cardTitle="微信商户平台"
+                                    cardTitle="推送平台"
                                     cardSubtitle={<span style={{color: subInfo ? 'red' : ""}}>
                                         {subInfo || "请登陆"}
                                     </span>}
@@ -99,8 +99,8 @@ export default class LoginPage extends BaseComponent {
                                                 setState={this.stateFun}>
                                                 <CustomInput
                                                     labelText="登录名"
-                                                    value={this.state.loginname}
-                                                    name="loginname"
+                                                    value={this.state.loginName}
+                                                    name="loginName"
                                                     required
                                                 />
                                                 <CustomInput
@@ -125,12 +125,12 @@ export default class LoginPage extends BaseComponent {
     }
 
     login() {
-        const {loginname, password} = this.state;
+        const {loginName, password} = this.state;
         setTimeout(() => {
             if (this.refs.form.valid()) {
                 this.setState({submiting: true});
                 const param = {
-                    loginname: loginname,
+                    loginName: loginName,
                     password: md5(password)
                 };
                 const bindUuid = getSession("bindUuid");
@@ -141,10 +141,10 @@ export default class LoginPage extends BaseComponent {
                     .then(res => {
                         this.setState({submiting: false});
                         removeSession("bindUuid");
-                        setCookie("loginname", loginname);
+                        setCookie("loginName", loginName);
                         this.props.history.push(Path.PATH_INDEX);
                     })
-                    .catch(err => this.setState({submiting: false, subInfo: err.msg}));
+                    .catch(err => this.setState({submiting: false, subInfo: err.msg || err}));
             }
         }, 500);
     }

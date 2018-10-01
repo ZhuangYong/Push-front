@@ -10,6 +10,7 @@ import CommonFrame from "../components/common/CommonFrame";
 import Bundle from "../Loadable/Bundle";
 import {inject} from "mobx-react";
 import {observer} from "mobx-react/index";
+import AppTopNavs from "../components/Menus/AppTopNavs";
 import BottomNavs from "../components/Menus/BottomNavs";
 import NavUtils from "../utils/navUtils";
 import Path from "../utils/path";
@@ -44,34 +45,38 @@ const switchRoutes = (
     </Switch>
 );
 
+const WS_STATE_WAITING = 1;
+const WS_STATE_CONNECTING = 2;
+const WS_STATE_CONNECTED = 3;
+
 @withStyles(appStyle)
-@inject("userState", "appState")
+@inject("userState", "appState", "nodeState")
 @observer
-export default class Dashboard extends BaseComponent {
+export default class Default extends BaseComponent {
 
     constructor(props) {
         super(props);
         this.state = {
+            wsServers: [],
+            wsState: WS_STATE_WAITING
         };
         this.initial = this.initial.bind(this);
         this.refreshUserInfo = this.refreshUserInfo.bind(this);
     }
-
+    componentWillUnmount() {
+        this.unMount();
+    }
     componentDidMount() {
         this.initial();
     }
     componentDidUpdate() {
-        const {configData} = this.props.userState;
-        const {isInit} = configData || {};
-        if (isInit === Const.FORCE_CHANGE_PASSWORD_FIRST_LOGIN) {
-            this.linkTo(Path.PATH_USER_EDIT_PASSWORD);
-        }
     }
     getRoute() {
         return this.props.location.pathname !== "/some/condition/path";
     }
 
     render() {
+        const {title} = this.state;
         const {classes} = this.props;
         const {appLoaded} = this.props.appState;
         const {loginUserData} = this.props.userState;
@@ -82,6 +87,7 @@ export default class Dashboard extends BaseComponent {
         }
         return (
             <div>
+                <AppTopNavs title={title}/>
                 <div
                     className={classes.wrapper}
                     style={{height: '100%'}}>
@@ -122,13 +128,22 @@ export default class Dashboard extends BaseComponent {
     }
 
     initial() {
+        document.addEventListener(Const.EVENT.EVENT_CHANGE_TITLE, this.changeTitle);
         NavUtils.setHistory(this.props.history);
         const {loginUserData} = this.props.userState;
         if (!loginUserData) {
             this.refreshUserInfo();
-            this.getConfig();
+            // this.getConfig();
+            this.linkToWs();
         }
     }
+
+    /**
+     * do when un mount
+     */
+    unMount = () => {
+        document.removeEventListener(Const.EVENT.EVENT_CHANGE_TITLE, this.changeTitle);
+    };
 
     /**
      * 刷新用户信息
@@ -146,5 +161,76 @@ export default class Dashboard extends BaseComponent {
      */
     getConfig = () => {
         this.props.userState.getConfigData();
+    };
+
+    linkToWs = () => {
+        this.props.nodeState.getNodeList()
+            .then(wsServers => {
+                this.setState({wsServers});
+                this.connWs();
+                setInterval(() => this.connWs, 1000 * 10);
+            });
+    };
+
+    /**
+     * 修改标题
+     * @param e
+     */
+    changeTitle = e => {
+        const {title} = e.cause;
+        this.setState({title});
+    };
+
+    connWs = () => {
+        if (this.state.wsState === WS_STATE_CONNECTING) {
+            return;
+        }
+        const {wsServers} = this.state;
+        const {loginUserData} = this.props.userState;
+        if (wsServers && wsServers.length) {
+            wsServers.forEach((server, index) => {
+                const {host} = server;
+                const url = `ws://${host}:8008`;
+                const userId = loginUserData.id;
+                const deviceId = "admin-" + userId;
+                if (!wsServers[index]["err"] && this.state.wsState !== WS_STATE_CONNECTING) {
+                    this.state.wsState = WS_STATE_CONNECTING;
+                    this.props.appState.linkInWs(
+                        url,
+                        userId,
+                        deviceId,
+                        this.onReceive,
+                        () => {
+                            this.state.wsState = WS_STATE_CONNECTED;
+                            this.onOpen();
+                        },
+                        () => {
+                            this.state.wsState = WS_STATE_WAITING;
+                            this.onClose();
+                        },
+                        () => {
+                            wsServers[index]["err"] = true;
+                            this.state.wsState = WS_STATE_WAITING;
+                            this.onError();
+                        });
+                }
+            });
+        }
+    };
+
+    onReceive = data => {
+        console.log(data);
+    };
+
+    onOpen = () => {
+
+    };
+
+    onClose = () => {
+
+    };
+
+    onError = () => {
+
     };
 }

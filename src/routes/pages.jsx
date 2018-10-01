@@ -26,9 +26,16 @@ import CashOrderList from "../controller/Order/CashOrderList";
 import RetrieveOrder from "../controller/Order/RetrieveOrder";
 import AccountManager from "../controller/User/AccountManager";
 import EditPartnerProportion from "../controller/Partner/EditPartnerProportion";
+import NodeList from "../controller/PushNodes/NodeList";
+import NodeUserList from "../controller/PushNodes/NodeUserList";
 
 const dashRoutes = [
     {path: Path.PATH_INDEX, name: "index", component: Index, needLogin: true},
+    {path: Path.PATH_NODE_LIST, name: "node list", component: NodeList, needLogin: true},
+    {path: Path.PATH_NODE_USER_LIST, name: "node user list", component: NodeUserList, needLogin: true},
+
+
+    // --------------------------------
     {path: Path.PATH_DEVICE_GROUP_EDIT, name: "editDeviceGroup", component: EditDeviceGroup, needLogin: true},
     {path: Path.PATH_DEVICE_GROUP_SELF_DETAIL, name: "self device group detail", component: SelfDeviceGroupDetail, needLogin: true},
     {path: Path.PATH_DEVICE_INDEX, name: "device list", component: SelfDeviceList, needLogin: true},

@@ -109,7 +109,7 @@
     ]
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --env=dev --inline --content-base ./build --config ./config/webpack.config.js --port 80 --host merchant.j-make.com.cn --history-api-fallback",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --env=dev --inline --content-base ./build --config ./config/webpack.config.js --port 80 --host push.invnk.com --history-api-fallback",
     "build:test": "cross-env NODE_ENV=test webpack --config ./config/webpack.config.js --env=production",
     "build:product": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.js --env=production",
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",

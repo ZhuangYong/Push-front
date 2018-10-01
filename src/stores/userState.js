@@ -111,7 +111,7 @@ export default class userState extends BaseState {
      */
     getUserInfo(data) {
         return this.fetch({
-            url: Api.API_STATIS_USER_INFO,
+            url: Api.API_USER_INFO,
             setState: "setLoginUserData",
             data: data
         });

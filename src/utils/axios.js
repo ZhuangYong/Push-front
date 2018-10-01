@@ -109,10 +109,6 @@ const request = (config, success, error) =>
                 newError.msg = msg;
                 newError.data = data;
 
-                if (status !== 401) {
-                    dispatchCustomEvent(Const.EVENT.EVENT_API_ERR, msg);
-                }
-
                 handelErr(status);
 
                 return Promise.reject(newError);
@@ -128,18 +124,31 @@ const request = (config, success, error) =>
             const {response = {}, message} = err;
             let description = "";
             switch (response.status) {
-                case 403: {
+                case 302:
+                    if (response && response.data) {
+                        window.location.href = response.data.data;
+                    }
+                    break;
+                case 401:
+                    description = "权限错误";
+                    break;
+                case 403:
                     description = "您没有权限这样做";
                     break;
+                case 500: {
+                    if (response && response.data && response.data.message) {
+                        description = response.data.message;
+                    } else {
+                        description = "服务器内部错误";
+                    }
+                    break;
                 }
-                case 503: {
+                case 503:
                     description = "服务器当前无法处理请求";
                     break;
-                }
-                case 502: {
+                case 502:
                     description = "服务器接暂无响应";
                     break;
-                }
                 default: {
                     if (response && response.data && response.data.message) {
                         description = response.data.message;
