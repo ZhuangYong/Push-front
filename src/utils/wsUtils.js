@@ -1,20 +1,12 @@
+import Const from "./const";
+import {dispatchCustomEvent} from "./comUtils";
+
 let socket;
 let listener;
 let session = {};
 let ID_SEQ = 1;
 let config = {listener: null, log: console};
-const Command = {
-    HANDSHAKE: 2,
-    BIND: 5,
-    UNBIND: 6,
-    ERROR: 10,
-    OK: 11,
-    KICK: 13,
-    PUSH: 15,
-    GATEWAY_PUSH: 16,
-    ACK: 23,
-    UNKNOWN: -1
-};
+const Command = Const.COMMAND;
 
 function iniWs() {
     listener = {
@@ -71,6 +63,7 @@ function iniWs() {
  * @param onError 出错的时候
  */
 export function conn(url, userId, deviceId, onReceive, onOpen, onClose, onError) {
+    console.log(">>>>>>>>>>> userId <<<<<<<<<<", userId);
     connWs({
         url: url,
         userId: userId,
@@ -201,21 +194,25 @@ function onReceive(event) {
     config.log.debug(">>> receive packet=" + event.data);
     config.onReceive(event);
     dispatch(JSON.parse(event.data));
+    dispatchCustomEvent(Const.EVENT.EVENT_WS_ON_RECEIVE, event);
 }
 function onOpen(event) {
     config.log.info("Web Socket opened!");
     config.onOpen(event);
     listener.onOpened(event);
+    dispatchCustomEvent(Const.EVENT.EVENT_WS_ON_OPEN, event);
 }
 function onClose(event) {
     config.log.info("Web Socket closed!");
     config.onClose(event);
     listener.onClosed(event);
+    dispatchCustomEvent(Const.EVENT.EVENT_WS_ON_CLOSE, event);
 }
 function onError(event) {
     config.log.info("Web Socket receive, error");
     config.onError(event);
     doClose();
+    dispatchCustomEvent(Const.EVENT.EVENT_WS_ON_ERROR, event);
 }
 function doClose(code, reason) {
     if (socket) socket.close();

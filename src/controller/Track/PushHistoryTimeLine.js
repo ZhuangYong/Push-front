@@ -11,7 +11,6 @@ import {getQueryString, setTitle} from "../../utils/comUtils";
 import SearchInput from "../../components/CustomInput/SearchInput";
 import ActionCustomItem from "../../components/CustomItem/ActionCustomItem";
 import {TrackIcon} from "../../components/common/SvgIcons";
-import Path from "../../utils/path";
 
 const style = {
     ...customStyle,
@@ -35,13 +34,13 @@ const style = {
 @withStyles(style)
 @inject("nodeState")
 @observer
-export default class NodeList extends PullRefreshPage {
+export default class PushHistoryTimeLine extends PullRefreshPage {
 
     constructor(props) {
         super(props);
-        const host = getQueryString("host");
-        this.state.host = host;
-        setTitle("推送服务器:" + host);
+        const userId = getQueryString("userId");
+        this.state.userId = userId;
+        setTitle(userId + ", track push history");
     }
 
     pageAction = () => {
@@ -95,7 +94,7 @@ export default class NodeList extends PullRefreshPage {
                     <font className={classes.infoLabel}>设备系统：</font>{item.osName}
                 </p>
                 {
-                    inTrack > 0 ? <p className={classes.infoLine} onClick={() => this.linkTo(Path.PATH_PUSH_TIME_LINE, {userId: item.userId})}>
+                    inTrack > 0 ? <p className={classes.infoLine}>
                         <TrackIcon size="1.6rem"/>
                     </p> : ""
                 }
@@ -179,6 +178,6 @@ export default class NodeList extends PullRefreshPage {
     };
 }
 
-NodeList.defaultProps = {
+PushHistoryTimeLine.defaultProps = {
     showSearch: false
 };

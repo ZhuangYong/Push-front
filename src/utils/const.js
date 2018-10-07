@@ -7,7 +7,14 @@ export default {
         EVENT_API_ERR: "EVENT_API_ERR",
         EVENT_MSG: "EVENT_MSG",
         EVENT_DRAWER_MENU: "EVENT_DRAWER_MENU",
-        EVENT_CHANGE_TITLE: "EVENT_CHANGE_TITLE"
+        EVENT_CHANGE_TITLE: "EVENT_CHANGE_TITLE",
+
+        // ws event
+        EVENT_WS_ON_OPEN: "EVENT_WS_ON_OPEN",
+        EVENT_WS_ON_CLOSE: "EVENT_WS_ON_CLOSE",
+        EVENT_WS_ON_ERROR: "EVENT_WS_ON_ERROR",
+        EVENT_WS_ON_RECEIVE: "EVENT_WS_ON_RECEIVE",
+
     },
 
     // 状态
@@ -66,4 +73,19 @@ export default {
     SALES_ROLE_ADMIN: 1,
     // 销售方管理账号
     SALES_ROLE_MANAGER: 2,
+
+
+    // push command
+    COMMAND: {
+        HANDSHAKE: 2,
+        BIND: 5,
+        UNBIND: 6,
+        ERROR: 10,
+        OK: 11,
+        KICK: 13,
+        PUSH: 15,
+        GATEWAY_PUSH: 16,
+        ACK: 23,
+        UNKNOWN: -1
+    },
 };

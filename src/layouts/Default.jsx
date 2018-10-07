@@ -134,6 +134,7 @@ export default class Default extends BaseComponent {
         if (!loginUserData) {
             this.refreshUserInfo();
             // this.getConfig();
+        } else {
             this.linkToWs();
         }
     }
@@ -153,6 +154,7 @@ export default class Default extends BaseComponent {
             .then(res => {
                 this.props.appState.setAppLoaded(true);
                 this.appLoadingDone();
+                this.linkToWs();
             });
     }
 

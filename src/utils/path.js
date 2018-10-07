@@ -12,6 +12,9 @@ export default {
     // 推送服务器列表
     PATH_NODE_USER_LIST: "/node/user/list",
 
+    // 推送追踪时间轴
+    PATH_PUSH_TIME_LINE: "/track/push/time/line",
+
     // -----------------------------------------------
 
     // 设备组列表(tab 页面，包含代理商)

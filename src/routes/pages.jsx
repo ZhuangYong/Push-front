@@ -28,11 +28,13 @@ import AccountManager from "../controller/User/AccountManager";
 import EditPartnerProportion from "../controller/Partner/EditPartnerProportion";
 import NodeList from "../controller/PushNodes/NodeList";
 import NodeUserList from "../controller/PushNodes/NodeUserList";
+import PushTimeLine from "../controller/Track/PushTimeLine";
 
 const dashRoutes = [
     {path: Path.PATH_INDEX, name: "index", component: Index, needLogin: true},
     {path: Path.PATH_NODE_LIST, name: "node list", component: NodeList, needLogin: true},
     {path: Path.PATH_NODE_USER_LIST, name: "node user list", component: NodeUserList, needLogin: true},
+    {path: Path.PATH_PUSH_TIME_LINE, name: "push time line", component: PushTimeLine, needLogin: true},
 
 
     // --------------------------------
