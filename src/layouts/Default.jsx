@@ -91,7 +91,7 @@ export default class Default extends BaseComponent {
                 <div
                     className={classes.wrapper}
                     style={{height: '100%'}}>
-                    <div ref="mainPanel" style={{paddingBottom: '5.6rem'}}>
+                    <div ref="mainPanel">
                         {this.getRoute() ? (
                             <div className={classes.content}>
                                 <div className={classes.container}>{switchRoutes}</div>

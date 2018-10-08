@@ -41,13 +41,32 @@ const style = {
         color: 'gray',
     },
     list: {
-        paddingLeft: '3rem'
+        padding: '0 .6rem 0 2rem',
     },
     msgMeItem: {
+        marginTop: '3.4rem',
         border: '1px solid #e7e7e7',
         borderRadius: '0 .4rem .4rem .4rem',
         backgroundColor: 'white',
-        padding: '.6rem!important'
+        padding: '.6rem!important',
+        "&:before": {
+            content: "' '",
+            height: '120%',
+            borderLeft: '1px solid #b1b1b1',
+            position: 'absolute',
+            left: '-.8rem',
+            top: '-1rem',
+        }
+    },
+    time: {
+        position: 'absolute',
+        left: '-1.6rem',
+        zIndex: 99,
+        top: '-2.6rem',
+        border: '1px solid #cecece',
+        padding: '.2rem',
+        backgroundColor: 'white',
+        borderRadius: '.4rem',
     }
 };
 @withStyles(style)
@@ -76,11 +95,11 @@ export default class PushTimeLine extends BaseComponent {
     render() {
         const {classes = ""} = this.props;
         const {data} = this.state;
-        return <ul className={classes.list}>
+        return data && data.length ? <ul className={classes.list}>
             {
                 data.map(item => this.listItem(item))
             }
-        </ul>;
+        </ul> : "";
     }
 
 
@@ -95,10 +114,10 @@ export default class PushTimeLine extends BaseComponent {
             key={hash}
             className={classes.item + " " + classes.msgMeItem}
             showAction={false}>
+            <p className={classes.time}>
+                {this.formatTime(time)}
+            </p>
             <div>
-                <p>
-                    {this.formatTime(time)}
-                </p>
                 <ExpansionPanel style={{boxShadow: "none"}}>
                     <ExpansionPanelSummary
                         style={{padding: 0}}
@@ -193,6 +212,6 @@ export default class PushTimeLine extends BaseComponent {
     };
 
     formatTime = time => {
-        return parseTime(new Date(time), '{h}:{i}:{s}') + "." + (time + "").substr(10);
+        return parseTime(new Date(time), '{i}:{s}') + "." + (time + "").substr(10);
     };
 }
