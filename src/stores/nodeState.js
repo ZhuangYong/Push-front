@@ -92,4 +92,16 @@ export default class orderState extends BaseState {
             data: data
         });
     }
+
+    /**
+     * 踢出用户/设备
+     * @param data
+     * @returns {*}
+     */
+    kickUser(data) {
+        return this.fetch({
+            url: Api.API_PUSH_NODE_USER_KICK,
+            data: data
+        });
+    }
 }

@@ -167,7 +167,12 @@ export default class NodeList extends PullRefreshPage {
      * @param item
      */
     kick = (item) => {
-
+        this.alert("确认踢出该设备吗？", "", () => {
+            const {userId} = item;
+            this.props.nodeState.kickUser({userId})
+                .then(res => this.notification("操作成功！") && this.handelPageRefresh())
+                .catch(err => this.notification(`操作失败！${err || ""}`));
+        }, null, true);
     };
 
     /**

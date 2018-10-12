@@ -36,6 +36,9 @@ export default {
     // 清除跟踪用户/设备
     API_PUSH_NODE_USER_TRACK_CLEAR: "/admin/push/node/user/track/clear",
 
+    // 踢出用户
+    API_PUSH_NODE_USER_KICK: "/admin/push/node/user/kick",
+
     // ----------------------------------------------------------------
 
 

@@ -61,8 +61,10 @@ function iniWs() {
  * @param onOpen 打开的时候
  * @param onClose 关闭的时候
  * @param onError 出错的时候
+ * @param onBindUser
+ * @param onHandshake
  */
-export function conn(url, userId, deviceId, onReceive, onOpen, onClose, onError) {
+export function conn({url, userId, deviceId, onReceive, onOpen, onClose, onError, onBindUser = f => f, onHandshake = f => f}) {
     console.log(">>>>>>>>>>> userId <<<<<<<<<<", userId);
     connWs({
         url: url,
@@ -71,10 +73,14 @@ export function conn(url, userId, deviceId, onReceive, onOpen, onClose, onError)
         osName: "web " + navigator.userAgent,
         osVersion: "",
         clientVersion: "",
-        onReceive: onReceive,
-        onOpen: onOpen,
-        onClose: onClose,
-        onError: onError,
+        listener: {
+            onReceivePush: onReceive,
+            onOpened: onOpen,
+            onClosed: onClose,
+            onError: onError,
+            onBindUser: onBindUser,
+            onHandshake: onHandshake
+        },
         log: console
     });
 }
@@ -192,25 +198,21 @@ function send(message) {
 
 function onReceive(event) {
     config.log.debug(">>> receive packet=" + event.data);
-    config.onReceive(event);
     dispatch(JSON.parse(event.data));
     dispatchCustomEvent(Const.EVENT.EVENT_WS_ON_RECEIVE, event);
 }
 function onOpen(event) {
     config.log.info("Web Socket opened!");
-    config.onOpen(event);
     listener.onOpened(event);
     dispatchCustomEvent(Const.EVENT.EVENT_WS_ON_OPEN, event);
 }
 function onClose(event) {
     config.log.info("Web Socket closed!");
-    config.onClose(event);
     listener.onClosed(event);
     dispatchCustomEvent(Const.EVENT.EVENT_WS_ON_CLOSE, event);
 }
 function onError(event) {
     config.log.info("Web Socket receive, error");
-    config.onError(event);
     doClose();
     dispatchCustomEvent(Const.EVENT.EVENT_WS_ON_ERROR, event);
 }

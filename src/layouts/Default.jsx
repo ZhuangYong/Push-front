@@ -49,6 +49,7 @@ const WS_STATE_WAITING = 1;
 const WS_STATE_CONNECTING = 2;
 const WS_STATE_CONNECTED = 3;
 
+const GET_PUSH_NODE_TIME = 1000 * 10;
 @withStyles(appStyle)
 @inject("userState", "appState", "nodeState")
 @observer
@@ -171,7 +172,7 @@ export default class Default extends BaseComponent {
                 this.setState({wsServers});
                 this.connWs();
                 setInterval(() => this.connWs, 1000 * 10);
-            });
+            }, err => setTimeout(() => this.linkToWs(), GET_PUSH_NODE_TIME));
     };
 
     /**
@@ -197,42 +198,43 @@ export default class Default extends BaseComponent {
                 const deviceId = "admin-" + userId;
                 if (!wsServers[index]["err"] && this.state.wsState !== WS_STATE_CONNECTING) {
                     this.state.wsState = WS_STATE_CONNECTING;
-                    this.props.appState.linkInWs(
-                        url,
-                        userId,
-                        deviceId,
-                        this.onReceive,
-                        () => {
-                            this.state.wsState = WS_STATE_CONNECTED;
-                            this.onOpen();
-                        },
-                        () => {
-                            this.state.wsState = WS_STATE_WAITING;
-                            this.onClose();
-                        },
-                        () => {
+                    this.props.appState.linkInWs({
+                        url: url,
+                        userId: userId,
+                        deviceId: deviceId,
+                        onReceive: this.onReceive,
+                        onOpen: this.onOpen,
+                        onClose: this.onClose,
+                        onError: () => {
                             wsServers[index]["err"] = true;
                             this.state.wsState = WS_STATE_WAITING;
                             this.onError();
-                        });
+                        }
+                    });
                 }
             });
         }
     };
 
     onReceive = data => {
-        console.log(data);
     };
 
     onOpen = () => {
-
+        this.state.wsState = WS_STATE_CONNECTED;
     };
 
+    /**
+     * 被关闭后重新走流程
+     */
     onClose = () => {
-
+        this.state.wsState = WS_STATE_WAITING;
+        this.linkToWs();
     };
 
+    /**
+     * 出错后重新走流程
+     */
     onError = () => {
-
+        this.linkToWs();
     };
 }

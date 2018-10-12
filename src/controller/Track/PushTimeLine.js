@@ -140,7 +140,7 @@ export default class PushTimeLine extends BaseComponent {
                 {
                     (list || []).map(subItem => <div key={subItem.time}>
                         <p className={classes.infoLine}>
-                            <font className={classes.infoLabel}>{this.formatTime(subItem.time)}：</font>{(subItem.desc || "").split("=")[0]}
+                            <font className={classes.infoLabel}>{this.formatTime(subItem.time)}：</font>{(subItem.desc || "").split("=")[0].split(".")[0]}
                         </p>
                     </div>)
                 }
@@ -176,7 +176,7 @@ export default class PushTimeLine extends BaseComponent {
     };
 
     onReceive = ({cause}) => {
-        const {userId, data} = this.state;
+        let {userId, data} = this.state;
         try {
             const packet = JSON.parse(cause.data);
             if (Command.PUSH === packet.cmd) {
@@ -195,11 +195,11 @@ export default class PushTimeLine extends BaseComponent {
                             }
                         });
                         if (!has) {
-                            data.push({
+                            data = [{
                                 hash: hash,
                                 time: time,
                                 list: [content]
-                            });
+                            }].concat(data);
                         }
                         this.setState({data});
                     }

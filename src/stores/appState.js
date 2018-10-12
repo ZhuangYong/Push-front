@@ -20,8 +20,8 @@ export default class appState extends BaseState {
     }
 
     @action
-    linkInWs(url, userId, deviceId, onReceive, onOpen, onClose, onError) {
-        conn(url, userId, deviceId, onReceive, onOpen, onClose, onError);
+    linkInWs(data) {
+        conn(data);
     }
 
 }
